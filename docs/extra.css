@@ -1,0 +1,37 @@
+section {
+    background-color: #fcfcfc !important;
+}
+
+.wy-nav-content {
+    background-color: #fcfcfc;
+}
+
+p {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+li {
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 10px;
+}
+
+ul {
+    margin: 0px !important;
+}
+
+.nested_list {
+    margin-bottom: 0px;
+}
+
+.img-center {
+    text-align: center;
+}
+
+.img-grid-line {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: nowrap
+}

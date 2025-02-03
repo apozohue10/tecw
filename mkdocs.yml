@@ -1,0 +1,24 @@
+site_name: Tecnologías Web
+site_description: Tecnologías Web. Asignatura del Grado en Ingeniería y Sistemas de Datos. ETSIT-UPM
+docs_dir: docs
+site_dir: html
+theme: readthedocs
+extra_css: [extra.css]
+use_directory_urls: false
+nav:
+  - Home: 'index.md'
+  - Introduccion: 
+    - Evolución de la web: '1-introduccion/evolucion.md'
+    - Cliente/Servidor: '1-introduccion/client_server.md'
+    - Desarrollo Web: '1-introduccion/desarrollo_web.md'
+  - HTML/CSS:
+    - '2-html-css/introduccion.md'
+    - HTML: '2-html-css/html.md'
+    - CSS: '2-html-css/css.md'
+  - Estructura, Rutas y CRUD:
+    - '3-rutas/introduccion.md'
+    - MVC: '3-rutas/mvc.md'
+    - HTTP: '3-rutas/http.md'
+    - URL: '3-rutas/url.md'
+  - Ficheros estáticos:
+    - '4-estaticos/introduccion-md'
