@@ -44,7 +44,7 @@ Uno de los modelos más clásico es la arquitectura en tres capas (Three-Tier Ar
 <br>
 
 <div class="img-center">
-    <img src="/_images/introduccion/3capas.png" alt="Arquitectura en 3 capas" />
+    <img src="_images/introduccion/3capas.png" alt="Arquitectura en 3 capas" />
 </div>
 
 <br>
@@ -56,7 +56,7 @@ Para desarrollar servidores web, se pueden utilizar diferentes entornos, framewo
 
 
 <div class="img-center">
-    <img src="/_images/introduccion/entornos.png" alt="Entornos de desarrollo web" />
+    <img src="_images/introduccion/entornos.png" alt="Entornos de desarrollo web" />
 </div>
 
 <br>
