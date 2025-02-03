@@ -4,6 +4,7 @@ docs_dir: docs
 site_dir: html
 theme: readthedocs
 extra_css: [extra.css]
+static_dir: docs/_images
 use_directory_urls: false
 nav:
   - Home: 'index.md'

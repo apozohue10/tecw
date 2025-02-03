@@ -24,14 +24,14 @@ También han surgido nuevos estándares en los navegadores, como el soporte para
 En los primeros años de la Web, **JavaScript** apenas existía y la lógica de las aplicaciones web residía casi completamente en el lado del servidor. En este periodo, las páginas web eran principalmente **estáticas** y se servían usando el método **HTTP GET**, mientras que los formularios se enviaban con **HTTP POST**. Cada vez que un usuario interactuaba con una página, la página completa se recargaba, lo que hacía que la experiencia fuera bastante lenta y poco eficiente. 
 
 <div class="img-center">
-    <img src="/img/introduccion/1990.png" alt="Páginas de 1990" />
+    <img src="/_images/introduccion/1990.png" alt="Páginas de 1990" />
 </div>
 
 ### Década de 2000:
 A medida que Internet maduraba, surgieron nuevas tecnologías como **AJAX** (Asynchronous JavaScript and XML), que permitió la comunicación asíncrona entre el cliente y el servidor a través de **XMLHttpRequest**. Esto hizo posible actualizar partes de una página web sin necesidad de recargarla completamente, mejorando así la experiencia de usuario. Sin embargo, en este periodo, la mayor parte de la lógica de las aplicaciones seguía residiendo en el servidor.
 
 <div class="img-center">
-    <img src="/img/introduccion/2000.png" alt="Páginas de 2000" />
+    <img src="/_images/introduccion/2000.png" alt="Páginas de 2000" />
 </div>
 
 <br>
@@ -41,7 +41,7 @@ Con el paso del tiempo, las aplicaciones web evolucionaron hacia lo que hoy cono
 
 
 <div class="img-center">
-    <img src="/img/introduccion/200X.png" alt="Páginas a partir del 2000" />
+    <img src="/_images/introduccion/200X.png" alt="Páginas a partir del 2000" />
 </div>
 
 <br>
@@ -49,9 +49,9 @@ Con el paso del tiempo, las aplicaciones web evolucionaron hacia lo que hoy cono
 El uso de tecnologías como **AJAX**, **Websockets**, **RTSP** y **WebRTC** ha permitido una comunicación en tiempo real, transformando la Web en una plataforma capaz de soportar aplicaciones más interactivas, como videollamadas, chats en vivo y juegos en línea. Además, el auge de **frameworks JavaScript** como **React**, **Vue.js** y **Angular** ha facilitado la creación de aplicaciones web modernas y escalables.
 
 <div class="img-grid-line">
-    <img src="/img/introduccion/react.png" style="width: 200px;" alt="Frameworks de Javascript: React" />
-    <img src="/img/introduccion/vue.png" style="width: 200px;" alt="Frameworks de Javascript: Vue.js" />
-    <img src="/img/introduccion/angular.png" style="width: 200px;" alt="Frameworks de Javascript: Angular" />
+    <img src="/_images/introduccion/react.png" style="width: 200px;" alt="Frameworks de Javascript: React" />
+    <img src="/_images/introduccion/vue.png" style="width: 200px;" alt="Frameworks de Javascript: Vue.js" />
+    <img src="/_images/introduccion/angular.png" style="width: 200px;" alt="Frameworks de Javascript: Angular" />
 </div>
 
 En resumen, Internet y las tecnologías web han recorrido un largo camino desde sus inicios, con mejoras constantes que han permitido una mayor interactividad, velocidad y personalización en la experiencia de usuario.

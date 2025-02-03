@@ -6,7 +6,7 @@ Como se ha comentado en la sección anterior el modelo **cliente-servidor** es l
 La interacción entre un cliente y un servidor se apoya en el **modelo OSI** (Open Systems Interconnection) para garantizar que los datos se transmitan correctamente a través de la red. Cada solicitud que hace un cliente sigue las capas del modelo OSI, desde la **Capa de Aplicación**, donde protocolos como HTTP, hasta la **Capa de Transporte**, donde los protocolos como TCP o UDP determinan como se van a enviar los paquetes de datos. Luego, la información atraviesa las Capas de Red y Enlace de Datos, que determinan la mejor ruta y garantizan la entrega física de los paquetes. En el servidor, el proceso se invierte: los datos ascienden por las capas de OSI hasta llegar a la aplicación que generará la respuesta. 
 
 <div class="img-center">
-    <img src="/img/introduccion/client-server.png" alt="Arquitectura cliente y servidor" />
+    <img src="/_images/introduccion/client-server.png" alt="Arquitectura cliente y servidor" />
 </div>
 
 <br>
