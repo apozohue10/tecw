@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Desarrollo Web - Tecnologías Web</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+        <link href="../_images/introduccion/entornos.png" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Desarrollo Web";
+        var mkdocs_page_input_path = "0-introduccion/desarrollo_web.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> Tecnologías Web
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Tecnología Web</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Introduccion</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="evolucion.html">Evolución de la web</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="client_server.html">Cliente/Servidor</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Desarrollo Web</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#arquitectura-en-3-capas">Arquitectura en 3 capas</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#desarrollo-web">Desarrollo web</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tema 1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../1-html-css/introduccion.html">Introducción</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../1-html-css/html.html">HTML</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../1-html-css/css.html">CSS</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tema 2</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../2-rutas/introduccion.html">Introducción</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2-rutas/mvc.html">MVC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2-rutas/http.html">HTTP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2-rutas/url.html">URL</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tema 3</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../3-estaticos/introduccion-md">None</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tecnologías Web</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Introduccion</li>
+      <li class="breadcrumb-item active">Desarrollo Web</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="arquitecturas-de-aplicaciones-web">Arquitecturas de aplicaciones Web</h1>
+<p>Como se ha comentado anteriormente, generalmente las comunicaciones se establece siguiendo el modelo cliente/servidor. La implementación de dicho modelo se puede hacer de diferentes formas en función de las necesidades de escalabilidad, rendimiento y mantenimiento de cada contexto. Un esquema muy sencillo sería aquel en la que el servidor web ofrece ficheros estaticos que son descargados por el cliente. Los ficheros estaticos podrían ser ficheros HTML, imágenes, audios, videos, etc. Pero existen otros esquemas más avanzados:</p>
+<ul>
+    <li><strong>Arquitectura con balanceador de carga</strong>. 
+        Utiliza un <strong>balanceador de carga</strong> para distribuir las solicitudes entre múltiples servidores. 
+        Permiten mejorar el rendimiento y evita sobrecargas en un único servidor, pero se debe tener cuidado con la sincronización de los datos. 
+        Es clave para garantizar <strong>alta disponibilidad y tolerancia a fallos</strong>.
+    </li>
+    <li><strong>Arquitectura basada en microservicios</strong>. 
+        En este caso, la aplicación se divide en pequeños <strong>servicios independientes</strong> que se comunican mediante APIs. 
+        Cada microservicio tiene su propia lógica de negocio y base de datos. 
+        Por ejemplo, una aplicación de compras podría tener microservicios como el sistema de autenticación, la pasarela de pago, 
+        catálogo de productos, etc. Este tipo de arquitecturas permite escalar aquellos microservicios que puedan suponer un cuello de botella 
+        y de esta forma hacer un uso más eficiente de los recursos. Además, facilita despliegues más flexibles y la actualización independiente de componentes.
+    </li>
+    <li><strong>Arquitectura peer-to-peer (P2P)</strong>. 
+        No depende de servidores centrales; cada nodo actúa como cliente y servidor al mismo tiempo, lo que permite favorecer la 
+        <strong>descentralización y la resistencia a fallos</strong>. Es común en aplicaciones como redes de intercambio (Torrent) 
+        de archivos o criptomonedas.
+    </li>
+    <li class="nested_list"><strong>Arquitectura con caché</strong>. 
+        Se puede utilizar <strong>caché en diferentes niveles</strong> para mejorar el rendimiento y reducir la carga en los servidores. 
+        Estos elementos permiten agilizar la obtención del recurso. Hay varios tipos de caché:
+        <ul>
+            <li class="nested_list"><strong>Caché en el cliente</strong>: Almacena datos en el navegador o aplicación para reducir solicitudes repetitivas.</li>
+            <li class="nested_list"><strong>Caché en el servidor</strong>: Guarda respuestas generadas para acelerar futuras peticiones.</li>
+            <li class="nested_list"><strong>Caché en la base de datos</strong>: Usa sistemas como <strong>Redis o Memcached</strong> para evitar consultas repetitivas.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><br></p>
+<p>Un modelo clásico es la arquitectura en tres capas (Three-Tier Architecture), que divide la aplicación en una capa de presentación (frontend), una capa de lógica de negocio (backend) y una capa de datos (base de datos), facilitando la modularidad y el mantenimiento.</p>
+<h2 id="arquitectura-en-3-capas">Arquitectura en 3 capas</h2>
+<p>Uno de los modelos más clásico es la arquitectura en tres capas (Three-Tier Architecture), que divide la aplicación en:</p>
+<ul>
+<li><strong>Capa de presentación (frontend)</strong>: Capa de visualización y presentación con la interfaz del servicio. Se encuentra en el lado del cliente.</li>
+<li><strong>Capa de lógica (backend)</strong>: Capa lógica con las reglas de orquestación de la respuesta a las peticiones. Se encuentra en el lado del servidor.</li>
+<li><strong>Capa de datos (base de datos)</strong>: Capa de persistencia que almacena los datos en una base de datos. Se suele encontrar en el lado del servidor.
+<br></li>
+</ul>
+<div class="img-center">
+    <img src="../img/introduccion/3capas.png" alt="Arquitectura en 3 capas" />
+</div>
+
+<p><br>
+Los distintos elementos se comunican entre si usando distintos protocolos como HTTP, WebSockets, RTSP, WebRTC, etc. Como se verá más tarde, esta arquitectura guarda un paralelismo con un patrón para el desarrollo de aplicaciones llamado <strong>MVC</strong>.</p>
+<h2 id="desarrollo-web">Desarrollo web</h2>
+<p>Para desarrollar servidores web, se pueden utilizar diferentes entornos, frameworks, librerías y lenguajes de programación. Cada aplicación web puede ser construida con tecnologías variadas, como Python con Flask o Django, Node.js con Express, Ruby on Rails, o incluso lenguajes como Java o PHP. La flexibilidad de elegir entre estos entornos permite a los desarrolladores adaptar la tecnología a las necesidades específicas de la aplicación. En Internet, cada aplicación usa su propio entorno, y es aquí donde los <strong>protocolos</strong> y <strong>estándares</strong> juegan un papel crucial. Protocolos como <strong>HTTP</strong> permiten que aplicaciones construidas con diferentes tecnologías puedan comunicarse entre sí. Estos protocolos proporcionan un marco común que facilita la interoperabilidad y asegura que los datos sean intercambiados correctamente entre clientes y servidores, independientemente del entorno que tengan. La siguiente imagen recoge algunos de las decenas de entornos que permiten el desarrollo y despliegue de servicios web.</p>
+<div class="img-center">
+    <img src="../img/introduccion/entornos.png" alt="Entornos de desarrollo web" />
+</div>
+
+<p><br></p>
+<p>A través de estos frameworks, se pueden abordar las capas de presentación y lógica de la arquitectura de 3 capas. Para la capa de datos, existen multitud de bases de datos, tanto SQL como NoSQL. Los frameworks o lenguajes de programación antes descritos poseen de librerías que permiten establecer conexiones con las distintas bases de datos. Y al igual que ocurre entre cliente y servidor, existe una serie de protocolos específicos de cada base de datos que permiten su conexión.</p>
+<p>Para finalizar, comentar que para desarrollar aplicaciones web, existen diversos <strong>Entornos de Desarrollo Integrados (IDE)</strong> y <strong>herramientas de desarrollo</strong> que facilitan la escritura, depuración y optimización del código. A continuación, se mencionan algunos de los más utilizados:</p>
+<ul>
+    <li>
+        <strong>Visual Studio Code</strong> (gratuito): Es uno de los editores más populares debido a su ligereza, extensibilidad y soporte para una gran cantidad de lenguajes y tecnologías. 
+        Puedes obtenerlo de manera gratuita en su página oficial: 
+        <a href="https://www.visualstudio.com/es/" target="_blank">Visual Studio Code</a>.
+    </li>
+    <li>
+        <strong>WebStorm</strong> (pago, con licencia gratuita para educación): Este IDE está diseñado especialmente para el desarrollo web y soporta tecnologías como JavaScript, TypeScript, y frameworks como Angular y React.
+    </li>
+    <li class="nested_list">
+        <strong>Developer Tools</strong> (Herramientas para desarrolladores de navegadores como Chrome, Firefox, Safari, Edge, etc.): Estas herramientas permiten depurar y analizar las aplicaciones web directamente desde el navegador. 
+        Entre las funciones más útiles se encuentran:
+        <ul>
+            <li class="nested_list"><strong>Visor de código fuente</strong>: Permite visualizar y explorar el código HTML, CSS y JavaScript de una página web.</li>
+            <li class="nested_list"><strong>Consola JavaScript</strong>: Ideal para ejecutar scripts y depurar errores en tiempo real.</li>
+            <li class="nested_list"><strong>Analizador de elementos HTML y CSS</strong>: Muestra cómo están estructurados los elementos HTML y permite realizar ajustes de CSS de forma visual y directa.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><br>
+Estas herramientas son esenciales para el desarrollo web, ya que facilitan la depuración, optimización y adaptación de las aplicaciones a distintos entornos y plataformas.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="client_server.html" class="btn btn-neutral float-left" title="Cliente/Servidor"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../1-html-css/introduccion.html" class="btn btn-neutral float-right" title="Introducción">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="client_server.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../1-html-css/introduccion.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

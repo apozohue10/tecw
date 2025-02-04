@@ -32,6 +32,7 @@ Como se ha comentado anteriormente, generalmente las comunicaciones se establece
 </ul>
 
 <br>
+
 Un modelo clásico es la arquitectura en tres capas (Three-Tier Architecture), que divide la aplicación en una capa de presentación (frontend), una capa de lógica de negocio (backend) y una capa de datos (base de datos), facilitando la modularidad y el mantenimiento.
 
 ## Arquitectura en 3 capas
@@ -44,7 +45,7 @@ Uno de los modelos más clásico es la arquitectura en tres capas (Three-Tier Ar
 <br>
 
 <div class="img-center">
-    <img src="_images/introduccion/3capas.png" alt="Arquitectura en 3 capas" />
+    <img src="../img/introduccion/3capas.png" alt="Arquitectura en 3 capas" />
 </div>
 
 <br>
@@ -56,7 +57,7 @@ Para desarrollar servidores web, se pueden utilizar diferentes entornos, framewo
 
 
 <div class="img-center">
-    <img src="_images/introduccion/entornos.png" alt="Entornos de desarrollo web" />
+    <img src="../img/introduccion/entornos.png" alt="Entornos de desarrollo web" />
 </div>
 
 <br>
@@ -65,13 +66,25 @@ A través de estos frameworks, se pueden abordar las capas de presentación y l�
 
 Para finalizar, comentar que para desarrollar aplicaciones web, existen diversos **Entornos de Desarrollo Integrados (IDE)** y **herramientas de desarrollo** que facilitan la escritura, depuración y optimización del código. A continuación, se mencionan algunos de los más utilizados:
 
-- **Visual Studio Code** (gratuito): Es uno de los editores más populares debido a su ligereza, extensibilidad y soporte para una gran cantidad de lenguajes y tecnologías. Puedes obtenerlo de manera gratuita en su página oficial: [Visual Studio Code](https://www.visualstudio.com/es/).
-  
-- **WebStorm** (pago, con licencia gratuita para educación): Este IDE está diseñado especialmente para el desarrollo web y soporta tecnologías como JavaScript, TypeScript, y frameworks como Angular y React.
+<ul>
+    <li>
+        <strong>Visual Studio Code</strong> (gratuito): Es uno de los editores más populares debido a su ligereza, extensibilidad y soporte para una gran cantidad de lenguajes y tecnologías. 
+        Puedes obtenerlo de manera gratuita en su página oficial: 
+        <a href="https://www.visualstudio.com/es/" target="_blank">Visual Studio Code</a>.
+    </li>
+    <li>
+        <strong>WebStorm</strong> (pago, con licencia gratuita para educación): Este IDE está diseñado especialmente para el desarrollo web y soporta tecnologías como JavaScript, TypeScript, y frameworks como Angular y React.
+    </li>
+    <li class="nested_list">
+        <strong>Developer Tools</strong> (Herramientas para desarrolladores de navegadores como Chrome, Firefox, Safari, Edge, etc.): Estas herramientas permiten depurar y analizar las aplicaciones web directamente desde el navegador. 
+        Entre las funciones más útiles se encuentran:
+        <ul>
+            <li class="nested_list"><strong>Visor de código fuente</strong>: Permite visualizar y explorar el código HTML, CSS y JavaScript de una página web.</li>
+            <li class="nested_list"><strong>Consola JavaScript</strong>: Ideal para ejecutar scripts y depurar errores en tiempo real.</li>
+            <li class="nested_list"><strong>Analizador de elementos HTML y CSS</strong>: Muestra cómo están estructurados los elementos HTML y permite realizar ajustes de CSS de forma visual y directa.</li>
+        </ul>
+    </li>
+</ul>
 
-- **Developer Tools** (Herramientas para desarrolladores de navegadores como Chrome, Firefox, Safari, Edge, etc.): Estas herramientas permiten depurar y analizar las aplicaciones web directamente desde el navegador. Entre las funciones más útiles se encuentran:
-  - **Visor de código fuente**: Permite visualizar y explorar el código HTML, CSS y JavaScript de una página web.
-  - **Consola JavaScript**: Ideal para ejecutar scripts y depurar errores en tiempo real.
-  - **Analizador de elementos HTML y CSS**: Muestra cómo están estructurados los elementos HTML y permite realizar ajustes de CSS de forma visual y directa.
-
+<br>
 Estas herramientas son esenciales para el desarrollo web, ya que facilitan la depuración, optimización y adaptación de las aplicaciones a distintos entornos y plataformas.
