@@ -20,14 +20,14 @@ También han surgido nuevos estándares en los navegadores, como el soporte para
 
 ## Evolución páginas web
 
-### Década de 1990:
+### Década de 1990
 En los primeros años de la Web, **JavaScript** apenas existía y la lógica de las aplicaciones web residía casi completamente en el lado del servidor. En este periodo, las páginas web eran principalmente **estáticas** y se servían usando el método **HTTP GET**, mientras que los formularios se enviaban con **HTTP POST**. Cada vez que un usuario interactuaba con una página, la página completa se recargaba, lo que hacía que la experiencia fuera bastante lenta y poco eficiente. 
 
 <div class="img-center">
     <img src="../img/introduccion/1990.png" alt="Páginas de 1990" />
 </div>
 
-### Década de 2000:
+### Década de 2000
 A medida que Internet maduraba, surgieron nuevas tecnologías como **AJAX** (Asynchronous JavaScript and XML), que permitió la comunicación asíncrona entre el cliente y el servidor a través de **XMLHttpRequest**. Esto hizo posible actualizar partes de una página web sin necesidad de recargarla completamente, mejorando así la experiencia de usuario. Sin embargo, en este periodo, la mayor parte de la lógica de las aplicaciones seguía residiendo en el servidor.
 
 <div class="img-center">
@@ -36,7 +36,7 @@ A medida que Internet maduraba, surgieron nuevas tecnologías como **AJAX** (Asy
 
 <br>
 
-### Década de 2010 y más allá:
+### Década de 2010 y más allá
 Con el paso del tiempo, las aplicaciones web evolucionaron hacia lo que hoy conocemos como **SPA** (Single Page Application), un tipo de arquitectura en la que la mayoría de la lógica de la aplicación se ejecuta en el **cliente**. Esto permite una experiencia más fluida y rápida, ya que la mayoría de la interacción ocurre sin tener que recargar la página. El servidor se limita a almacenar datos y proporcionar APIs para la comunicación.
 
 

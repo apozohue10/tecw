@@ -17,9 +17,32 @@ nav:
     - HTML: '1-html-css/html.md'
     - CSS: '1-html-css/css.md'
   - Tema 2:
-    - '2-rutas/introduccion.md'
-    - MVC: '2-rutas/mvc.md'
-    - HTTP: '2-rutas/http.md'
+    - Servidores: '2-rutas/servidores.md'
+    - Flask: '2-rutas/flask.md'
     - URL: '2-rutas/url.md'
-  - Tema 3:
-    - '3-estaticos/introduccion-md'
+    - MVC: '2-rutas/mvc.md'
+    - Templates: '2-rutas/jinja2.md'
+    - Blueprints: '2-rutas/blueprints.md'
+    - HTTP: '2-rutas/http.md'
+#  - Tema 3:
+#    - Middlewares: '3-estaticos/middlewares.md'
+#    - Favicon: '3-estaticos/favicon.md'
+#    - Public: '3-estaticos/public.md'
+#    - Ficheros estaticos: '3-estaticos/estaticos.md'
+#  - Tema 4:
+#    - ORM: '4-orm/orm.md'
+#    - SQL Alchemy: '4-orm/alchemy.md'
+#    - Alembic: '4-orm/alembic.md'
+#  - Tema 5:
+#    - Javascript: '5-cliente/javascript.md'
+#    - Caché: '5-cliente/caché.md'
+#    - Ajax: '5-cliente/ajax.md'
+#    - Paginacion: '5-cliente/paginacion.md'
+#    - Sass: '5-cliente/sass.md'
+#  - Tema 6:
+#    - Websockets: '6-websockets/websockets.md'
+#  - Tema 7:
+#    - Seguridad: '7-seguridad/https.md'
+#    - Seguridad: '7-seguridad/autenticacion.md'
+#    - Seguridad: '7-seguridad/sesiones.md'
+#    - Seguridad: '7-seguridad/autorizacion.md'
