@@ -62,13 +62,18 @@ def list():
     return "Listado de bloques"
 ```
 
-#### Inciso: Decoradores en Python y su uso en Flask
+En estos ficheros, se define un Blueprint con el nombre `via` y `bloque` respectivamente. Se define una ruta `/` que devuelve un mensaje con el texto "Listado de vías" y "Listado de bloques" respectivamente. El Blueprint se crea con el nombre `via` y `bloque` y se le asigna la carpeta de templates correspondiente.
 
-Los **decoradores** en Python son funciones que modifican el comportamiento de otras funciones sin alterar su código fuente. Se usan comúnmente para agregar funcionalidades como logging, autorización y validación.
-
-Los decoradores son funciones que toman otra función como argumento y devuelven una nueva función con comportamiento modificado. Se aplican utilizando el símbolo @ antes de la función que se quiere modificar.
-
-En Flask, los decoradores se utilizan principalmente para definir rutas pero como veremos adelante se pueden utilizar para muchas otras cosas como para definir **middlewares**.
+<blockquote>
+<h4>Inciso: Decoradores en Python y su uso en Flask</h4>
+<p>
+Los <b>decoradores</b> en Python son funciones que modifican el comportamiento de otras funciones sin alterar su código fuente. Se usan comúnmente para agregar funcionalidades como logging, autorización y validación.
+</p>
+<p>
+Los decoradores son funciones que toman otra función como argumento y devuelven una nueva función con comportamiento modificado. Se aplican utilizando el símbolo <code>@</code> antes de la función que se quiere modificar.
+</p>
+En Flask, los decoradores se utilizan principalmente para definir rutas pero como veremos adelante se pueden utilizar para muchas otras cosas como para definir <b>middlewares</b>.
+</blockquote>
 
 ---
 

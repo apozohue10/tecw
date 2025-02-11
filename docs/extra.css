@@ -11,6 +11,16 @@ p {
     text-justify: inter-word;
 }
 
+blockquote {
+    text-align: justify;
+    text-justify: inter-word;
+    margin: 0px !important; 
+    padding: 10px 24px;
+    border-left: 5px solid #cccccc;
+    background-color: #ebebeb;
+    border-radius: 5px;
+}
+
 .no-margin-bottom {
     margin-bottom: 5px;
 }
