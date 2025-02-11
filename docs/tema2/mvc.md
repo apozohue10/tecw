@@ -16,7 +16,7 @@ MVC es una **arquitectura de software** utilizada para separar el código de la 
 MVC se fundamenta en la separación del código en **tres capas principales**, delimitadas por sus funciones: Modelo, Vista y Controlador.
 
 <div class="img-center">
-    <img src="../img/rutas/mvc.png" alt="Modelo Vista Controlador" />
+    <img src="../img/tema2/mvc.png" alt="Modelo Vista Controlador" />
 </div>
 
 ### Modelo
@@ -28,7 +28,7 @@ El **modelo** gestiona los datos.
 - Normalmente, se utiliza algún **ORM** (Object-Relational Mapping) para la gestión eficiente de los datos.
 
 <div class="img-center">
-    <img src="../img/rutas/modelo.png" alt="Modelo" />
+    <img src="../img/tema2/modelo.png" alt="Modelo" />
 </div>
 
 
@@ -40,7 +40,7 @@ La **vista** es la encargada de la presentación y la visualización de la infor
 - No accede directamente a los datos; en su lugar, **interactúa con el modelo** para obtener la información necesaria.
 
 <div class="img-center">
-    <img src="../img/rutas/vista.png" alt="Vista" />
+    <img src="../img/tema2/vista.png" alt="Vista" />
 </div>
 
 ### Controlador
@@ -53,7 +53,7 @@ El **controlador** actúa como intermediario entre el modelo y la vista, gestion
 
 
 <div class="img-center">
-    <img src="../img/rutas/controlador.png" alt="Controlador" />
+    <img src="../img/tema2/controlador.png" alt="Controlador" />
 </div>
 
 ---
@@ -61,7 +61,7 @@ El **controlador** actúa como intermediario entre el modelo y la vista, gestion
 En esencia, **el patrón MVC viene a decirnos que carpetas debemos crear y que código debemos meter en cada una de ellas**. A continuación se muestra un ejemplo de como se implementaría el patrón MVC. Como se puede observar cada uno de los elementos ejecuta un código determinado.
 
 <div class="img-center">
-    <img src="../img/rutas/mvc-code.png" alt="Ejemplo de MVC con codigo" />
+    <img src="../img/tema2/mvc-code.png" alt="Ejemplo de MVC con codigo" />
 </div>
 
 <br>

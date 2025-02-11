@@ -3,6 +3,10 @@
 Flask es un **micro-framework** de desarrollo web para Python. Flask es ligero, flexible y fácil de usar, lo que lo hace ideal para desarrolladores que desean crear aplicaciones web de forma rápida y eficiente. Aunque se le denomina "micro", Flask no limita su funcionalidad, sino que se enfoca en 
 proporcionar una base simple que se puede ampliar con complementos según las necesidades del proyecto.
 
+<div class="img-center">
+    <img src="../img/tema2/flask.png" alt="Vista" />
+</div>
+
 ---
 
 El uso básico de Flask es para **enrutamiento** es decir, permite crear el esquema de rutas (mediante URLs) y asociarlas con funciones que se ejecutan cuando los usuarios acceden a esas rutas mediante el protocolo HTTP. Estas funciones pueden devolver un recurso al usuario, crear uno nuevo, borrarlo, etc. A parte, Flask, ofrece algunas de sus funcionalidades destacadas como:

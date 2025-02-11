@@ -94,7 +94,14 @@ Para resolver estos problemas podemos usar Jinja2 y sus funcionalidades.
 
 ## ¿Qué es Jinja2?
 
-**Jinja2** es un motor de plantillas para Python que permite generar contenido dinámico en aplicaciones web. Se utiliza ampliamente en frameworks como **Flask** y **Django** para la renderización de HTML a partir de datos proporcionados por el servidor. Se encarga principalmente de la vista según el patrón MVC. Sus principales usos incluyen:
+**Jinja2** es un motor de plantillas para Python que permite generar contenido dinámico en aplicaciones web. Se utiliza ampliamente en frameworks como **Flask** y **Django** para la renderización de HTML a partir de datos proporcionados por el servidor. Se encarga principalmente de la vista según el patrón MVC. 
+
+<div class="img-center">
+    <img src="../img/tema2/jinja2.png" alt="Vista" />
+</div>
+
+
+Sus principales usos incluyen:
 
 - **Generación de contenido dinámico** en páginas web.
 - **Uso de estructuras de control** como bucles e instrucciones condicionales en plantillas HTML.
@@ -155,9 +162,9 @@ Modifica la función disponibilidad para que devuelva el nombre de la vía de es
 Jinja2 permite el uso de estructuras de control como condicionales en plantillas HTML. Para realizar esto, se utilizan las palabras clave `if`, `for`, `elif`, `else`, entre otras.
 
 ```html
-{% if ciudad == Madrid %}
+{% if ciudad == 'madrid' %}
     <p>En Madrid se encuetran los mejores rocodromos del centro de la peninsula.</p>
-{% elif ciudad == Barcelona %}
+{% elif ciudad == 'barcelona' %}
     <p>Los rocodromos de Barcelona son los más visitados de España.</p>
 {% else %}
     <p>En {{ ciudad }} también hay rocodromos.</p>
@@ -169,7 +176,7 @@ También permite incluir bucles `for` para iterar sobre listas, diccionarios y o
 ```html
 <p>Las ciudades con rocodromos son:</p>
 <ul>
-    {% for nombre in ['madrid', 'barcelona', 'segovia', 'valencia' %}
+    {% for nombre in ['madrid', 'barcelona', 'segovia', 'valencia'] %}
         <li>{{ nombre }}</li>
     {% endfor %}
 </ul>

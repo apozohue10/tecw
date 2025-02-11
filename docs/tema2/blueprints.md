@@ -89,7 +89,7 @@ Este fichero permite importar todos los blueprints a la vez en la aplicación pr
 Una vez definidos los Blueprints, es necesario registrarlos en la aplicación principal. Para ello, se importan los Blueprints en el fichero `app.py` y se registran en la aplicación:
 
 ```python
-##### Import and Register the blueprints
+# Import and Register the blueprints
 import blueprints
 app.register_blueprint(blueprints.via_bp, url_prefix='/vias')
 app.register_blueprint(blueprints.bloque_bp, url_prefix='/bloques')

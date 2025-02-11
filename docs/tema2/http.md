@@ -20,7 +20,7 @@ HTTP/2, lanzado en 2015, optimiza la latencia y la prioridad de peticiones, mien
 Tanto la solicitud como la respuesta siguen el mismo formato, compuesto por una primera línea de parámetros básicos, las cabeceras, una línea en blanco y un cuerpo.
 
 <div class="img-center">
-    <img src="../img/rutas/formato_http.png" alt="Formato peticion/respuesta de HTTP" />
+    <img src="../img/tema2/formato_http.png" alt="Formato peticion/respuesta de HTTP" />
 </div>
 
 La primera línea de la solicitud muestra el recurso solicitado, que c**orresponde principalmente al path en la sintaxis de la URL**. Además, en la solicitud se configuran otros elementos, como el método, que se detallará a continuación. En la respuesta, la primera línea incluye el código de estado, el cual también será explicado más adelante.
@@ -324,8 +324,8 @@ Los tipos MIME se incluyen en las cabeceras de las peticiones y las respuestas H
 
 
 <div class="img-grid-line">
-    <img src="../img/rutas/request-mime.png" alt="Petición con tipo MIME" />
-    <img src="../img/rutas/answer-mime.png" alt="Respuesta con tipo MIME" />
+    <img src="../img/tema2/request-mime.png" alt="Petición con tipo MIME" />
+    <img src="../img/tema2/answer-mime.png" alt="Respuesta con tipo MIME" />
 </div>
 
 <br>

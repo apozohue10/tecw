@@ -65,10 +65,10 @@ def ciudad(ciudad): # Flask automaticamente parsea y nos da elementos del path q
         </html>
     """
 
-# Ruta con query parameters (Ejemplo: http://localhost:5000/disponibilidad?vía=ElGigante)
+# Ruta con query parameters (Ejemplo: http://localhost:5000/disponibilidad?via=ElGigante)
 @app.route('/disponibilidad')  
 def disponibilidad():
-    request.args['via']  # Obtiene el parámetro 'vía' de la query de la URL
+    via = request.args['via']  # Obtiene el parámetro 'via' de la query de la URL
     return f""" 
         <!DOCTYPE html> 
         <html>
@@ -76,7 +76,7 @@ def disponibilidad():
             <title>Mi Primer Rocódromo</title>
         </head>
         <body>
-            <h2>La vía de escalada '{via}' está disponible para su uso.</h2>
+            <h2>La vía def escalada '{via}' está disponible para su uso.</h2>
         </body>
         </html>
     """
