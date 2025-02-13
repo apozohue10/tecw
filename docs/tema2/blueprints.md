@@ -110,20 +110,18 @@ Generar un nuevo Blueprint para la entidad de usuarios. Este Blueprint deberá t
 Crear un JSON con la información de vías inventadas en el fichero via.py. Modificar la ruta `/` para que devuelva la información de las vías en formato json. Para ello se deberá editar un fichero HTML en la carpeta `templates/via` que muestre la información de las vías usando Jinja2. Un ejemplo de JSON es:
 
 ```json
-{
-    "vias": [
-        {
-            "nombre": "Via 1",
-            "grado": "6a",
-            "longitud": 20
-        },
-        {
-            "nombre": "Via 2",
-            "grado": "6b",
-            "longitud": 25
-        }
-    ]
-}
+vias = [
+    {
+        "nombre": "Via 1",
+        "grado": "6a",
+        "longitud": 20
+    },
+    {
+        "nombre": "Via 2",
+        "grado": "6b",
+        "longitud": 25
+    }
+]
 ```
 
 
