@@ -50,7 +50,7 @@ CORS(app)
 
 A parte de todo esto, también podemos crear nuestros propios middlewares usando decoradores como veremos a continuación.
 
-## Autload de recursos
+## Autoload
 
 En el tema anterior definimos una API Restful para gestionar las vías de nuestro rocódromo. Es decir, para listar, visualizar, crear, actualizar y borrar las vías. En esta API, hemos visto que repetiamos código para buscar una via en concreto cuando se trataba de visualizar, actualizar o borrar. Lo cual no es muy eficiente o mantenible. Pues bien, en este caso, **podríamos crear un middleware que se encargue de buscar la vía y que la pase a la función que maneja la petición**. De esta forma, nos ahorramos repetir código y, además, si en un futuro cambia la forma de buscar las vías, solo lo tenemos que cambiar en único sitio. A parte, para el caso de borrar, nos permite comprobar que efectivamente la via existe previamente antes de borrarla.
 
@@ -75,7 +75,7 @@ def load_via(f):
     return decorated_function
 ```
 
-Este middleware se encarga de buscar la vía en la lista de vías y añadirla a los argumentos de la función que maneja la petición. Si no se encuentra la vía, se dispara un error 404. Para usar este middleware, simplemente se añade el decorador `@load_via` a las funciones que manejan las peticiones de visualizar, actualizar y borrar. Por ejemplo: 
+Este middleware se encarga de buscar la vía en la lista de vías y añadirla a los argumentos de la función que maneja la petición. Si no se encuentra la vía, se dispara un error 404 que posteriormente manejará el decorador que definimos en app.py. Para usar este middleware, simplemente se añade el decorador `@load_via` a las rutas que necesiten buscar una vía. Por ejemplo:
 
 ```python
 @via_bp.route('/<viaId>', methods = ['GET'])
@@ -84,7 +84,7 @@ def show(viaId, via): # Se añade el parámetro via que el middleware load_via h
     return render_template('show.html', via=via)
 ```
 
-
+Y esto nos permite borrar le código anterior donde buscabamos la vía en cada función (para actualizar y borrar se puede aplicar también). De esta forma, se evita repetir código y se mantiene la aplicación más limpia y mantenible.
 
 <blockquote>
 <h4>Inciso: *args y **kwargs</h4>
@@ -123,3 +123,9 @@ Añadir el middleware load_via al resto de funciones de la API Restful de vías.
 
 Implementar un autoload para el blueprint de usuarios creado previamente y añadirlo a las funciones de la API Restful de usuarios donde sea necesario.
 
+
+## Concatenar Middlewares
+
+---
+
+Los decoradores, como hemos visto, nos permiten añadir middlewares a nuestras funciones para evitar repetir código. Pero que también se pueden usar para otras tareas como el manejo de ficheros estáticos. Que veremos en la próxima sección.

@@ -26,9 +26,7 @@ nav:
     - HTTP: 'tema2/http.md'
 # - Tema 3:
 #   - Middlewares: 'tema3/middlewares.md'
-#    - Favicon: 'tema3/favicon.md'
-#    - Public: 'tema3/public.md'
-#    - Ficheros estaticos: 'tema3/estaticos.md'
+#   - Manejo de ficheros: 'tema3/files.md'
 #  - Tema 4:
 #    - ORM: 'tema4/orm.md'
 #    - SQL Alchemy: 'tema4/alchemy.md'

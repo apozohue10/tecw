@@ -483,6 +483,17 @@ Y el fichero list.html tendrá un aspecto parecido a este:
 ```
 Se ha creado una tabla que lista todas las vias que estan en el array. Para cada una de ellas se ha añadido un enlace para ver los detalles de la vía, otro para editarla y un formulario para eliminarla. Se ha añadido un botón al inicio que redirige a un formulario para crear una nueva vía.
 
+<blockquote>
+<h4>Recordatorio: Peticiones desde HTML con <code>a</code> y <code>form</code> </h4>
+<p>
+Cuando elusuario clica en una etiqueta de HTML <code>a</code> se envía una petición HTTP con el método GET. Así en el código anterior, cuando el usuario clica en el enlace "Ver" se envía una petición GET a la ruta <code>/vias/{{ via.id }}</code> para mostrar los detalles de la vía. 
+</p>
+<p>
+En el caso de los formularios, por defecto se envía una petición POST aunque se debe indicar explícitamente el método HTTP que se quiere usar a través de <code>method</code> en la cabecera y a través de <code>action</code> la ruta a la que se quiere enviar la petición. Los formularios también pueden enviar peticiones GET pero no suele usarse mucho. A parte, para que se envíe el contenido de los campos se debe añadir un botón de tipo <code>submit</code>. Cuando se clica en submit el navegador se encarga de enviar la petición con todo los contenidos del formulario al servidor con el metodo y la ruta indicada en el formulario. 
+</p>
+</blockquote>
+
+<br>
 
 #### Create
 
