@@ -420,7 +420,7 @@ Se trata de un concepto que esta directamente ligado a como gestionamos las ruta
 
 Así, por ejemplo, para nuestro blueprint de vias, podríamos definir las siguientes rutas de la siguiente forma:
 
-#### List
+### List
 
 Usaremos un array de diccionarios para simular una base de datos de vías como el que hemos visto en la sección anterior. Este array se pasará como parámetro a la plantilla de Jinja2 <code>list.html</code> para mostrar las vías en la página web.
 
@@ -495,7 +495,7 @@ En el caso de los formularios, por defecto se envía una petición POST aunque s
 
 <br>
 
-#### Create
+### Create
 
 Para poder crear una via necesitaremos dos rutas, una para mostrar el formulario de creación y otra para procesar la información enviada por el formulario y añadir la nueva vía al array. Si estuvieramos usando directamente la API sin interfaz gráfica, solo necesitaríamos la segunda ruta. También se ha creado un array que contiene los grados posibles que puede tener cada via. Estos grados se pintarán posteriormente usando Jinja2 en el formulario de creación.
 
@@ -543,7 +543,19 @@ Y el fichero new.html tendrá un aspecto parecido a este:
 
 Como se puede observar, **el atributo <code>name</code> del input y del select se corresponde con los nombres de los campos que se obtienen en la función <code>create</code> en via.py**. Puede verse también que coincide con los atributos que estan dentro del array vias. Que exista esta correspondencia es importante para que el formulario funcione correctamente y facilita el desarrollo del código.
 
-#### Read
+<blockquote>
+<h4>Inciso: atributo required en input HTML </h4>
+<p>
+El atributo <code>required</code> en un input HTML indica que el campo es obligatorio y no se puede enviar el formulario si no se ha rellenado. Tenga en cuenta que esto se trata de una validación en el lado del cliente y no en el servidor. Por lo tanto, es importante realizar una validación adicional en el servidor para asegurarse de que los campos requeridos se han rellenado. 
+</p>
+<p>
+Puede comprobar a través de las developer tools a suprimir este atributo de algún elemento input y comprobará que el formulario se enviara saltandose la restricción de que el campo es obligatorio.
+</p>
+</blockquote>
+
+<br>
+
+### Read
 
 En este caso, vamos a mostrar la información de una via en concreto. Para ello, necesitaremos una ruta que reciba el id de la via que queremos mostrar y una plantilla que muestre la información de la via. 
 
@@ -571,7 +583,7 @@ Como se puede observar, al incluir <code> /<viaId> </code> en la ruta, estamos i
 {% endblock %}
 ```
 
-#### Update
+### Update
 
 Para actualizar una vía necesitaremos dos rutas, una para mostrar el formulario de edición y otra para procesar la información enviada por el formulario y actualizar la vía en el array. Si estuvieramos usando directamente la API sin interfaz gráfica, solo necesitaríamos la segunda ruta. 
 
@@ -628,7 +640,7 @@ El fichero edit.html tiene un aspecto muy similar a new.html, pero con los campo
 ```
 
 
-#### Delete
+### Delete
 
 Por último, necesitaremos añadir una ruta a via.py para eliminar una vía. Para ello, previamente se añadió un formulario en la plantilla <code>list.html</code> que envía una petición DELETE al servidor con un párametro oculto llamado _method como se ha visto en el caso de Update. 
 
@@ -654,6 +666,7 @@ Realizar una API Restful para gestionar el blueprints de usuarios que se creo en
 
 ---
 
+### Gestión de errores
 
 Se ha visto que los formularios HTML no soportan peticiones HTTP de tipo PUT o DELETE directamente. Para solucionar esto, se ha añadido un campo oculto en los formularios que simula el método PUT o DELETE en formularios HTML que se gestiona posteriormente en el lado del servidor. Y que si se trata de enviar una petición que no es PUT o DELETE a dichas rutas se devolverá un error 405. Es decir, hemos gestionado a través de códigos HTTP cuando un usuario intenta realizar una acción que no está permitida.
 
@@ -686,4 +699,4 @@ Tenga en cuenta que para poder probar este error, deberá tener la aplicación e
 
 --- 
 
-Con estas funciones hemos visto como montar una API Restful basada en HTTP. Se han implementado las rutas necesarias para listar, crear, ver, actualizar y eliminar recursos programables, es decir, recursos que estarán en una base de datos. Además, se han creado las plantillas necesarias para mostrar la información al respecto y los formularios para crear y editar los recursos. Por último se han generado funciones que gestionan errores 404 y 500. En el siguiente tema, veremos como podemos implementar Middlewares que nos facilitan la gestión de las rutas y también como gestionar recursos estáticos en el servidor.
+Con estas funciones hemos visto como montar una API Restful basada en HTTP. Se han implementado las rutas necesarias para listar, crear, ver, actualizar y eliminar recursos programables, es decir, recursos que estarán en una base de datos. Además, se han creado las plantillas necesarias para mostrar la información al respecto y los formularios para crear y editar los recursos. Por último se han generado funciones que gestionan errores 404 y 500. En la siguiente sección, veremos como podemos implementar Middlewares que nos facilitan la gestión de las rutas y también como gestionar recursos estáticos en el servidor.

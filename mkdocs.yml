@@ -24,9 +24,11 @@ nav:
     - Templates: 'tema2/jinja2.md'
     - Blueprints: 'tema2/blueprints.md'
     - HTTP: 'tema2/http.md'
-# - Tema 3:
-#   - Middlewares: 'tema3/middlewares.md'
-#   - Manejo de ficheros: 'tema3/files.md'
+    - Middlewares: 'tema2/middlewares.md'
+  # - Tema 3:
+  #   - Descarga de ficheros: 'tema3/files.md'
+  #   - Ficheros públicos: 'tema3/public.md'
+  #   - Ficheros privados: 'tema3/private.md'
 #  - Tema 4:
 #    - ORM: 'tema4/orm.md'
 #    - SQL Alchemy: 'tema4/alchemy.md'

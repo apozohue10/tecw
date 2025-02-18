@@ -6,6 +6,10 @@ section {
     background-color: #fcfcfc;
 }
 
+.toctree-expand {
+    display: none !important;
+}
+
 p {
     text-align: justify;
     text-justify: inter-word;

@@ -17,27 +17,32 @@ def page_not_found(e):
     return render_template('error404.html'), 404
 ```
 
-En este caso, Flask ofrece ya estos middlwares para realizar estas tareas. Pero en otros casos, se pueden definir middlewares personalizados para realizar tareas específicas como guardar ficheros, autoload de recursos, autenticación, autorización, logging, etc.
+En este caso, Flask ofrece ya estos middlwares para realizar estas tareas. Pero en otros casos, se pueden definir middlewares personalizados para realizar tareas específicas como guardar ficheros, autoload de recursos, comprobación de formularios, autenticación, autorización, logging, etc.
 
 ## Middlewares en Flask
 
-Flask no tiene un sistema de middlewares como Django, pero se pueden simular utilizando los decoradores: `before_request` y `after_request`. 
+Flask no tiene un sistema de middlewares como Django, pero se pueden simular utilizando los decoradores: `before_request` y `after_request`. La función `before_request` se ejecutará antes de que se ejecute la función que maneja la petición y en el caso de `after_request` se ejecutará después de que se haya ejecutado la función que maneja la petición. Esta funciones se ejecutan por cada petición independientemente de la ruta a la que se dirija. 
+
 
 ```python
-@app.before_request
-def before_request_func():
-    print(f"Interceptando petición a {request.path}")
+@via_bp.before_request
+def validar_grado():
+    if request.endpoint == "via.create" and request.method == "POST":
+        grado = request.form.get("grado")
+        if grado not in grades:
+            abort(400)
 
-@app.after_request
-def after_request_func(response):
-    print("Modificando la respuesta antes de enviarla")
-    response.headers["X-Security"] = "Active"
+@via_bp.after_request
+def agregar_total_vias(response):
+    response.headers["X-Total-Vias"] = str(len(vias))
     return response
+
 ```
 
-La función `before_request` se ejecutará antes de que se ejecute la función que maneja la petición y en el caso de `after_request` se ejecutará después de que se haya ejecutado la función que maneja la petición. Esta funciones se ejecutan por cada petición independientemente de la ruta a la que se dirija. Por lo que son útiles para realizar algunas tareas generales como crear sesiones, añadir cabeceras, etc. 
+La primera función se encarga de validar que el grado de la vía sea válido antes de crearla. Si no es válido, se dispara un error 400. La segunda función se encarga de añadir una cabecera con el total de vías registradas en la aplicación.
 
-Además, Flask provee de una serie de extensiones que permiten añadir middlewares a la aplicación. Por ejemplo, `flask-cors` para añadir CORS a la aplicación, `flask-jwt-extended` para añadir autenticación JWT, `flask-socketio` para añadir WebSockets, etc. Un ejemplo muy interesante de esto es **SQLAlchemy, que añade un middleware para manejar las conexiones a la base de datos** como se verá más adelante. En general estos middlewares se importan y se inicializan con la aplicación de Flask creada, por ejemplo:
+
+Flask provee de una serie de extensiones que permiten añadir middlewares a la aplicación. Por ejemplo, `flask-cors` para añadir CORS a la aplicación, `flask-jwt-extended` para añadir autenticación JWT, `flask-socketio` para añadir WebSockets, etc. Un ejemplo muy interesante de esto es **SQLAlchemy, que añade un middleware para manejar las conexiones a la base de datos** como se verá más adelante. En general estos middlewares se importan y se inicializan con la aplicación de Flask creada, por ejemplo:
 
 
 ```python
@@ -47,6 +52,8 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='public', template_folder='templates')
 CORS(app)
 ```
+
+---
 
 A parte de todo esto, también podemos crear nuestros propios middlewares usando decoradores como veremos a continuación.
 
@@ -129,3 +136,42 @@ Implementar un autoload para el blueprint de usuarios creado previamente y añad
 ---
 
 Los decoradores, como hemos visto, nos permiten añadir middlewares a nuestras funciones para evitar repetir código. Pero que también se pueden usar para otras tareas como el manejo de ficheros estáticos. Que veremos en la próxima sección.
+
+En el ejemplo del principio, usamos la función before_request para validar el grado de la vía antes de crearla. Pero realmente **no tiene tanto sentido** usar before_request para esta tarea ya que **se ejecuta esa función para todas las peticiones que vayan a /vias**. Para ello, es mejor crear un middleware que se ejecute solo para las rutas que queramos, como pueden ser las de crear o actualizar una vía. Y además podemos añadir otras comprobaciones como que el campo del nombre no este vacio.
+
+```python
+def check_via(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        grado = request.form.get("grado")
+        if grado not in grades:
+            abort(400)
+        nombre = request.form.get("nombre")
+        if nombre is None or nombre == "":
+            abort(400)
+        return f(*args, **kwargs) # Se llama a la función f con los argumentos y la vía
+    return decorated_function
+```
+
+Esta función dispara un error 400 Bad request si no se cumple alguna de las condiciones. Y al igual que hicimos con el error 404 podemos crear una función que maneje este error para devolver un html en particular.
+
+Y luego podemos emplearlo en las funciones que queramos:
+
+```python
+@via_bp.route('/', methods=['POST'])
+@check_via
+def create():
+    ...
+
+@via_bp.route('/<viaId>/update', methods=['POST'])
+@check_via
+@load_via
+def update(viaId, via):
+    ...
+```
+
+En el caso de Update, hemos concatenado 2 middlwares, primero se ejecuta check_via y luego load_via.
+
+---
+
+En el siguiente tema veremos como podemos usar los middlewares también para manejar los ficheros estáticos de nuestra aplicación.
