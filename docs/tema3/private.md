@@ -60,7 +60,7 @@ rocodromo/
 
 ## Middleware para guardar imágenes
 
-Para almacenar imágenes el primer paso es definir en nuestra aplicación en que carpeta se va a almacenar y que formatos de imágenes se van a permitir. Para ello, en el fichero app.py añadimos las siguientes configuraciones:
+Para almacenar imágenes el primer paso es definir en nuestra aplicación en que carpeta se va a almacenar y que formatos de imágenes se van a permitir. Para ello, en el fichero `app.py` añadimos las siguientes configuraciones:
 
 ```python
 ##### Configure file uploads
@@ -69,7 +69,7 @@ app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 ```
 Al definir las variables mediante app.config, es como si las definieramos a nivel global de la aplicación y podemos acceder a ellas desde cualquier parte. En nuestro caso, accederemos a ellas desde el middleware que vamos a crear para gestionar las imágenes.
 
-Para crear el middleware nos valdremos nuevamente de decoradores, al igual que hicimos con la función autoload de los blueprints. Además necesitaremos otras librerías como `uuid` que nos permitirá generar un identificador único para cada imagen que se suba.
+Para crear el middleware nos valdremos nuevamente de decoradores, al igual que hicimos con la función autoload de los blueprints. Pero en este caso, en vez de crear los decoradores en el propio blueprint, los crearemos en un fichero aparte llamado `handle_files.py` como se ha comentado previamente. Además necesitaremos otras librerías como `uuid` que nos permitirá generar un identificador único para cada imagen que se suba.
 
 ```python
 import os
@@ -116,6 +116,10 @@ Con este middleware, se comprueba si se ha subido un fichero y si la extensión 
 Este middleware lo podremos usar en cualquier ruta que necesite subir una imagen. Por ejemplo, en la ruta de creación de vías, podríamos usarlo de la siguiente forma:
 
 ```python
+from handle_files import save_file, delete_file
+
+...
+
 @via_bp.route('/', methods=['POST'])
 @check_via
 @save_file # Se añade el middleware de guardar el fichero que se ejecutará antes de la función create
@@ -131,19 +135,24 @@ def create(filename): # El middleware añade un parámetro con el nombre del fic
     return redirect('/vias')
 ```
 
-Al igual que ocurre con la función autoload, el middleware se ejecutará antes de la función create y añadirá un parámetro con el nombre del fichero guardado, que posteriormente almacenamos en el array.
+Debemos importarlos del fichero que hemos creado previamente. Al igual que ocurre con la función autoload, el middleware se ejecutará antes de la función create y añadirá un parámetro con el nombre del fichero guardado, que posteriormente almacenamos en el array.
 
 ## Ruta para servir imágenes
 
 Como se ha comentado previamente, las imágenes se guardan en la carpeta assets/images, que es una carpeta privada y no accesible por URL. Por tanto, necesitamos crear una ruta que nos permita servir estas imágenes. Para ello, en el fichero app.py añadimos la siguiente ruta:
 
 ```python
-@app.route('/images/<filename>')
-def images(filename):
+from flask import Flask, request, render_template, send_from_directory  # Importa la clase Flask desde el módulo flask
+import os
+
+...
+
+@app.route('/download/<filename>')
+def download(filename):
     return send_from_directory(os.path.join(app.root_path, 'assets/images'), filename)
 ```
 
-Se usa la librería `send_from_directory` que nos permite enviar un fichero estático desde una carpeta concreta. En este caso, se envía el fichero con el nombre `filename`, obtenido del path de la URL, desde la carpeta `assets/images`.
+Se usa la librería `send_from_directory` que nos permite enviar un fichero estático desde una carpeta concreta. En este caso, se envía el fichero con el nombre `filename`, obtenido del path de la URL, desde la carpeta `assets/images`. La librería `os` se utiliza para unir el path de la carpeta con el path de la aplicación.
 
 Y para poder renderizarla en la vista, podemos añadir la siguiente línea en el fichero de `via/show.html` de la vía:
 
@@ -157,7 +166,7 @@ Y para poder renderizarla en la vista, podemos añadir la siguiente línea en el
     <p> Altura: {{via.altura}} </p>
     <p> Desplome: {{via.desplome}} </p>
     {% if via.imagen %}
-        <img src="/images/{{via.imagen}}" alt="via image">
+        <img src="/download/{{via.imagen}}" alt="via image">
     {% endif %}
 {% endblock %}
 ```
@@ -174,7 +183,7 @@ Para ello, creamos el siguiente middleware dentro del fichero handle_files.py:
 def delete_file(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        filename = kwargs['via'].get('foto') # Obtiene el nombre del fichero de la vía
+        filename = kwargs['via'].get('imagen') # Obtiene el nombre del fichero de la vía
         if filename:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             if os.path.exists(file_path): # Comprueba si el fichero existe
@@ -199,10 +208,52 @@ def delete(viaId, via):
     ...
 ```
 
-Al cargar ejecutar primero el autoloadr, nos aseguramos que el recurso existe y es accesible. Por tanto, si el recurso no existe, no se ejecutará el middleware de borrar ficheros. Para el caso de la ruta de actualización, se ejecutarán los tres middlewares en orden: autoload, borrar fichero y guardar fichero. Para el caso de la ruta de borrado, se ejecutarán los dos middlewares en orden: autoload y borrar fichero.
+Al cargar ejecutar primero el autoloader, nos aseguramos de que el recurso existe y es accesible. Por tanto, si el recurso no existe, no se ejecutará el middleware de borrar ficheros y saltará un error 404. Para el caso de la ruta de actualización, se ejecutarán los tres middlewares en orden: autoload, borrar fichero y guardar fichero. En este caso, luego **se debe actualizar el nombre del fichero para la via ya que este habra cambiado**. Para el caso de la ruta de borrado, se ejecutarán los dos middlewares en orden: autoload y borrar fichero.
 
-No obstante, el actualizado de la imagen tiene un problema.
 
 ### Ejercicio de clase
 
-## Manejo de errores de formularios
+Investigar que problema existe cuando en la interacción de actualizar los datos de un usuario.
+
+### Ejercicio de clase
+
+¿Porqué es importante que los middlewares de gestión de ficheros los desarrollamos en un fichero distinto en vez de en el propio blueprint?
+
+---
+
+## Manejo de errores
+
+Como hemos visto al servir tanto archivos estáticos como recursos programables mediante una API RESTful, cuando se producía un error al crear o editar recursos a través de un formulario, simplemente redirigíamos al usuario a otra ruta. Sin embargo, en la práctica, es más conveniente mostrar un mensaje de error para que el usuario comprenda qué ha ocurrido y pueda actuar en consecuencia.
+
+Para ello, podemos hacer uso de la función `flash` de Flask. La función `flash` permite enviar mensajes a través de las sesiones de los usuarios. Estos mensajes se almacenan en la sesión del usuario y se borran cuando el usuario cierra el navegador. El primer paso es añadir una secret key a la aplicación para que las sesiones sean seguras. Para ello, en el fichero `app.py` añadimos la siguiente línea:
+
+```python
+##### Configure flash key
+app.secret_key = '1234'
+```
+Una vez configurada la secret key, podemos usar la función `flash` en cualquier ruta de la aplicación. Por ejemplo, en el middleware de guardar ficheros, podemos añadir un mensaje de error si el fichero no es permitido:
+
+```python
+from flask import request, redirect, flash
+...
+if not allowed_file(file.filename):
+    flash('Archivo no permitido')
+    return redirect(request.url)
+...
+```
+
+Y finalmente, en layout.html podemos añadir el siguiente código que se encargará de renderizar el error en la vista:
+
+```html
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+```
+
+---
+
+Con esto terminamos el tema de gestión de ficheros estáticos. estos ficheros estáticos se almacenan y si el servidor se apaga o se reinicia, no se perderán. No ocurre lo mismo con la Restful API que hemos implementado, donde los datos se almacenan en un array en memoria y se perderán si el servidor se apaga. En el siguiente tema, veremos cómo podemos almacenar los datos en una base de datos para que sean persistentes.

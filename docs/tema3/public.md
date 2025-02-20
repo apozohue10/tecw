@@ -46,7 +46,7 @@ Así por ejemplo, para los estilos del layout.html podríamos tener un fichero l
 <html>
     <head>
         <title>Mi Primer Rocódromo</title>
-        <link rel="stylesheet" href="/public/stylesheets/layout.css"></link>
+        <link rel="stylesheet" href="/stylesheets/layout.css"></link>
     </head>
     <header>
 ...
@@ -56,7 +56,7 @@ Así por ejemplo, para los estilos del layout.html podríamos tener un fichero l
 ```html
 {% extends 'layout.html' %}
 {% block content %}
-<link rel="stylesheet" href="/public/stylesheets/home.css"></link>
+<link rel="stylesheet" href="/stylesheets/home.css"></link>
 <div class="home">
     <h1>¡Bienvenido a mi primer rocódromo!</h1>
 ...
@@ -68,7 +68,7 @@ Así por ejemplo, para los estilos del layout.html podríamos tener un fichero l
 ```html
 {% extends 'layout.html' %}
 {% block content %}
-<link rel="stylesheet" href="/public/stylesheets/via.css"></link>
+<link rel="stylesheet" href="/stylesheets/via.css"></link>
 <div class="via">
 ...
 </div>
@@ -151,10 +151,15 @@ Y luego en nuestro fichero via/list.html podemos añadir nuestro fichero javascr
 <script src="/javascripts/manage_vias.js" ></script> 
 
 ...
+
+<form class="deleteVia" action="/vias/{{via.id}}/delete" method="post">
+...
+
+
 {% endblock %}
 ```
 
-En futuras secciones se profundizará en Javascript de Cliente. En este caso, basta con entender como podemos añadir lógica a nuestras páginas web a través de ficheros JS descargados desde el servidor que estamos desarrollando.
+Se ha añadido una clase `deleteVia` al formulario para borrar una vía. Esta clase es la que se usa en el fichero javascript para capturar el evento. En futuras secciones se profundizará en Javascript de Cliente. En este caso, basta con entender como podemos añadir lógica a nuestras páginas web a través de ficheros JS descargados desde el servidor que estamos desarrollando. Por ejemplo, 
 
 ---
 

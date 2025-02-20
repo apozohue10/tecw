@@ -25,14 +25,16 @@ nav:
     - Blueprints: 'tema2/blueprints.md'
     - HTTP: 'tema2/http.md'
     - Middlewares: 'tema2/middlewares.md'
-  # - Tema 3:
-  #   - Descarga de ficheros: 'tema3/files.md'
-  #   - Ficheros públicos: 'tema3/public.md'
-  #   - Ficheros privados: 'tema3/private.md'
-#  - Tema 4:
-#    - ORM: 'tema4/orm.md'
-#    - SQL Alchemy: 'tema4/alchemy.md'
-#    - Alembic: 'tema4/alembic.md'
+  - Tema 3:
+    - Descarga de ficheros: 'tema3/files.md'
+    - Ficheros públicos: 'tema3/public.md'
+    - Ficheros privados: 'tema3/private.md'
+  # - Tema 4:
+  #   - Modelado de datos: 'tema4/orm.md'
+  #   - Modelos: 'tema4/modelos.md'
+  #   - Migraciones: 'tema4/migraciones.md'
+  #   - Seeders: 'tema4/seeders.md'
+  #   - Queries: 'tema4/consultas.md'
 #  - Tema 5:
 #    - Javascript: 'tema5/javascript.md'
 #    - Caché: 'tema5/caché.md'

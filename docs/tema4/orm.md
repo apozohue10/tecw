@@ -1,0 +1,59 @@
+# Modelado de datos
+
+En el desarrollo de aplicaciones web, la integración de un sistema de bases de datos es fundamental. La persistencia de datos permite que las aplicaciones almacenen información de manera estructurada, eficiente y segura. Sin una base de datos bien integrada, cualquier aplicación web quedaría limitada a manejar datos solo en memoria, perdiéndolos al reiniciarse. Hasta ahora hemos trabajado con datos que se almacenaban en un array de objetos, pero en la práctica los datos se almacenan en bases de datos SQL o noSQL como se ha visto en otras asignaturas de la carrera. En esta asignatura, **se usará una base de datos de tipo SQL**. 
+
+Uno de los aspectos más determinantes en el desarrollo de una aplicación web es el **modelado de datos**, ya que en él reside la estructura fundamental sobre la que se construye todo el sistema. El modelo de datos marca la lógica de rutas que debemos seguir para acceder a la información e influye en el diseño final de la aplicación.
+
+El modelado de datos define cómo se estructuran y relacionan los datos dentro de una base de datos. **Un modelo mal diseñado puede derivar en consultas lentas, inconsistencias en los datos y problemas al escalar la aplicación**. Por ello, es importante tener en cuenta las buenas prácticas de diseño de bases de datos relacionales, como la normalización de tablas, la definición de claves primarias y foráneas, y la creación de índices.
+
+Y por otro lado, el desarrollo de un modelo de datos no solo implica la creación de tablas y relaciones, sino también la **definición de las operaciones que se pueden realizar sobre los datos, lo cual afecta directamente a la definición del modelo**. También es necesario tener en cuenta otros aspectos como la seguridad o las migraciones de bases de datos. Las migraciones son cambios en la estructura de la base de datos que se deben realizar de forma controlada y sin perder los datos existentes. Estas **migraciones se realizan a la par que se crea o edita el modelo de datos** a lo largo del tiempo y son las que nos permiten tener un control sobre la versión de la base de datos. 
+
+A través de un ORM podemos abordar todas estas cuestiones de forma más sencilla y eficiente, ya que suelen incluir herramientas para el modelado de datos, la definición de operaciones y la gestión de migraciones. En Flask, usaremos un ORM llamado **SQLAlchemy** para aprovechar estas ventajas. Por otro lado, las migraciones las abordaremos con **Alembic**. 
+
+## Object Relational Mapping (ORM)
+
+Un ORM es una técnica de programación que consiste en **mapear las tablas de una base de datos a clases de un lenguaje de programación**. De esta forma, se pueden realizar operaciones CRUD (Create, Read, Update, Delete) sobre la base de datos utilizando objetos. 
+
+<div class="img-center">
+    <img src="../img/tema4/orm.png" alt="Arquitectura Object Relational Mapping" />
+</div>
+
+<br>
+
+Un ORM tiene una serie de ventajas:
+
+- Permite abstraernos de escribir código SQL.  
+- Permite sacar partido a las bondades de la programación orientada a objetos.  
+- Permite aumentar la reutilización del código y mejorar el mantenimiento del mismo.  
+- Mayor seguridad, higienizando los datos que llegan, evitando posibles ataques de inyección SQL y similares.  
+- Proveen múltiples herramientas para el acceso a los datos, conversión de tipos, internacionalización del modelo de datos, entre otros.  
+
+Otra de las ventajas que tienen los **ORMs es que pueden operar con diferentes bases de datos**, ya que la mayoría de ellos soportan varios motores de bases de datos. Generalmente, cuando se instala un ORM se debe instalar también el driver que se usará para la base de datos con la que se va a trabajar
+
+## SQLAlchemy
+
+SQLAlchemy es un ORM para Python. SQLAlchemy soporta SQLite, PostgreSQL, MySQL, Oracle, entre otros. En su [página web](https://docs.sqlalchemy.org/en/20) se ecuentra toda la documentación necesaria para su uso.
+
+Durante esta asignatura usaremos la base de datos Mysql. Por lo que **debe instalarla en su ordenador**.
+
+Para integrar poder integrar una base de datos en nuestro proyecto tendremos que instalar: 
+
+- **flask_sqlalchemy**: Extensión de Flask que integra SQLAlchemy, permitiendo el uso de un ORM para manejar bases de datos de forma más sencilla.  
+- **mysql-connector-python**: Conector oficial de MySQL para Python, que permite la comunicación directa con bases de datos MySQL.  
+- **sqlalchemy_utils**: Conjunto de utilidades para SQLAlchemy, incluyendo creación/eliminación de bases de datos, validaciones y tipos de datos adicionales.  
+- **flask_migrate**: Extensión que integra Alembic con Flask-SQLAlchemy para gestionar migraciones y cambios en la estructura de la base de datos.  
+
+```bash
+pip install Flask-SQLAlchemy Flask-Migrate mysql-connector-python sqlalchemy_utils 
+```
+
+Una vez instalados las librerías, debemos actualizar la lista `requirements.txt`:
+
+```bash
+pip3 freeze > requirements.txt 
+```
+
+IMPORTANTE COMO INSTALAR Y HACER LA CONEXION CON LA BD Y QUE BD VAMOS A USAR
+
+
+En Flask, usaremos un ORM llamado **SQLAlchemy** para aprovechar estas ventajas. Por otro lado, las migraciones las abordaremos con **Alembic**.
