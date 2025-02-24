@@ -86,3 +86,30 @@ ul {
 .toctree-l3 .reference {
     padding: .5045em 1.618em .5045em 4.045em !important;
 }
+
+
+.toggleCodeContainer pre {
+    margin: 0px;
+}
+
+.toggleCodeContainer .btn {
+    padding: 10px 20px;
+    background-color: #343131;
+    color: white;
+    cursor: pointer;
+}
+
+.toggleCodeContainer .toogleButton {
+    display: flex;
+    justify-content: flex-end
+}
+
+.toggleCodeContainer .btn.active {
+    background-color: #343131;
+    color: #e3e3e3;
+}
+
+.toggleCodeContainer .btn:not(.active) {
+    background-color: #e3e3e3;
+    color: #343131;
+}

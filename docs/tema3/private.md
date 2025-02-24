@@ -248,7 +248,7 @@ Y finalmente, en layout.html podemos añadir el siguiente código que se encarga
 {% with messages = get_flashed_messages() %}
 {% if messages %}
     {% for message in messages %}
-        <div class="error">{{ message }}</p>
+        <div class="error">{{ message }}</div>
     {% endfor %}
 {% endif %}
 {% endwith %}

@@ -29,12 +29,11 @@ nav:
     - Descarga de ficheros: 'tema3/files.md'
     - Ficheros públicos: 'tema3/public.md'
     - Ficheros privados: 'tema3/private.md'
-  # - Tema 4:
-  #   - Modelado de datos: 'tema4/orm.md'
-  #   - Modelos: 'tema4/modelos.md'
-  #   - Migraciones: 'tema4/migraciones.md'
-  #   - Seeders: 'tema4/seeders.md'
-  #   - Queries: 'tema4/consultas.md'
+  - Tema 4:
+    - Modelado de datos: 'tema4/orm.md'
+    - Modelos y migraciones: 'tema4/modelos-migraciones.md'
+    - Seeders: 'tema4/seeders.md'
+    - Queries: 'tema4/consultas.md'
 #  - Tema 5:
 #    - Javascript: 'tema5/javascript.md'
 #    - Caché: 'tema5/caché.md'

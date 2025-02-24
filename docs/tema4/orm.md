@@ -47,13 +47,58 @@ Para integrar poder integrar una base de datos en nuestro proyecto tendremos que
 pip install Flask-SQLAlchemy Flask-Migrate mysql-connector-python sqlalchemy_utils 
 ```
 
-Una vez instalados las librerías, debemos actualizar la lista `requirements.txt`:
+Una vez instalados las librerías, **debemos actualizar la lista** `requirements.txt`:
 
 ```bash
 pip3 freeze > requirements.txt 
 ```
 
-IMPORTANTE COMO INSTALAR Y HACER LA CONEXION CON LA BD Y QUE BD VAMOS A USAR
+Una vez instaladas las dependencias, vamos a crear un fichero llamado `database.py` en el que vamos a crear el objeto de conexión a la base de datos a través de SQL Alchemy. Esto nos evitará en el futuro problemas de importación circular.  
+
+```python
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
+```
+
+En el fichero `app.py` vamos a importar el objeto `db` y vamos a inicializarlo con nuestra aplicación Flask de la siguiente manera:
+
+```python
+from sqlalchemy_utils import create_database, database_exists
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from database import db
+
+...
+
+##### Configure Database
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://<user>:<password>@localhost/<database>'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+##### Create the database if it doesn't exist
+if not database_exists(app.config['SQLALCHEMY_DATABASE_URI']):
+    create_database(app.config['SQLALCHEMY_DATABASE_URI'])
+```
+
+Con el código anterior hemos:
+
+<ul>
+    <li class="nested_list">Configurado la base de datos en nuestra aplicación Flask. Para ello, hemos definido la URL que incluye:
+        <ul>
+            <li class="nested_list">El <b>tipo de base de datos</b> (mysql).</li>
+            <li class="nested_list">El <b>usuario y contraseña</b> de la base de datos.</li>
+            <li class="nested_list">La <b>dirección</b> de la base de datos (localhost). El puerto no hace falta configurarlo porque SQL Alchemy ya lo tiene por defecto configurado para Mysql (3306).</li>
+            <li>El <b>nombre de la base de datos</b>.</li>
+        </ul>
+    </li>
+    <li>Inicializado el objeto <code>db</code> con nuestra aplicación Flask.</li>
+    <li>Comprobado si la base de datos existe, y si no existe la hemos creado. Para ello se ha hecho uso de las librerías <code>create_database</code> y <code>database_exists</code> de <code>sqlalchemy_utils</code>.</li>
+</ul>
+
+Con esto, hemos establecido una conexión contra una base de datos MySQL y estaremos listos para trabajar con ella.
 
 
-En Flask, usaremos un ORM llamado **SQLAlchemy** para aprovechar estas ventajas. Por otro lado, las migraciones las abordaremos con **Alembic**.
+
+
