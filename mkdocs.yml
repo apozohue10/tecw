@@ -34,7 +34,12 @@ nav:
     - Modelos y migraciones: 'tema4/modelos-migraciones.md'
     - Seeders: 'tema4/seeders.md'
     - Queries: 'tema4/consultas.md'
-#  - Tema 5:
+  - Tema 5:
+    - Seguridad: 'tema5/seguridad.md'
+    - HTTPs: 'tema5/https.md'
+    - Autenticacion: 'tema5/autenticacion.md'
+    - Autorización: 'tema5/autorizacion.md'
+#  - Tema 7:
 #    - Javascript: 'tema5/javascript.md'
 #    - Caché: 'tema5/caché.md'
 #    - Ajax: 'tema5/ajax.md'
@@ -42,8 +47,3 @@ nav:
 #    - Sass: 'tema5/sass.md'
 #  - Tema 6:
 #    - Websockets: 'tema6/websockets.md'
-#  - Tema 7:
-#    - Seguridad: 'tema7/https.md'
-#    - Seguridad: 'tema7/autenticacion.md'
-#    - Seguridad: 'tema7/sesiones.md'
-#    - Seguridad: 'tema7/autorizacion.md'

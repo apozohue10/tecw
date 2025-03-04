@@ -14,7 +14,7 @@ from app import db
 ...
 ```
 
-## 2. Editar after_request y before_request
+## 2. after_request y before_request
 
 Antes, `after_request` obtenía el número de vías con el length del array. Ahora realiza una consulta a la base de datos con `Via.query.count()`.
 

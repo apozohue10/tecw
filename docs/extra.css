@@ -113,3 +113,15 @@ ul {
     background-color: #e3e3e3;
     color: #343131;
 }
+
+.language-python {
+    font-size: 16px !important;
+}
+
+.language-bash {
+    font-size: 16px !important;
+}
+
+.language-html {
+    font-size: 16px !important;
+}
