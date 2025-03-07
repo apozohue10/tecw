@@ -39,11 +39,12 @@ nav:
     - HTTPs: 'tema5/https.md'
     - Autenticacion: 'tema5/autenticacion.md'
     - Autorización: 'tema5/autorizacion.md'
-#  - Tema 7:
-#    - Javascript: 'tema5/javascript.md'
-#    - Caché: 'tema5/caché.md'
-#    - Ajax: 'tema5/ajax.md'
-#    - Paginacion: 'tema5/paginacion.md'
-#    - Sass: 'tema5/sass.md'
-#  - Tema 6:
-#    - Websockets: 'tema6/websockets.md'
+  - Tema 6:
+    - Javascript: 'tema6/javascript.md'
+  # - Tema 7:
+  #   - Emails: 'tema7/email.md'
+  #   - Websockets: 'tema7/websockets.md'
+  #   - Logging: 'tema7/logging.md'
+  #   - Caché: 'tema7/cache.md'
+    # - Otras tecnologías: 'tema6/otras.md'
+    # - Sass: 'tema5/sass.md'

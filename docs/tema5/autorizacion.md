@@ -99,17 +99,15 @@ permissions = {
     ]
 }
 
-def check_role():
-    def decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            endpoint = request.endpoint
-            role = session["user"]["role"]
-            if endpoint not in permissions[role]:
-                abort(403)
-            return f(*args, **kwargs)
-        return wrapper
-    return decorator
+def check_role(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        endpoint = request.endpoint
+        role = session["user"]["role"]
+        if endpoint not in permissions[role]:
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
 ```
 
 A través de este código, definimos un diccionario `permissions` en el que se definen los permisos asociados a cada rol, que basicamente son las rutas que se pueden acceder. A continuación, definimos un decorador `check_role` que se encargará de verificar si el usuario tiene permisos para acceder a una determinada ruta. Para ello, se comprueba si la ruta a la que se quiere acceder está presente en la lista de permisos asociada al rol del usuario. Si no está presente, se devuelve un error 403 (Unauthorized).
@@ -123,7 +121,7 @@ from access_control.py import check_session, check_role
 
 @via_bp.before_request
 @check_session
-@check_role()
+@check_role
 def before_request_via_bp():
     pass
 ```
@@ -156,7 +154,7 @@ class Via(db.Model):
     desplome = db.Column(db.Boolean, default=False)
     imagen = db.Column(db.String(120), nullable=True, unique=True)
     numero_chapas = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) # Nuevo atributo
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False) # Nuevo atributo
 ```
 
 Una vez añadido, creamos y ejecutamos la migración como hicimos en otras secciones. Una vez realizado esto, debemos adaptar todo el código del blueprint de vías para que los usuarios creen, editen, listen y eliminen solo sus propias vías.
