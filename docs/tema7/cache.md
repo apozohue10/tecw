@@ -74,6 +74,10 @@ Para probar esto puede descomentar la línea `time.sleep(5)` para simular un ret
 El cacheo de recursos consiste en almacenar en caché datos que se obtienen de una base de datos o de una API. Para ello, en `Flask-Caching` disponemos de dos funciones que nos permiten guardar y obtener datos de la caché: `cache.set` y `cache.get`. Por ejemplo, podemos editar la función que metía en una cabecera de HTTP el número total de vías en la base de datos, ya que es algo que no cambia con frecuencia y por tanto podemos cachearlo.
 
 ```python
+from app import db, cache
+
+...
+
 @via_bp.after_request
 def agregar_total_vias(response):
     total_vias = cache.get('total_vias')
@@ -208,7 +212,7 @@ def login():
 </div>
 </div>
 
-En este código hemos quitado el nombre de `session['user']` y en vez de redirigir cuando la autenticación es correcta, devolvemos un JSON con el nombre del usuario. En el lado del cliente, se implementará una función fetch que llamará a la ruta `/login`, procesará la respuesta json y almacenará el nombre del usuario en localStorage. 
+En este código hemos quitado el nombre de `session['user']` y en vez de redirigir cuando la autenticación es correcta, devolvemos un JSON con el nombre del usuario. En el lado del cliente, se implementará una función fetch que llamará a la ruta `/login`, procesará la respuesta json y almacenará el nombre del usuario en localStorage. Para la respuesta se usa la función `jsonify` de Flask que convierte un diccionario en un JSON (esa función se debe importar al principio del fichero como las otras librerías).
 
 <div class="toggleCodeContainer">
 <div class="toogleButton">

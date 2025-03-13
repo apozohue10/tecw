@@ -45,7 +45,6 @@ En nuestro caso, podemos usar un websocket para mostrar ne vivo la ocupación de
 from flask_socketio import SocketIO, emit
 import random
 import time
-import threading
 
 ...
 
@@ -60,8 +59,9 @@ def emit_occupancy():
         socketio.emit('update_occupancy', {'occupancy': occupancy})
         time.sleep(5)
 
-# Start the occupancy thread
-threading.Thread(target=emit_occupancy).start()
+@socketio.on('connect')
+def handle_connect():
+    socketio.start_background_task(emit_occupancy)
 
 ...
 
@@ -70,11 +70,12 @@ if __name__ == '__main__':
     socketio.run(app, debug=True)
 ```
 
-La función `emit_occupancy` que se encarga de generar un número aleatorio entre 1 y 100 cada 5 segundos y emitirlo a través del socket con el evento `update_occupancy`. Para esta tarea se han requerido 3 librerías:
+La función `emit_occupancy` que se encarga de generar un número aleatorio entre 1 y 100 cada 5 segundos y emitirlo a través del socket con el evento `update_occupancy`. Para esta tarea se han requerido 2 librerías:
 
 - La librería `random` se utiliza para generar un número aleatorio entre 1 y 100.
 - La librería `time` se utiliza para introducir una pausa de 5 segundos entre cada emisión.
-- La librería `threading` se utiliza para ejecutar la función en un hilo separado. Los hilos permiten ejecutar múltiples tareas simultáneamente en una aplicación. Con la función `threading.Thread(target=emit_occupancy).start()`, se inicia un hilo que ejecuta la función `emit_occupancy` de manera continua.
+
+Se ha creado un evento `connect` que se activa cuando un cliente se conecta al servidor. Este evento se encarga de iniciar un hilo en segundo plano que ejecuta la función `emit_occupancy`. De esta manera, la función se ejecuta de forma continua y no bloquea el hilo principal de la aplicación.
 
 En cuanto a la última línea, estamos habilitando al servidor para escuchar peticiones http y websockets. Las peticiones de websockets siguen el estandar URL y tendrán un aspecto similar a:
 
@@ -89,7 +90,7 @@ Donde:
 - `?EIO=3&transport=websocket` son parámetros que se añaden a la URL para establecer la conexión.
 
 
-A continuación, generaremos un nuevo fichero html llamado `availability.html` en la carpeta `templates` donde se mostrará la ocupación del rocódromo en tiempo real:
+A continuación, generaremos un nuevo fichero html llamado `occupation.html` en la carpeta `templates` donde se mostrará la ocupación del rocódromo en tiempo real:
 
 ```html
 {% extends 'layout.html' %}
@@ -131,12 +132,12 @@ Los 3 primeros son eventos predefinidos por la librería `socket.io` que se prod
 
 El último evento, `update_occupancy`, es un evento personalizado que hemos definido en el servidor para enviar la ocupación del rocódromo. Los eventos personalizados permiten crear un identificador único para cada tipo de evento y enviar información específica asociada a ese evento. Asi de esta manera, podriamos crear más eventos (como por ejemplo la ocupación de la sala de musculación) y gestionarlos de manera independiente en el lado del cliente.
 
-Asimismo deberemos crear la ruta en el archivo `app.py` para renderizar el fichero `availability.html`:
+Asimismo deberemos crear la ruta en el archivo `app.py` para renderizar el fichero `occupation.html`:
 
 ```python
-@app.route('/availability')  
-def availability():
-    return render_template('availability.html')
+@app.route('/occupation')  
+def occupation():
+    return render_template('occupation.html')
 ```
 
 Y en el archivo `layout.html` añadir un enlace a la nueva ruta en el navigation bar:
@@ -144,9 +145,9 @@ Y en el archivo `layout.html` añadir un enlace a la nueva ruta en el navigation
 ```html
 <nav>
 ...
-<a href="/availability">Availability</a>
+<a href="/occupation">Ocupacion</a>
 ...
 </nav>
 ```
 
-Con esto, podremos observar como cada 5 segundos se actualiza la ocupación del rocódromo en la página `availability.html` en tiempo real. 
+Con esto, podremos observar como cada 5 segundos se actualiza la ocupación del rocódromo en la página `occupation.html` en tiempo real. 
