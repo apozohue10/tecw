@@ -257,14 +257,14 @@ En este caso, devolvemos el objeto creado en vez de redirigir a la lista de vía
 </div>
 <div class="modificado">
 ```python
-def create(imagen):
+def create(filename):
     via = Via(
         nombre=request.form.get('nombre'),
         grado=request.form.get('grado'),
         altura=float(request.form.get('altura')),
         desplome=request.form.get('desplome') == 'true',
         numero_chapas=float(request.form.get('numero_chapas')),
-        imagen=imagen,
+        filename=filename,
         user_id=session['user']['id']
     )
     db.session.add(via)
@@ -275,14 +275,14 @@ def create(imagen):
 </div>
 <div class="original" hidden>
 ```python
-def create(imagen):
+def create(filename):
     via = Via(
         nombre=request.form.get('nombre'),
         grado=request.form.get('grado'),
         altura=float(request.form.get('altura')),
         desplome=request.form.get('desplome') == 'true',
         numero_chapas=float(request.form.get('numero_chapas')),
-        imagen=imagen,
+        filename=filename,
         user_id=session['user']['id']
     )
     db.session.add(via)
@@ -337,13 +337,13 @@ Para el caso de update, devolveremos el objeto actualizado en vez de redirigir a
 @load_via
 @delete_file
 @save_file
-def update(viaId, via, imagen):
+def update(viaId, via, filename):
     via.nombre = request.form.get('nombre')
     via.grado = request.form.get('grado')
     via.altura = float(request.form.get('altura'))
     via.numero_chapas = float(request.form.get('numero_chapas'))
     via.desplome = request.form.get('desplome') == 'true'
-    via.imagen = imagen
+    via.filename = filename
     db.session.commit()
     via = via.to_dict()
     return jsonify(via=via), 200
@@ -356,14 +356,14 @@ def update(viaId, via, imagen):
 @load_via
 @delete_file
 @save_file
-def update(viaId, via, imagen):
+def update(viaId, via, filename):
     if request.form.get('_method') == 'PUT':
         via.nombre = request.form.get('nombre')
         via.grado = request.form.get('grado')
         via.altura = float(request.form.get('altura'))
         via.numero_chapas = float(request.form.get('numero_chapas'))
         via.desplome = request.form.get('desplome') == 'true'
-        via.imagen = imagen
+        via.filename = filename
         db.session.commit()
         return redirect('/vias')
     return "Method Not Allowed", 405
