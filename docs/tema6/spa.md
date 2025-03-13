@@ -61,7 +61,7 @@ def to_dict(self):
         'altura': self.altura,
         'desplome': self.desplome,
         'numero_chapas': self.numero_chapas,
-        'imagen': self.imagen,
+        'filename': self.filename,
         'user_id': self.user_id
     }
 ```
