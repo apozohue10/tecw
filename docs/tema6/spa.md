@@ -332,7 +332,7 @@ Para el caso de update, devolveremos el objeto actualizado en vez de redirigir a
 </div>
 <div class="modificado">
 ```python
-@via_bp.route('/<viaId>/update', methods=['PUT'])
+@via_bp.route('/<viaId>', methods=['PUT'])
 @check_via
 @load_via
 @delete_file
@@ -351,7 +351,7 @@ def update(viaId, via, filename):
 </div>
 <div class="original" hidden>
 ```python
-@via_bp.route('/<viaId>', methods=['POST'])
+@via_bp.route('/<viaId>/update', methods=['POST'])
 @check_via
 @load_via
 @delete_file
@@ -790,6 +790,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     ...
 
+    /// EDITADO DE APARTADOS ANTERIORES
     function addViaHandlers() {
         const buttonsShow = document.getElementsByClassName('showVia');
         const buttonsEdit = document.getElementsByClassName('editVia');
@@ -801,6 +802,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
+    /// EDITADO DE APARTADOS ANTERIORES
     newVia.addEventListener('click', function() {
         viaForm.action = `/vias`;
 
@@ -840,7 +842,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         viaEditDialog.showModal();
     }
 
-
+    /// EDITADO DE APARTADOS ANTERIORES
     viaForm.addEventListener('submit', async function(event) {
         event.preventDefault();
         const formData = new FormData(viaForm);
@@ -883,6 +885,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     ...
 
+    /// EDITADO DE APARTADOS ANTERIORES
     function addViaHandlers() {
         const buttonsShow = document.getElementsByClassName('showVia');
         const buttonsEdit = document.getElementsByClassName('editVia');
