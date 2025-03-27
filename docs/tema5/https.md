@@ -12,6 +12,12 @@ Cuando un cliente accede a un servidor mediante HTTPS, el proceso de establecimi
 5. Cifrado de la comunicación: A partir de este punto, los datos se transmiten de forma cifrada.
 6. Transferencia de datos segura: Todas las solicitudes y respuestas entre el cliente y el servidor están protegidas contra ataques de intercepción y manipulación.
 
+<div class="img-center">
+    <img src="../img/tema5/https.png" alt="HTTPS" />
+</div>
+
+<br>
+
 ---
 
 Para habilitar HTTPS en una aplicación Flask, se pueden seguir estos pasos:
