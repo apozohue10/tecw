@@ -12,6 +12,7 @@ Los sistemas de caché son comunes en aplicaciones web, sistemas operativos, bas
 
 
 Se pueden implementar cachés a varios niveles en una aplicación web, como:
+
 - **Caché en servidor**: Almacenar datos en la memoria del servidor (ej. caché en memoria, caché en disco).
 - **Caché en red**: Almacenar datos en una capa de red (ej. caché de proxy, caché de CDN).
 - **Caché en cliente**: Almacenar datos en el navegador del usuario (ej. cookies, localStorage, sessionStorage).
