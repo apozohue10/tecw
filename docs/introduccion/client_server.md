@@ -3,7 +3,13 @@
 Como se ha comentado en la sección anterior el modelo **cliente-servidor** es la base de las aplicaciones distribuidas en Internet. En este esquema, el cliente es el dispositivo o software que realiza peticiones, mientras que el servidor es el que procesa esas solicitudes y devuelve una respuesta. Un ejemplo claro es cuando accedemos a una página web: nuestro navegador (cliente) solicita una página a un servidor web, que procesa la petición y envía el contenido en forma de HTML, CSS y JavaScript. Este modelo permite la distribución de tareas, optimizando recursos y facilitando la escalabilidad.
 
 
-La interacción entre un cliente y un servidor se apoya en el **modelo OSI** (Open Systems Interconnection) para garantizar que los datos se transmitan correctamente a través de la red. Cada solicitud que hace un cliente sigue las capas del modelo OSI, desde la **Capa de Aplicación**, donde protocolos como HTTP, hasta la **Capa de Transporte**, donde los protocolos como TCP o UDP determinan como se van a enviar los paquetes de datos. Luego, la información atraviesa las Capas de Red y Enlace de Datos, que determinan la mejor ruta y garantizan la entrega física de los paquetes. En el servidor, el proceso se invierte: los datos ascienden por las capas de OSI hasta llegar a la aplicación que generará la respuesta. 
+La interacción entre un cliente y un servidor se apoya en el **modelo OSI** (Open Systems Interconnection) para garantizar que los datos se transmitan correctamente a través de la red.  Cada solicitud que hace un cliente sigue las capas del modelo OSI:  
+
+- **Capa de Aplicación:** protocolos como **HTTP** gestionan la comunicación de alto nivel.  
+- **Capa de Transporte:** protocolos como **TCP** o **UDP** determinan cómo se envían los paquetes de datos.  
+- **Capas de Red y Enlace de Datos:** deciden la mejor ruta y aseguran la entrega física de los paquetes.  
+
+En el servidor, el proceso se invierte: los datos ascienden por las capas del modelo OSI hasta llegar a la aplicación que generará la respuesta.
 
 <div class="img-center">
     <img src="../img/introduccion/client-server.png" alt="Arquitectura cliente y servidor" />

@@ -1,3 +1,17 @@
 # Tecnologías Web
 
-En la asignatura de Tecnologías Web, exploraremos los principios fundamentales que sustentan la World Wide Web, como el protocolo HTTP, el estándar URL o los documentos HTML y el uso de CSS (Cascading Style Sheets), esenciales para estructurar y estilizar contenido en la web. A través del modelo cliente-servidor, entenderemos cómo se desarrollan aplicaciones distribuidas, base para cualquier proyecto web. Los estudiantes aprenderán a programar tanto clientes como servidores web, utilizando herramientas como Python y Flask, para gestionar datos y presentar contenido dinámico. Aprenderán a integrar bases de datos para el desarrollo de servicios web. Además, se abordarán las tendencias actuales en el desarrollo web, como el uso de APIs REST y microservicios, adaptándose a la creciente demanda de aplicaciones móviles.
+El acceso a los datos almacenados en un sistema de computación, el procesamiento de los
+mismos y su presentación, entre otras tareas, son actividades que realizan las aplicaciones
+distribuidas, y para ello éstas aplican diferentes tecnologías y enfoques, entre ellas las
+tecnologías WEB, basadas en los principios, procedimientos y elementos de la World Wide
+Web.
+
+En esta asignatura se estudiarán los fundamentos de la World Wide Web: protocolo HTTP,
+documentos HTML, y CSS (Cascading Style Sheets) entre otras, además del modelo cliente
+servidor que sirve de modelo básico para el desarrollo de aplicaciones distribuidas basadas
+en tecnologías WEB.
+
+El alumno estudiará las tecnologías básicas que se emplean para programar los clientes y los
+servidores WEB para almacenar, procesar y mostrar datos.
+Finalmente, el alumno estudiará cuáles son las tendencias actuales relacionadas con el
+desarrollo de aplicaciones WEB distribuidas: uso de API REST y microservicios.

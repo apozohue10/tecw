@@ -12,7 +12,7 @@ Como se ha comentado anteriormente, generalmente las comunicaciones se establece
         En este caso, la aplicación se divide en pequeños <strong>servicios independientes</strong> que se comunican mediante APIs. 
         Cada microservicio tiene su propia lógica de negocio y base de datos. 
         Por ejemplo, una aplicación de compras podría tener microservicios como el sistema de autenticación, la pasarela de pago, 
-        catálogo de productos, etc. Este tipo de arquitecturas permite escalar aquellos microservicios que puedan suponer un cuello de botella 
+        catálogo de productos, etc. Este tipo de arquitecturas permiten escalar aquellos microservicios que puedan suponer un cuello de botella 
         y de esta forma hacer un uso más eficiente de los recursos. Además, facilita despliegues más flexibles y la actualización independiente de componentes.
     </li>
     <li><strong>Arquitectura peer-to-peer (P2P)</strong>. 
@@ -32,7 +32,6 @@ Como se ha comentado anteriormente, generalmente las comunicaciones se establece
 </ul>
 
 <br>
-
 Un modelo clásico es la arquitectura en tres capas (Three-Tier Architecture), que divide la aplicación en una capa de presentación (frontend), una capa de lógica de negocio (backend) y una capa de datos (base de datos), facilitando la modularidad y el mantenimiento.
 
 ## Arquitectura en 3 capas
@@ -53,7 +52,7 @@ Los distintos elementos se comunican entre si usando distintos protocolos como H
 
 ## Desarrollo web
 
-Para desarrollar servidores web, se pueden utilizar diferentes entornos, frameworks, librerías y lenguajes de programación. Cada aplicación web puede ser construida con tecnologías variadas, como Python con Flask o Django, Node.js con Express, Ruby on Rails, o incluso lenguajes como Java o PHP. La flexibilidad de elegir entre estos entornos permite a los desarrolladores adaptar la tecnología a las necesidades específicas de la aplicación. En Internet, cada aplicación usa su propio entorno, y es aquí donde los **protocolos** y **estándares** juegan un papel crucial. Protocolos como **HTTP** permiten que aplicaciones construidas con diferentes tecnologías puedan comunicarse entre sí. Estos protocolos proporcionan un marco común que facilita la interoperabilidad y asegura que los datos sean intercambiados correctamente entre clientes y servidores, independientemente del entorno que tengan. La siguiente imagen recoge algunos de las decenas de entornos que permiten el desarrollo y despliegue de servicios web.
+Para desarrollar servidores web, se pueden utilizar diferentes entornos, frameworks, librerías y lenguajes de programación. Cada aplicación web puede ser construida con tecnologías variadas, como Python con Flask o Django, Node.js con Express, Ruby on Rails, o incluso lenguajes como Java o PHP. La flexibilidad de elegir entre estos entornos permite a los desarrolladores adaptar la tecnología a las necesidades específicas de la aplicación. En Internet, cada aplicación usa su propio entorno, y es aquí donde los **protocolos** y **estándares** juegan un papel crucial. Protocolos como **HTTP** permiten que aplicaciones construidas con diferentes tecnologías puedan comunicarse entre sí. Estos protocolos proporcionan un marco común que facilita la interoperabilidad y asegura que los datos sean intercambiados correctamente entre clientes y servidores, independientemente del entorno que tengan. La siguiente imagen recoge varios entornos que permiten el desarrollo y despliegue de servicios web.
 
 
 <div class="img-center">

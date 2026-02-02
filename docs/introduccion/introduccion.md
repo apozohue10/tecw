@@ -1,3 +1,0 @@
-# Introducción
-
-La evolución de Internet ha cambiado por completo la manera en que nos relacionamos, trabajamos y compartimos información. Lo que comenzó como una simple red para investigadores, hoy conecta a miles de millones de personas y dispositivos alrededor del mundo. En este proceso, es clave el desarrollo de los servidores web, los cuales han permitido crear multitud de aplicaciones como redes sociales, periodicos o la banca online. En esta sección vamos a ver cómo ha sido ese proceso y cómo estos cambios han dado forma al Internet que usamos todos los días.

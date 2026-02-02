@@ -8,13 +8,18 @@ Internet tiene sus raíces en Arpanet, una red de investigación que se establec
 
 El modelo **cliente-servidor** es la base de las aplicaciones distribuidas en Internet. Este modelo divide las tareas entre dos partes: los **servidores**, que proveen recursos o servicios, y los **clientes**, que solicitan y consumen estos recursos. Las primeras aplicaciones sobre Internet fueron herramientas sencillas como **telnet** (una terminal virtual para acceder a otros sistemas), **FTP** (para la transferencia de archivos) y el **correo electrónico**.
 
+> En 1984, **el primer correo electrónico desde España se envío desde la Escuela Técnica Superior de Ingenieros de Telecomunicación de la Universidad Politécnica de Madrid (ETSIT UPM)**. Este hito marcó el inicio de la conexión de España a Internet. 
+
+> Puedes leer más sobre este evento histórico en el siguiente enlace: [Cumplen 40 años de Internet en España: el envío del primer correo electrónico](https://www.rtve.es/noticias/20251202/cumplen-40-anos-internet-espana-envio-primer-correo-electronico/16841948.shtml).
+
+<br>
 En 1989, **Tim Berners-Lee** propuso una nueva idea: la **World Wide Web (WWW)**, un espacio interconectado de información basado en documentos hipertexto. Estos documentos poseen un identificador único y están conectados entre sí mediante **hiperenlaces**. Los usuarios pueden acceder a estos documentos a través de navegadores web, mientras que los servidores web están encargados de servir esos contenidos estáticos. Para ello, Berners-Lee  desarrolló las tres tecnologías esenciales para la Web:
 
 - **URL**: Para identificar recursos de manera unívoca.
 - **HTML**: Un lenguaje de marcado que estructura y presenta documentos en la Web.
 - **HTTP**: El protocolo que permite la transferencia de información entre el cliente y el servidor.
 
-Desde la creación de la Web, la tecnología ha evolucionado de manera constante. Por ejemplo, el protocolo **HTTP** ha ido mejorando con versiones como HTTP/1.1, **HTTPS** (que agrega seguridad mediante SSL) y **HTTP/2**. Además, **JavaScript** ha experimentado grandes cambios desde sus primeras versiones, con el nacimiento de **ES6** y **ES7**. A su vez, la estructura de los documentos ha pasado de HTML y CSS básicos a las potentes versiones **HTML5** y **CSS3**, que permiten una interacción más rica y moderna.
+Desde la creación de la Web, la tecnología ha evolucionado de manera constante. Por ejemplo, el protocolo **HTTP** ha mejorado con versiones como **HTTP/1.1**, **HTTPS** (que agrega seguridad mediante SSL) y **HTTP/2**.  La estructura de los documentos también ha avanzado, pasando de **HTML** a **HTML5**, lo que permite una interacción más rica y moderna. Se han añadido hojas de estilo (**CSS**) que mejoran la visualización de la web, evolucionando también hacia **CSS3**.  Además, se incorporaron lenguajes de programación que aumentan la interactividad, como **JavaScript**, que ha experimentado grandes cambios desde sus primeras versiones, con el nacimiento de **ES6** y **ES7**.
 
 También han surgido nuevos estándares en los navegadores, como el soporte para pestañas y extensiones, mientras que los **servidores web** han evolucionado hacia modelos más dinámicos, capaces de interactuar con bases de datos y ofrecer contenidos personalizados.
 
@@ -46,7 +51,7 @@ Con el paso del tiempo, las aplicaciones web evolucionaron hacia lo que hoy cono
 
 <br>
 
-El uso de tecnologías como **AJAX**, **Websockets**, **RTSP** y **WebRTC** ha permitido una comunicación en tiempo real, transformando la Web en una plataforma capaz de soportar aplicaciones más interactivas, como videollamadas, chats en vivo y juegos en línea. Además, el auge de **frameworks JavaScript** como **React**, **Vue.js** y **Angular** ha facilitado la creación de aplicaciones web modernas y escalables.
+El uso de tecnologías como **AJAX**, **Websockets**, **RTSP** y **WebRTC** ha permitido una comunicación en tiempo real, transformando la Web en una plataforma capaz de soportar aplicaciones más interactivas, como videollamadas, chats en vivo y juegos en línea. Además, el auge de **frameworks de JavaScript** como **React**, **Vue.js** y **Angular** ha facilitado la creación de aplicaciones web modernas y escalables.
 
 <div class="img-grid-line">
     <img src="../img/introduccion/react.png" style="width: 200px;" alt="Frameworks de Javascript: React" />
