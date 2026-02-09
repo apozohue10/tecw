@@ -16,8 +16,8 @@ Donde:
 <li><b>user:password</b>: <b>Credenciales de acceso (opcional)</b>: Permite incluir un nombre de usuario y una contraseña para autenticarse en algunos servidores. Se usa en URLs como <code>ftp://user:password@servidor.com</code>, aunque su uso en HTTP está en desuso por razones de seguridad.</li>
   <li><b>Host</b> y <b>port</b>: Dirección del servidor y el puerto de conexión (por defecto, HTTP usa el puerto 80 y HTTPS el 443).</li>
   <li><b>Path</b>: Ruta del recurso (por ejemplo, la ubicación de un archivo en el servidor).</li>
-  <li><b>Query</b>: Define parámetros con valores asignados, en el formato <code>?param1=valor1&param2=valor2&...</code></li>
-  <li><b>Fragment (o Anchor)</b>: Identifica un punto específico dentro del recurso, normalmente asociado a un atributo <code>id="identificador"</code> Por lo general esto es ejecutado por el navegador y te permite visualizar directamente el elemnto</li>
+  <li><b>Query</b>: Define parámetros con valores asignados, en el formato <code>?key1=valor1&key2=valor2&...</code></li>
+  <li><b>Fragment (o Anchor)</b>: Identifica un punto específico dentro del recurso, normalmente asociado a un atributo <code>id="identificador"</code> Por lo general esto es ejecutado por el navegador y te permite visualizar directamente el elemento</li>
 </ul>  
 
 Así por ejemplo, en nuestro contexto, cuando hemos accedido a nuestro servidor web a través del navegador, hemos introducido:
@@ -82,7 +82,9 @@ def disponibilidad():
     """
 ```
 
-Para este último, estamos usando la librería request para obtener los parámetros de la URL. Para ello, debemos importarla en app.py:
+Para este último, estamos necesitamos importar la librería **request**. Esta librería nos permite acceder a los parámetros de la URL, tanto los parámetros de ruta (como el parámetro dinámico <code>ciudad</code> en la ruta <code>/ciudad/&lt;ciudad&gt;</code>) como los parámetros de consulta (query parameters) que se pasan después del signo de interrogación en la URL (como el parámetro <code>via</code> en la ruta <code>/disponibilidad?via=ElGigante</code>).
+
+Cuando instalamos Flask, la librería request se instala automáticamente como parte de Flask, por lo que no es necesario instalarla por separado. Sin embargo, para usarla en nuestro código, debemos importarla explícitamente:
 
 ```python
 from flask import Flask, request
@@ -99,4 +101,3 @@ Instrucciones:
 1. Crea una página HTML que contenga varias secciones y que cada secciṕn ocupe un espacio determinado.
 2. Asigna un identificador único (id) a cada sección.
 3. Pruebe a usar fragment en la url para saltar a otras secciones.
-

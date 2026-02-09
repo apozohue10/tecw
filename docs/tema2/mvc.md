@@ -37,7 +37,7 @@ La **vista** es la encargada de la presentación y la visualización de la infor
 
 - Contiene el código responsable de la **interfaz de usuario**.
 - Renderiza los estados de la aplicación en formatos específicos, como **HTML**.
-- No accede directamente a los datos; en su lugar, **interactúa con el modelo** para obtener la información necesaria.
+- No accede directamente a los datos; en su lugar, **interactúa con el controlador** para obtener la información necesaria.
 
 <div class="img-center">
     <img src="../img/tema2/vista.png" alt="Vista" />
@@ -70,7 +70,7 @@ MVC y la arquitectura de tres capas comparten el principio de separación de res
 
 ## Estructurar el código en Python
 
-La aplicación que vamos a desarrollar tendrá la siguiente forma.
+La aplicación que vamos a desarrollar tendrá los siguientes elementos básicos:
 
 ```plaintext
 rocodromo/

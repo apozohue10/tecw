@@ -14,7 +14,7 @@ El uso básico de Flask es para **enrutamiento** es decir, permite crear el esqu
 
 <ul>
   <li>
-    <b>Jinja2. </b> Permite para renderizar las plantillas HTML, lo que permite generar contenido dinámico de manera eficiente. Jinja2 es un motor de plantillas potente y flexible que permite incluir variables, bucles y otras estructuras de control en las páginas HTML. Basicamente, lo que permite es que puedas configurar un fichero HTML con la información acorde a cada usuario.
+    <b>Jinja2. </b> Permite renderizar plantillas HTML, pudiendo generar el contenido de forma dinámica. Jinja2 es un motor de plantillas potente y flexible que permite incluir variables, bucles y otras estructuras de control en las páginas HTML, de tal forma que las páginas cambian la visualización dependiendo de los datos que se le pasen a la plantilla.
   </li>
   <li>
     <b>Gestión de sesiones y cookies. </b> Flask permite gestionar sesiones de usuario y cookies para mantener la persistencia de datos entre las solicitudes, lo que es útil para crear aplicaciones que requieren autenticación y personalización.
@@ -39,7 +39,7 @@ El uso básico de Flask es para **enrutamiento** es decir, permite crear el esqu
 
 ## Instalación
 
-Para poder instalar Flask se debe tener Python, pip y virtual environments instalado. Este último nos permite instalar librerías para el proyecto en cuestión de tal manera que no entre en interferencia con otros proyectos existentes de Python o incluso con propias funcionalidades del sistema que dependen de Python como ocurre en sistemas operativos en base Linux. 
+Para poder instalar Flask se debe tener Python, pip y virtual environments instalado. Este último permite instalar librerías para un proyecto determinado sin que interfieran con otros proyectos existentes de Python en el ordenador o incluso con propias funcionalidades del sistema que dependen de Python (como ocurre en sistemas operativos en base Linux). 
 
 Como ejemplo a lo largo de la asignatura, vamos a desplegar un servidor web que gestionará los recursos de un **rocódromo**. 
 
@@ -81,13 +81,17 @@ Una vez instalado, podemos comprobar que se ha instalado correctamente con:
 flask --help
 ```
 
-**IMPORTANTE. El siguiente comando se debe ejecutar siempre que instalemos una dependencia nueva**
-
+<blockquote>
+<h4>IMPORTANTE</h4>
+<p>
+El siguiente comando se debe ejecutar siempre que instalemos una dependencia nueva
+</p>
 ```bash
 pip3 freeze > requirements.txt 
 ```
-
-Este comando nos genera o actualiza un fichero requirements.txt que contiene todas las dependencias instaladas en nuestro proyecto y sus versiones. Esto nos permite exportar el proyecto a otros ordenadores y replicarlo. Según se vaya avanzando en el desarrollo del servidor, ese fichero tendrá un aspecto similar a esto:
+<p>
+Este comando genera o actualiza un fichero requirements.txt que contiene todas las dependencias instaladas en nuestro proyecto y sus versiones. Este fichero es clave para poder reinstalar el proyecto en otros sistemas. Según se vaya avanzando en el desarrollo del servidor, ese fichero tendrá un aspecto similar a esto:
+</p>
 
 ```plaintext
 alembic==1.14.1
@@ -107,7 +111,8 @@ SQLAlchemy-Utils==0.41.2
 typing_extensions==4.12.2
 Werkzeug==3.1.3
 ```
-
+</blockquote>
+<br>
 Con todo esto, nuestro sistema de ficheros deberá tener un aspecto al siguiente:
 
 ```plaintext
@@ -131,7 +136,7 @@ rocodromo/
 └── env/                    # Entorno virtual
 ```
 
-En el fichero app.py, incluimos el siguiente código. Este código esta lleno de comentarios para el entendimiento de que hace cada línea. No es necesario copiar todos los comentarios.
+En el fichero app.py, incluimos el siguiente código. El siguiente código es el código mínimo necesario para desplegar un servidor web con Flask. Este código crea una aplicación Flask, define una ruta para la URL raíz ("/") y devuelve un mensaje de bienvenida en formato HTML cuando se accede a esa ruta. El fichero contiene algunos comentarios que explican cada parte del código.
 
 ```python
 from flask import Flask  # Importa la clase Flask desde el módulo flask
@@ -186,12 +191,12 @@ Y una vez hecho eso, también podemos arrancarlo en modo debug para que **se rei
 flask --debug run      # Rearranca con cada cambio
 ```
 
-Por defecto, Flask arranca el servidor en el puerto 8000. También podemos arrancarlo en otro puerto distinto al de por defecto:
+Por defecto, Flask arranca el servidor en el puerto 5000. También podemos arrancarlo en otro puerto distinto al de por defecto:
 
 ```bash
-flask --debug run -p 5000  # Ejecuta en el puerto 5000
+flask --debug run -p 8000  # Ejecuta en el puerto 8000
 ```
 
 Para conectarnos al servidor y ver el resultado, podemos introducir la URL [http://localhost:5000](http://localhost:5000) en cualquier navegador como Chrome o Firefox.
 
-Y aquí es donde entra uno de los principales conceptos a entender: URL (Uniform Resource Locator)
+Aquí entra uno de los principales conceptos a entender: **URL (Uniform Resource Locator)**
