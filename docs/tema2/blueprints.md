@@ -43,7 +43,7 @@ A continuación, definimos los Blueprints en los ficheros `via.py` y `bloque.py`
 ```python
 from flask import Blueprint # Se importa la clase Blueprint desde el módulo flask
 
-via_bp = Blueprint('via', __name__, template_folder='../../templates/via') # Se define el Blueprint con el nombre 'via' y la carpeta de templates
+via_bp = Blueprint('via', __name__, template_folder='../../templates') # Se define el Blueprint con el nombre 'via' y la carpeta de templates
 
 @via_bp.route('/')
 def list():
@@ -55,14 +55,14 @@ def list():
 ```python
 from flask import Blueprint
 
-bloque_bp = Blueprint('bloque', __name__, template_folder='../templates/bloque')
+bloque_bp = Blueprint('bloque', __name__, template_folder='../templates')
 
 @bloque_bp.route('/')
 def list():
     return "Listado de bloques"
 ```
 
-En estos ficheros, se define un Blueprint con el nombre `via` y `bloque` respectivamente. Se define una ruta `/` que devuelve un mensaje con el texto "Listado de vías" y "Listado de bloques" respectivamente. El Blueprint se crea con el nombre `via` y `bloque` y se le asigna la carpeta de templates correspondiente.
+En estos ficheros, se define un Blueprint con el nombre `via` y `bloque` respectivamente. Se define una ruta `/` que devuelve un mensaje con el texto "Listado de vías" y "Listado de bloques" respectivamente. El Blueprint se crea con el nombre `via` y `bloque`. A parte, habría que crear una carpeta especifica para cada uno de los blueprints, ya que en el futuro, se usaran para almacenar los ficheros HTML de cada uno.
 
 <blockquote>
 <h4>Inciso: Decoradores en Python y su uso en Flask</h4>
@@ -72,7 +72,7 @@ Los <b>decoradores</b> en Python son funciones que modifican el comportamiento d
 <p>
 Los decoradores son funciones que toman otra función como argumento y devuelven una nueva función con comportamiento modificado. Se aplican utilizando el símbolo <code>@</code> antes de la función que se quiere modificar.
 </p>
-En Flask, los decoradores se utilizan principalmente para definir rutas pero como veremos adelante se pueden utilizar para muchas otras cosas como para definir <b>middlewares</b>.
+En Flask, los decoradores se utilizan principalmente para definir rutas pero, como veremos adelante, se pueden utilizar para más. Por ejemplo, para definir <b>middlewares</b>.
 </blockquote>
 
 ---
@@ -84,9 +84,9 @@ from .bloque import bloque_bp
 from .via import via_bp
 ```
 
-Este fichero permite importar todos los blueprints a la vez en la aplicación principal. Lo cual es útil cuando se tienen muchos blueprints definidos.
+Este fichero permite importar todos los blueprints a la vez en la aplicación principal. Lo cual es útil cuando se tienen muchos blueprints definidos. Sin la existencia de este fichero, sería necesario importar cada Blueprint de forma individual en el fichero `app.py`, lo cual puede ser tedioso y propenso a errores.
 
-Una vez definidos los Blueprints, es necesario registrarlos en la aplicación principal. Para ello, se importan los Blueprints en el fichero `app.py` y se registran en la aplicación:
+Una vez definidos los Blueprints, es necesario registrarlos en la aplicación principal. Para ello, importamos la carpeta blueprints que automaticamente toma el código del fichero `__init__.py` y ya se pueden usar los blueprints generados en los ficheros `via.py` y `bloque.py` dentro de `app.py` y se registran en la aplicación definiendo un **path** para cada uno de ellos através del parámetro `url_prefix`:
 
 ```python
 # Import and Register the blueprints
@@ -101,9 +101,6 @@ A través del navegador se puede accerder a las rutas `/vias` y `/bloques` para 
 
 Desarrollar en el fichero layout.html un menú de navegación que permita acceder a las rutas de vias y bloques.
 
-#### Ejericio de clase
-
-Generar un nuevo Blueprint para la entidad de usuarios. Este Blueprint deberá tener una ruta para listar los usuarios y otra para mostrar el perfil de un usuario en concreto. Añadirlo al menú de navegación definido en el anterior ejercicio.
 
 #### Ejericio de clase
 
@@ -127,4 +124,4 @@ vias = [
 
 ---
 
-Hasta aquí hemos podido realizar un primer acercamiento a los Blueprints en Flask. Hemos visto como podemos gestionar las rutas de nuestra aplicación de forma modular y reutilizable, pero hemos visto como gestionar solo rutas de tipo GET. En la siguiente sección veremos cómo se pueden utilizar los Blueprints para definir rutas para crear, actualizar o borrar datos, pero para ello, antes se deben tener conocimiento acerca de HTTP y organizar las rutas.
+Hasta aquí hemos podido realizar un primer acercamiento a los Blueprints en Flask. Hemos visto como podemos gestionar las rutas de nuestra aplicación de forma modular y reutilizable, pero hemos visto como gestionar solo rutas de tipo GET. En la siguiente sección veremos cómo se pueden utilizar los Blueprints para definir rutas que creen, actualicen o borren datos, pero para ello, antes se deben tener conocimiento acerca de HTTP y organizar las rutas.

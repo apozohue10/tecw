@@ -1,6 +1,6 @@
 # HTTP
 
-Como se ha comentado previamente la mayoría de los servidores estan basados en el protocolo HTTP. Este protocolo es un protocolo de comunicación que se utiliza para la transmisión de información en la web. Pertenece a la capa de aplicación del modelo OSI y generalmente va sobre TCP/IP.
+Como se ha comentado previamente la mayoría de los servidores estan basados en el protocolo HTTP. Se trata de un protocolo que se utiliza para la transmisión de información en la web. Pertenece a la capa de aplicación del modelo OSI y generalmente va sobre TCP/IP.
 
 HTTP es un protocolo transaccional solicitud-respuesta sin estado, diseñado para acceder a páginas web y otros servicios de Internet. La transacción HTTP siempre se inicia desde el lado cliente, que establece o reutiliza una conexión con el servidor. A través de esta conexión, el cliente envía solicitudes HTTP y el servidor responde con las correspondientes respuestas.
 
@@ -23,7 +23,7 @@ Tanto la solicitud como la respuesta siguen el mismo formato, compuesto por una 
     <img src="../img/tema2/formato_http.png" alt="Formato peticion/respuesta de HTTP" />
 </div>
 
-La primera línea de la solicitud muestra el recurso solicitado, que c**orresponde principalmente al path en la sintaxis de la URL**. Además, en la solicitud se configuran otros elementos, como el método, que se detallará a continuación. En la respuesta, la primera línea incluye el código de estado, el cual también será explicado más adelante.
+La primera línea de la solicitud muestra el recurso solicitado, que **corresponde principalmente al path en la sintaxis de la URL**. Además, en la solicitud se configuran otros elementos, como el método, que se detallará a continuación. En la respuesta, la primera línea incluye el código de estado, el cual también será explicado más adelante.
 
 ### Métodos HTTP
 
@@ -87,7 +87,7 @@ Además de estos métodos, existen otros como:
 
 ### Códigos de estado
 
-Los códigos de estado son una parte importante de la respuesta HTTP, ya que indican el resultado de la solicitud. Los códigos de estado se dividen en cinco categorías:
+Los códigos de estado son una parte importante de la respuesta HTTP, ya que indican el resultado de la solicitud Los códigos de estado se dividen en cinco categorías:
 
 <table>
   <thead>
@@ -329,7 +329,8 @@ Los tipos MIME se incluyen en las cabeceras de las peticiones y las respuestas H
 </div>
 
 <br>
-Algunos de los tipos MIME que mas se ven son:
+
+Algunos de los tipos MIME que más comunes son:
 
 #### Tipo `text`
 <p class="no-margin-bottom">Este tipo se usa para representar contenido textual en distintos formatos:</p>
@@ -358,16 +359,24 @@ Los formularios web pueden enviar datos en distintos formatos:
 
 ## RestFul
 
-Como se ha comentado previamente un servidor basado en HTTP puede ofrecer recursos estáticos y programables. En el caso de los recursos programables, se pueden seguir los principios de REST (Representational State Transfer) para definir una API web. REST es un estilo de arquitectura de software que define un conjunto de restricciones para la creación de servicios web. Restful es un servicio web que ha implementado los principios de REST:
+Como se ha comentado previamente un servidor basado en HTTP puede ofrecer recursos estáticos y programables. Estos recursos se ofrecen a través de un **path**, es decir /vias, /vias/1, /bloques, etc. En nuestro caso vamos a manejar tanto recursos estáticos como recursos programables. Para los recursos estaticos, veremos en el próximo tema como habilitar el servidor para servir ficheros. 
+
+Para el caso de ahora, de servir recursos programables, es decir recursos que se gestionan a través de por ejemplo, una base de datos, es necesario definir una interfaz para acceder a estos recursos. Para ello se pueden seguir los principios de REST (Representational State Transfer) para definir una API web. REST es un estilo de arquitectura de software que define un conjunto de restricciones para la creación de servicios web. Restful es un servicio web que ha implementado los principios de REST:
 
 1. **Arquitectura orientada a recursos**: Los recursos (datos o servicios) están representados por URLs únicas y accesibles a través de peticiones HTTP.
 2. **Protocolo sin estado (stateless)**: Cada solicitud contiene toda la información necesaria para procesarla, sin depender del estado de solicitudes anteriores.
-3. **Uso de los métodos HTTP**: Se emplean las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) mapeadas con los métodos HTTP (POST, GET, PUT, DELETE).
 4. **Respuestas en formatos estándar**: Las respuestas son generalmente en formatos legibles y universales como JSON, XML o HTML.
-5. **Comunicaciones mediante hipermedios**: Los usuarios interactúan con los recursos a través de enlaces (hiperlinks) que pueden modificar el estado de los recursos.
+5. **Comunicaciones mediante hipermedia**: Los usuarios interactúan con los recursos a través de enlaces (hiperlinks) que pueden modificar el estado de los recursos.
 6. **Independencia entre cliente y servidor**: El cliente y el servidor interactúan mediante interfaces definidas, sin necesidad de conocer detalles internos del otro.
 
-Se trata de un concepto que esta directamente ligado a como gestionamos las rutas HTTP de nuestro servidor sobre recursos programables. Basicamente facilita el desarrollo del código al estrucuturarlo siguiendo esta filosofía y también facilita a los clientes el manejo de los recursos. Así por ejemplo, para implementar una API Restful para gestionar las vías de un rocodromo habría que implementar las siguientes rutas:
+Se trata de una filosofía que esta directamente ligado a como se estructuras las rutas de nuestro servidor y se vertebra sobre 2 conceptos fundamentales:
+- Método de HTTP. Permite definir la acción a realizar sobre el recurso. Se emplean las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) mapeadas con los métodos HTTP (POST, GET, PUT, DELETE).
+- /path de URl. Permite identificar el recurso sobre el que se va a realizar la acción.
+
+
+Basicamente facilita el desarrollo del código al estructurarlo siguiendo esta filosofía ya que se pone un punto en común para todos los programadores del proyecto. Desde la perspectiva del cliente, también facilita la comprensión de la API ya que se siguen unos principios comunes y se usan los mismos métodos HTTP para realizar las mismas acciones sobre los recursos. Esto hace que la API sea más intuitiva y fácil de usar y que pueda haber una mayor interoperabilidad entre diferentes aplicaciones.
+ 
+Así por ejemplo, para implementar una API Restful para gestionar las vías de un rocodromo habría que implementar las siguientes rutas:
 
 <table border="1">
   <thead>
@@ -433,7 +442,7 @@ vias = [
 
 @via_bp.route('/', methods=['GET'])
 def list():
-    return render_template('list.html', vias=vias)
+    return render_template('via/list.html', vias=vias)
 ```
 
 Y el fichero list.html tendrá un aspecto parecido a este:
@@ -484,7 +493,7 @@ Y el fichero list.html tendrá un aspecto parecido a este:
 Se ha creado una tabla que lista todas las vias que estan en el array. Para cada una de ellas se ha añadido un enlace para ver los detalles de la vía, otro para editarla y un formulario para eliminarla. Se ha añadido un botón al inicio que redirige a un formulario para crear una nueva vía.
 
 <blockquote>
-<h4>Recordatorio: Peticiones desde HTML con <code>a</code> y <code>form</code> </h4>
+<h4>Peticiones desde HTML con <code>a</code> y <code>form</code> </h4>
 <p>
 Cuando elusuario clica en una etiqueta de HTML <code>a</code> se envía una petición HTTP con el método GET. Así en el código anterior, cuando el usuario clica en el enlace "Ver" se envía una petición GET a la ruta <code>/vias/{{ via.id }}</code> para mostrar los detalles de la vía. 
 </p>
@@ -506,7 +515,7 @@ grados = ['4a', '4b', '4c', '5a', '5b', '5c', '6a', '6b', '6c', '7a', '7b', '7c'
 
 @via_bp.route('/new')
 def new():
-    return render_template('new.html')
+    return render_template('via/new.html', grados=grados)
 
 @via_bp.route('/', methods=['POST']) # Ruta para crear una nueva vía. Se usa el método POST
 def create():
@@ -531,8 +540,8 @@ Y el fichero new.html tendrá un aspecto parecido a este:
         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" autocomplete="off" required>
         <label for="grado">Grado</label>
         <select name="grado" id="grado" class="form-control">
-            {% for grade in grades %}
-                <option value="{{ grade }}">{{ grade }}</option>
+            {% for grado in grados %}
+                <option value="{{ grado }}">{{ grado }}</option>
             {% endfor %}
         </select>
     </div>
@@ -568,7 +577,7 @@ def show(viaId):
             via = via
             break
     
-    return render_template('show.html', via=via)
+    return render_template('via/show.html', via=via)
 ```
 
 Como se puede observar, al incluir <code> /<viaId> </code> en la ruta, estamos indicando que el valor de <code>viaId</code> se obtiene de la URL. Basicamente, le estamos indicando a Flask que el valor que se encuentra en esa posición de la URL lo pase como parametro a la función <code>show</code> para poder buscar la información asociada. Una vez tengamos la via, podemos pasarla a la plantilla <code>show.html</code> para mostrarla.
@@ -596,7 +605,7 @@ def edit(viaId):
         if via['id'] == int(viaId):
             via = via
             break
-    return render_template('edit.html', via=via)
+    return render_template('via/edit.html', via=via, grados=grados)
 
 @via_bp.route('/<viaId>/update', methods=['POST'])
 def update(viaId):
@@ -629,8 +638,8 @@ El fichero edit.html tiene un aspecto muy similar a new.html, pero con los campo
         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" autocomplete="off" value="{{via.nombre}}" required>
         <label for="grado">Grado</label>
         <select name="grado" id="grado" class="form-control">
-            {% for grade in grades %}
-                <option value="{{ grade }}" {% if grade == via.grado %}selected{% endif %}>{{ grade }}</option>
+            {% for grado in grados %}
+                <option value="{{ grado }}" {% if grado == via.grado %}selected{% endif %}>{{ grado }}</option>
             {% endfor %}
         </select>
     </div>
@@ -656,13 +665,6 @@ def delete(viaId):
       return redirect('/vias')
     return "Method Not Allowed", 405 # Devuelve un error 405 si el método no es DELETE
 ```
-
----
-
-
-#### Ejercicio de clase
-
-Realizar una API Restful para gestionar el blueprints de usuarios que se creo en la anterior sección. Cree algunos usuarios por defecto que tengan los siguientes campos: id, nombre, email y contraseña. Implemente las rutas y ficheros HTML necesarios para listar, crear, ver, actualizar y eliminar usuarios.
 
 ---
 
@@ -695,7 +697,7 @@ De esta forma podemos generar un fichero HTML que muestre un mensaje de error pe
 
 Cree el código necesario para gestionar un error 500. Recuerde que el error 500 es un error en el servidor. Una forma de provocarlo es metiendo algún "gazapo" en el código para que falle a proposito cuando se visita una ruta.
 
-Tenga en cuenta que para poder probar este error, deberá tener la aplicación en modo debug desactivado. Si no, Flask mostrará un mensaje de error por defecto.
+**Tenga en cuenta que para poder probar este error, deberá tener la aplicación en modo debug desactivado. Si no, Flask mostrará un mensaje de error por defecto.**
 
 --- 
 
