@@ -109,7 +109,7 @@ Para actualizar una vía, el código quedaría de la siguiente manera:
 </div>
 <div class="modificado">
 ```python
-@via_bp.route('/<viaId>/update', methods=['PUT'])
+@via_bp.route('/<viaId>', methods=['PUT'])
 def update(viaId):
     for via in vias:
         if via['id'] == int(viaId):
@@ -149,7 +149,7 @@ Para borrar una vía, el código quedaría de la siguiente manera:
 </div>
 <div class="modificado">
 ```python
-@via_bp.route('/<viaId>/delete', methods=['DELETE'])
+@via_bp.route('/<viaId>', methods=['DELETE'])
 def delete(viaId):
     for via in vias:
         if via['id'] == int(viaId):
@@ -174,6 +174,66 @@ def delete(viaId):
 </div>
 
 <br>
+
+Puede observar, que se ha suprimido el código que gestionaba el override dentro de los controladores. También se han editado los métodos de las rutas para que gestionen directamente el método **PUT y DELETE en vez de POST**.  También que se han suprimido de los paths delas rutas el sufijo `/update` y `/delete` ya que ahora se gestionan directamente con el método HTTP y por tanto ya no es necesario hacer una distinción en el path como ocurría antes. Esto implica también que hay que editar los path de los formularios en el html para que apunten a la nueva ruta.
+
+En edit.html:
+
+<div class="toggleCodeContainer">
+<div class="toogleButton">
+<button class="buttonModificado btn btn-primary btn-sm active">Código nuevo</button>
+<button class="buttonOriginal btn btn-primary btn-sm">Código antiguo</button>
+</div>
+<div class="modificado">
+```html
+<form action="/vias/{{via.id}}" method="post"> 
+    <input type="hidden" name="_method" value="PUT">
+    ...
+</form>
+```
+</div>
+<div class="original" hidden>
+```html
+<form action="/vias/{{via.id}}/update" method="post"> 
+    <input type="hidden" name="_method" value="PUT">
+    ...
+</form>
+```
+</div>
+</div>
+
+<br>
+
+En list.html:
+
+<div class="toggleCodeContainer">
+<div class="toogleButton">
+<button class="buttonModificado btn btn-primary btn-sm active">Código nuevo</button>
+<button class="buttonOriginal btn btn-primary btn-sm">Código antiguo</button>
+</div>
+<div class="modificado">
+```html
+<form action="/vias/{{via.id}}" method="post">
+    <input type="hidden" name="_method" value="DELETE" />
+    ...
+</form>
+```
+</div>
+<div class="original" hidden>
+```html
+<form action="/vias/{{via.id}}/delete" method="post">
+    <input type="hidden" name="_method" value="DELETE" />
+    ...
+</form>
+```
+</div>
+</div>
+
+<br>
+
+
+
+De esta forma, hemos conseguido que nuestra API sea más RESTful, ya que ahora se gestionan los métodos HTTP de forma correcta. Además, el código es mucho más limpio y mantenible, ya que no tenemos que preocuparnos de gestionar el método override en cada controlador, sino que el middleware se encarga de ello.
 
 ### Otras librerías
 
