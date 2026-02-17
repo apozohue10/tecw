@@ -370,8 +370,9 @@ Para el caso de ahora, de servir recursos programables, es decir recursos que se
 6. **Independencia entre cliente y servidor**: El cliente y el servidor interactúan mediante interfaces definidas, sin necesidad de conocer detalles internos del otro.
 
 Se trata de una filosofía que esta directamente ligado a como se estructuras las rutas de nuestro servidor y se vertebra sobre 2 conceptos fundamentales:
+
 - Método de HTTP. Permite definir la acción a realizar sobre el recurso. Se emplean las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) mapeadas con los métodos HTTP (POST, GET, PUT, DELETE).
-- /path de URl. Permite identificar el recurso sobre el que se va a realizar la acción.
+- /path de URL. Permite identificar el recurso sobre el que se va a realizar la acción.
 
 
 Basicamente facilita el desarrollo del código al estructurarlo siguiendo esta filosofía ya que se pone un punto en común para todos los programadores del proyecto. Desde la perspectiva del cliente, también facilita la comprensión de la API ya que se siguen unos principios comunes y se usan los mismos métodos HTTP para realizar las mismas acciones sobre los recursos. Esto hace que la API sea más intuitiva y fácil de usar y que pueda haber una mayor interoperabilidad entre diferentes aplicaciones.

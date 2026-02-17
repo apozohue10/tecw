@@ -1,27 +1,8 @@
 # Middlwares
 
-Los middlewares son funciones o clases que actúan como intermediarios entre la aplicación y el servidor, permitiendo modificar o inspeccionar las solicitudes (requests) y respuestas (responses) antes de que lleguen a su destino final. Por ejemplo, en una aplicación en Flask como la que estamos desarrollando se usa un middleware para manejar las solicitudes HTTP.
-
-```python
-@via_bp.route('/<viaId>/delete', methods=['POST'])
-def delete(viaId):
-```
-
-En este caso, cuando llega una petición al servidor se va comprobando si la ruta coincide con alguna de las rutas definidas en la aplicación. Debe coincidir el path y el método HTTP (En este caso `/via/<viaId>/delete` y `POST`). Si coincide, se ejecuta la función `delete(viaId)` que esta a continuación. Este middleware se encarga también de extraer los parámetros de la URL y pasárselos a la función como parámetro de tal forma que el desarrollador no los tiene que extraer manualmente.
-
-Al final de la sección vimos que se genero un error 404 cuando se intentaba acceder a una ruta que no existía. Este error se manejaba también a través de un middleware. Es decir, cuando se ha recorrido todas las rutas definidas en la aplicación y **no se ha encontrado ninguna que coincida con la ruta de la petición, se ejecuta este middleware** que genera un error 404. 
-
-```python
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('error404.html'), 404
-```
-
-En este caso, Flask ofrece ya estos middlwares para realizar estas tareas. Pero en otros casos, se pueden definir middlewares personalizados para realizar tareas específicas como guardar ficheros, autoload de recursos, comprobación de formularios, autenticación, autorización, logging, etc.
+Los middlewares son una parte fundamental de cualquier aplicación web, ya que permiten gestionar las solicitudes y respuestas de la aplicación de una forma más eficiente y mantenible. En este tema, vamos a ver qué son los middlewares, cómo se pueden usar en Flask y cómo se pueden concatenar para realizar tareas más complejas.
 
 ## Middlewares en Flask
-
-Flask no tiene un sistema de middlewares como Django, pero se pueden simular utilizando de varias maneras.
 
 ### Los decoradores: `before_request` y `after_request`
 
@@ -33,7 +14,7 @@ La función `before_request` se ejecutará antes de que se ejecute la función q
 def validar_grado():
     if request.endpoint == "via.create" and request.method == "POST":
         grado = request.form.get("grado")
-        if grado not in grades:
+        if grado not in grados:
             abort(400)
 
 @via_bp.after_request
@@ -250,7 +231,7 @@ CORS(app)
 
 ---
 
-¿Cuando habría que usar que tipo de middleware? Por lo general, lo normal es buscar librerías siempre se adapten a la necesidad que tengamos. Pero si no encontramos ninguna librería que se adapte a nuestras necesidades, entonces podemos crear nuestros propios middlewares. La siguiente pregunta podría ser ¿Es mejor usar `before_request`/`after_request` o un middleware WSGI? Pues depende de la tarea que queramos realizar. Si la tarea que queremos realizar es algo que se puede hacer a nivel de aplicación, como por ejemplo, validar un formulario, entonces es mejor usar `before_request`. Pero si la tarea que queremos realizar es algo que se tiene que hacer antes de que Flask procese la petición, como por ejemplo, gestionar el método override, entonces es mejor usar un middleware WSGI. 
+**¿Cuando habría que usar que tipo de middleware?** Por lo general, lo normal es buscar librerías siempre se adapten a la necesidad que tengamos. Pero si no encontramos ninguna librería que se adapte a nuestras necesidades, entonces podemos crear nuestros propios middlewares. La siguiente pregunta podría ser **¿Es mejor usar `before_request`/`after_request` o un middleware WSGI?** Pues depende de la tarea que queramos realizar. Si la tarea que queremos realizar es algo que se puede hacer a nivel de aplicación, como por ejemplo, validar un formulario, entonces es mejor usar `before_request`. Pero si la tarea que queremos realizar es algo que se tiene que hacer antes de que Flask procese la petición, como por ejemplo, gestionar el método override, entonces es mejor usar un middleware WSGI. 
 
 En otras ocasiones, querremos gestionar tareas específicas para ciertas rutas y no para todas las del proyecto. En este caso, lo mejor es crear un middleware personalizado usando decoradores. Como veremos en la próxima sección.
 
@@ -285,7 +266,7 @@ Este middleware se encarga de buscar la vía en la lista de vías y añadirla a 
 @via_bp.route('/<viaId>', methods = ['GET'])
 @load_via
 def show(viaId, via): # Se añade el parámetro via que el middleware load_via ha añadido previamente
-    return render_template('show.html', via=via)
+    return render_template('via/show.html', via=via)
 ```
 
 Y esto nos permite borrar le código anterior donde buscabamos la vía en cada función (para actualizar y borrar se puede aplicar también). De esta forma, se evita repetir código y se mantiene la aplicación más limpia y mantenible.

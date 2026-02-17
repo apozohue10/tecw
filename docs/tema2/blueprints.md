@@ -97,12 +97,12 @@ app.register_blueprint(blueprints.bloque_bp, url_prefix='/bloques')
 
 A través del navegador se puede accerder a las rutas `/vias` y `/bloques` para ver el mensaje "Listado de vías" y "Listado de bloques" respectivamente.
 
-#### Ejericio de clase
+#### Ejercicio de clase
 
 Desarrollar en el fichero layout.html un menú de navegación que permita acceder a las rutas de vias y bloques.
 
 
-#### Ejericio de clase
+#### Ejercicio de clase
 
 Crear un JSON con la información de vías inventadas en el fichero via.py. Modificar la ruta `/` para que devuelva la información de las vías en formato json. Para ello se deberá editar un fichero HTML en la carpeta `templates/via` que muestre la información de las vías usando Jinja2. Un ejemplo de JSON es:
 
