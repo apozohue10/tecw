@@ -1,14 +1,14 @@
 # Ficheros privados
 
-Flask permite también servir ficheros estáticos de forma privada. **Los ficheros privados son aquellos que, aún siendo accesibles por URL, no deberían ser descargables si no existe una autenticación o autorización previa**. Estos ficheros suelen ser gestionados por los propios usuarios de la aplicación y no deberían ser accesibles por otros usuarios si no lo desean. Por ejemplo, con Dropbox o google drive, los usuarios pueden almacenar ficheros estáticos pero estos no son accesibles por URL si no se comparte el enlace. 
-
-Como se ha comentado antes, en el momento que colocas un fichero dentro de la carpeta public (configurada como tal en el código) este podrá ser accesible por cualquiera. En temas posteriores, veremos como añadir autenticación a nuestra aplicación para proteger información sensible de los usuarios. Pero por ahora, vamos a ver como se podrían servir y crear ficheros estáticos sin una carpeta pública.
+Flask permite también servir ficheros estáticos de forma privada. **Los ficheros privados son aquellos que, aún siendo accesibles por URL, no deberían ser descargables si no existe una autenticación o autorización previa**. Por ejemplo, con Dropbox o google drive, los usuarios pueden almacenar ficheros estáticos pero estos no son accesibles por URL si no se comparte el enlace. 
 
 En nuestro caso, por ejemplo, los dueños del rocodromo podrían querer subir fotos de las vías o bloques que tienen instalados, pero que solo sean accesibles por los usuarios que son socios del rocodromo y poseen una cuenta de usuario en la plataforma.
 
+Como se ha comentado antes, en el momento que colocas un fichero dentro de la carpeta public (configurada como tal en el código) este podrá ser accesible automaticamente. En temas posteriores, veremos como añadir autenticación a nuestra aplicación para proteger información sensible de los usuarios. Pero por ahora, vamos a ver como se podrían servir y crear ficheros estáticos de otra forma diferente.
+
 ## Formularios
 
-El primer paso para ello, sería habilitar en los formularios de creación y edición de vías un campo que permita a los dueños del rocodromo subir una foto de la vía. Para ello, en el formulario de creación de vías, añadimos un campo de tipo `file` que permita subir una imagen. 
+El primer paso para ello es habilitar en los formularios de creación y edición de vías un campo que permita a los dueños del rocodromo subir una foto de la vía. Para ello, en el formulario de creación de vías, añadimos un campo de tipo `file` que permita subir una imagen. 
 
 ```html
 <label for="imagen">Imagen</label>
@@ -25,9 +25,9 @@ El parámetro `enctype="multipart/form-data"` nos permite configurar el formular
 
 ## Estructura de carpetas
 
-Como se ha comentado previamente, no podemos almacenar estas imágenes en la carpeta public por lo que debemos crear una carpeta privada donde almacenar estas imágenes. **Crearemos dos carpetas: assets/images** dentro de la carpeta app. En esa carpeta se almacenarán las imágenes de todos los recursos de nuestra web. En en el futuro, y si la aplicación escalase, se podría explorar la posibilidad de crear subcarpetas para organizar las imágenes de forma más eficiente. Pero de momento, basta con una única carpeta para las imágenes.
+Como se ha comentado previamente, no podemos almacenar estas imágenes en la carpeta public por lo que debemos crear una carpeta privada donde almacenar estas imágenes. **Crearemos dos carpetas: assets y assets/images** dentro de la carpeta app. En en el futuro, y si la aplicación escalase, se podría explorar la posibilidad de crear subcarpetas para organizar las imágenes de forma más eficiente. Pero de momento, basta con una única carpeta para las imágenes.
 
-Para gestionar el almacenamiento y borrado de imágenes por parte de los usuarios, **necesitamos crear un middleware que se encargue de ello**. Dado que se tratan de funciones genéricas que se pueden reutilizar en cualquier parte de la aplicación, es recomendable crear un fichero al margen de los blueprints. Por ejemplo, podemos crear el fichero handle_files.py en la carpeta app que contenga las funciones necesarias para gestionar las imágenes. Estas funciones se importarán en los blueprints que necesiten gestionar imágenes.
+Para gestionar el almacenamiento y borrado de imágenes por parte de los usuarios, **necesitamos crear un middleware que se encargue de ello**. Dado que se tratan de funciones genéricas que se pueden reutilizar en cualquier parte de la aplicación, es recomendable crear un fichero al margen de los blueprints. Por ejemplo, podemos crear el fichero `handle_files.py` en la carpeta app que contenga las funciones necesarias para gestionar las imágenes. Estas funciones se importarán en los blueprints que necesiten gestionar imágenes.
 
 Con todo esto, la estructura de las carpetas de nuestra aplicación quedaría de la siguiente forma:
 
@@ -54,13 +54,14 @@ rocodromo/
 │       ├── layout.html     # Contiene el layout base de la aplicación
 │   ├── app.py              # Inicializa la aplicación y las configuraciones
 │   ├── handle_files.py     # Middlewares para gestionar ficheros
+│   ├── methodOverride.py   # Middlewares para gestionar rutas PUT y DELETE
 ├── requirements.txt        # Lista de dependencias del proyecto
 └── env/                    # Entorno virtual
 ```
 
 ## Middleware para guardar imágenes
 
-Para almacenar imágenes el primer paso es definir en nuestra aplicación en que carpeta se va a almacenar y que formatos de imágenes se van a permitir. Para ello, en el fichero `app.py` añadimos las siguientes configuraciones:
+Para almacenar imágenes el primer paso es definir en nuestra aplicación en que carpeta se van a almacenar y que formatos se van a permitir. Para ello, en el fichero `app.py` añadimos las siguientes configuraciones:
 
 ```python
 ##### Configure file uploads
@@ -116,7 +117,7 @@ Con este middleware, se comprueba si se ha subido un fichero y si la extensión 
 Este middleware lo podremos usar en cualquier ruta que necesite subir una imagen. Por ejemplo, en la ruta de creación de vías, podríamos usarlo de la siguiente forma:
 
 ```python
-from handle_files import save_file, delete_file
+from handle_files import save_file
 
 ...
 
@@ -137,9 +138,99 @@ def create(filename): # El middleware añade un parámetro con el nombre del fic
 
 Debemos importarlos del fichero que hemos creado previamente. Al igual que ocurre con la función autoload, el middleware se ejecutará antes de la función create y añadirá un parámetro con el nombre del fichero guardado, que posteriormente almacenamos en el array.
 
+Es probable, que necesite editar su fichero `methodOverride.py` para que el middleware de guardar ficheros funcione correctamente. Esto se debe a que, al añadir un campo de tipo `file` en el formulario, el formulario se configura como `multipart/form-data` y el método override no funciona correctamente. Para solucionarlo, debemos modificar el método override para que funcione con formularios `multipart/form-data`.
+
+
+<div class="toggleCodeContainer">
+<div class="toogleButton">
+<button class="buttonModificado btn btn-primary btn-sm active">Código nuevo</button>
+<button class="buttonOriginal btn btn-primary btn-sm">Código antiguo</button>
+</div>
+<div class="modificado">
+```python
+from urllib.parse import parse_qs
+from io import BytesIO
+import cgi
+
+class MethodOverrideMiddleware:
+    allowed_methods = {'GET', 'POST', 'PUT', 'DELETE', 'PATCH'}
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        if environ['REQUEST_METHOD'] == 'POST':
+            try:
+                request_body_size = int(environ.get('CONTENT_LENGTH', 0))
+            except (ValueError):
+                request_body_size = 0
+
+            # Lee el cuerpo de la solicitud
+            request_body = environ['wsgi.input'].read(request_body_size)
+            environ['wsgi.input'] = BytesIO(request_body)
+
+            # Verifica si el contenido es multipart/form-data
+            content_type = environ.get('CONTENT_TYPE', '')
+            if 'multipart/form-data' in content_type:
+                # Usa cgi.FieldStorage para analizar multipart/form-data
+                form = cgi.FieldStorage(fp=BytesIO(request_body), environ=environ, keep_blank_values=True)
+                if '_method' in form:
+                    method = form['_method'].value.upper()
+                    if method in self.allowed_methods:
+                        environ['REQUEST_METHOD'] = method
+            else:
+                # Analiza el cuerpo como application/x-www-form-urlencoded
+                try:
+                    form_data = parse_qs(request_body.decode('utf-8'))
+                    method = form_data.get('_method', [''])[0].upper()
+                    if method in self.allowed_methods:
+                        environ['REQUEST_METHOD'] = method
+                except UnicodeDecodeError:
+                    # Si no se puede decodificar, no sobrescribas el método
+                    pass
+
+            # Reinicia el puntero del flujo para que Flask pueda leer el cuerpo
+            environ['wsgi.input'].seek(0)
+
+        return self.app(environ, start_response)
+```
+</div>
+<div class="original" hidden>
+```python
+from urllib.parse import parse_qs
+from io import BytesIO
+
+class MethodOverrideMiddleware:
+    allowed_methods = {'GET', 'POST', 'PUT', 'DELETE', 'PATCH'}
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        if environ['REQUEST_METHOD'] == 'POST':
+            try:
+                request_body_size = int(environ.get('CONTENT_LENGTH', 0))
+            except (ValueError):
+                request_body_size = 0
+
+            
+            request_body = environ['wsgi.input'].read(request_body_size)
+            environ['wsgi.input'] = BytesIO(request_body)
+            form_data = parse_qs(request_body.decode())
+
+            method = form_data.get('_method', [''])[0].upper()
+            if method in self.allowed_methods:
+                environ['REQUEST_METHOD'] = method
+
+        return self.app(environ, start_response)
+```
+</div>
+</div>
+<br>
+
 ## Ruta para servir imágenes
 
-Como se ha comentado previamente, las imágenes se guardan en la carpeta assets/images, que es una carpeta privada y no accesible por URL. Por tanto, necesitamos crear una ruta que nos permita servir estas imágenes. Para ello, en el fichero app.py añadimos la siguiente ruta:
+Como se ha comentado previamente, las imágenes se guardan en la carpeta assets/images, que es una carpeta privada y no accesible por URL. Por tanto, necesitamos crear una ruta que nos permita servir estas imágenes. Para ello, en el fichero `app.py` añadimos la siguiente ruta:
 
 ```python
 from flask import Flask, request, render_template, send_from_directory  # Importa la clase Flask desde el módulo flask
@@ -175,9 +266,9 @@ Donde en `src` especificamos la URL que acabamos de crear para servir imágenes 
 
 ## Middleware para borrar imágenes
 
-Además de guardar imágenes, también necesitamos un middleware que nos permita borrar imágenes. Ya que cuando un usuario borre el recurso en cuestión, también deberíamos borrar la imagen asociada para que no ocupe espacio. O si el usuario sube una nueva imagen, deberíamos borrar la anterior para no acumular imágenes innecesarias. En este último caso, habrá que **añadir un campo de imagen al formulario de edición de vías** al igual que se hizo para el formulario de creación.
+Además de guardar imágenes, también necesitamos un middleware que nos permita borrarlas, ya que, cuando un usuario borre el recurso en cuestión, también deberíamos borrar la imagen asociada para que no ocupe espacio. O si el usuario sube una nueva imagen, deberíamos borrar la anterior para no acumular imágenes innecesarias. En este último caso, habrá que **añadir un campo de imagen al formulario de edición de vías** al igual que se hizo para el formulario de creación.
 
-Para ello, creamos el siguiente middleware dentro del fichero handle_files.py:
+Para ello, creamos el siguiente middleware dentro del fichero `handle_files.py`:
 
 ```python
 def delete_file(f):
@@ -191,7 +282,7 @@ def delete_file(f):
         return f(*args, **kwargs)
     return decorated_function
 ```
-Como podrá observar, el nombre del fichero se obtiene de **la vía que se ha precargado previamente gracias al autoload**. Por lo que, cuando añadamos este middleware a una ruta, deberemos asegurarnos de que **el autoloader se ejecute antes que delete_file**:
+Como podrá observar, el nombre del fichero se obtiene de **la vía que se ha precargado previamente gracias al autoload**. Por lo que, cuando añadamos este middleware a una ruta, deberemos asegurarnos de que **el autoloader se ejecute antes que `delete_file`**:
 
 ```python
 @via_bp.route('/<viaId>/update', methods = ['POST'])
@@ -208,14 +299,14 @@ def delete(viaId, via):
     ...
 ```
 
-Al cargar ejecutar primero el autoloader, nos aseguramos de que el recurso existe y es accesible. Por tanto, si el recurso no existe, no se ejecutará el middleware de borrar ficheros y saltará un error 404. Para el caso de la ruta de actualización, se ejecutarán los tres middlewares en orden: autoload, borrar fichero y guardar fichero. En este caso, luego **se debe actualizar el nombre del fichero para la via ya que este habra cambiado**. Para el caso de la ruta de borrado, se ejecutarán los dos middlewares en orden: autoload y borrar fichero.
+Además, al ejecutar primero el autoloader, nos aseguramos de que el recurso existe y es accesible. Por tanto, si el recurso no existe, no se ejecutará el middleware de borrar ficheros y saltará un error 404. Para el caso de la ruta de actualización se ejecutarán los tres middlewares en orden: autoload, borrar fichero y guardar fichero. En este caso, luego **se debe actualizar el nombre del fichero para la via ya que este habra cambiado**. Para el caso de la ruta de borrado, se ejecutarán los dos middlewares en orden: autoload y borrar fichero.
 
 
-### Ejercicio de clase
+### Pregunta de clase
 
 Investigar que problema existe cuando en la interacción de actualizar los datos de un usuario.
 
-### Ejercicio de clase
+### Pregunta de clase
 
 ¿Porqué es importante que los middlewares de gestión de ficheros los desarrollamos en un fichero distinto en vez de en el propio blueprint?
 
@@ -223,9 +314,11 @@ Investigar que problema existe cuando en la interacción de actualizar los datos
 
 ## Manejo de errores
 
-Como hemos visto al servir tanto archivos estáticos como recursos programables mediante una API RESTful, cuando se producía un error al crear o editar recursos a través de un formulario, simplemente redirigíamos al usuario a otra ruta. Sin embargo, en la práctica, es más conveniente mostrar un mensaje de error para que el usuario comprenda qué ha ocurrido y pueda actuar en consecuencia.
+Como hemos visto, servir ficheros estáticos o recursos programables mediante una API RESTful pueden producir errores al crear o editar recursos a través de un formulario. La forma de actuar hasta ahora ha sido simplemente redirigir al usuario a otra ruta. Sin embargo, en la práctica, es más conveniente mostrar un mensaje de error para que el usuario comprenda qué ha ocurrido y pueda actuar en consecuencia.
 
-Para ello, podemos hacer uso de la función `flash` de Flask. La función `flash` permite enviar mensajes a través de las sesiones de los usuarios. Estos mensajes se almacenan en la sesión del usuario y se borran cuando el usuario cierra el navegador. El primer paso es añadir una secret key a la aplicación para que las sesiones sean seguras. Para ello, en el fichero `app.py` añadimos la siguiente línea:
+Para ello, podemos hacer uso de la función `flash` de Flask. La función `flash` permite enviar mensajes a través de las sesiones de los usuarios. Estos mensajes se almacenan en la sesión del usuario y se borran cuando el usuario cierra el navegador. 
+
+Para añadir mensajes flash, el primer paso es añadir una secret key a la aplicación para que las sesiones sean seguras. Para ello, en el fichero `app.py` añadimos la siguiente línea:
 
 ```python
 ##### Configure flash key
@@ -242,7 +335,7 @@ if not allowed_file(file.filename):
 ...
 ```
 
-Y finalmente, en layout.html podemos añadir el siguiente código que se encargará de renderizar el error en la vista:
+Y finalmente, en `layout.html` podemos añadir el siguiente código que se encargará de renderizar el error en la vista:
 
 ```html
 {% with messages = get_flashed_messages() %}
@@ -256,4 +349,33 @@ Y finalmente, en layout.html podemos añadir el siguiente código que se encarga
 
 ---
 
-Con esto terminamos el tema de gestión de ficheros estáticos. estos ficheros estáticos se almacenan y si el servidor se apaga o se reinicia, no se perderán. No ocurre lo mismo con la Restful API que hemos implementado, donde los datos se almacenan en un array en memoria y se perderán si el servidor se apaga. En el siguiente tema, veremos cómo podemos almacenar los datos en una base de datos para que sean persistentes.
+Con esto terminamos el tema de gestión de ficheros estáticos. Los ficheros estáticos se almacenan y si el servidor se apaga o se reinicia, no se perderán. No ocurre lo mismo con la Restful API que hemos implementado, donde los datos se almacenan en un array en memoria y se perderán si el servidor se apaga. En el siguiente tema, veremos cómo podemos almacenar los datos en una base de datos para que sean persistentes.
+
+
+<script type="text/javascript">
+    window.addEventListener("load", function (event) {
+        let toogleButton = document.getElementsByClassName('toogleButton');
+        for (let i = 0; i < toogleButton.length; i++) {
+            console.log(toogleButton[i]);
+            toogleButton[i].addEventListener('click', toggleCode);
+        }
+        function toggleCode() {
+            let container = this.parentNode;
+            let modificado = container.getElementsByClassName('modificado');
+            let original = container.getElementsByClassName('original');
+            let buttonModificado = container.getElementsByClassName('buttonModificado');
+            let buttonOriginal = container.getElementsByClassName('buttonOriginal');
+            if (modificado[0].hidden) {
+                buttonModificado[0].classList.add('active');
+                buttonOriginal[0].classList.remove('active');
+                modificado[0].hidden = false;
+                original[0].hidden = true;
+            } else {
+                buttonModificado[0].classList.remove('active');
+                buttonOriginal[0].classList.add('active');
+                modificado[0].hidden = true;
+                original[0].hidden = false;
+            }
+        }
+    });
+</script>

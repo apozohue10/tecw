@@ -41,7 +41,7 @@ Cliente → Servidor WSGI → Middleware WSGI → Flask → before_request → C
 ```
 
 
-Por ejemplo, en la sección anterior sobre blueprints, vimos que teniamos que gestionar "manualmente" en los controladores el método PUT y DELETE ya que los formularios HTML solo soportan GET y POST. Para evitar esto, podemos usar un middleware WSGI que se encargue de gestionar el método override antes de que nuestro programa basado en Flask procese la petición. Para ello creamos primero un fichero methodOverride.py con el siguiente código:
+Por ejemplo, en la sección anterior sobre blueprints, vimos que teniamos que gestionar "manualmente" en los controladores el método PUT y DELETE ya que los formularios HTML solo soportan GET y POST. Para evitar esto, podemos usar un middleware WSGI que se encargue de gestionar el método override antes de que nuestro programa basado en Flask procese la petición. Para ello creamos primero un fichero `methodOverride.py` con el siguiente código:
 
 ```python
 from urllib.parse import parse_qs

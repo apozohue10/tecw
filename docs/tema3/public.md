@@ -1,8 +1,8 @@
 # Ficheros publicos
 
-Flask permite servir ficheros estáticos de forma pública. Los ficheros públicos son aquellos que se pueden acceder directamente a través de una URL. Por ejemplo, una imagen, un fichero CSS, un fichero JS, etc. Estos ficheros serán descargables incluso desde otros servidores. Flask, permite servir estos ficheros de forma sencilla a través de la carpeta **public**.
+Flask permite servir ficheros estáticos de forma pública. Los ficheros públicos son aquellos que se pueden acceder directamente a través de una URL sin ningún control adicional. Por ejemplo, una imagen, un fichero CSS, un fichero JS, etc. Estos ficheros serán descargables incluso desde otros servidores. Flask, permite servir estos ficheros de forma sencilla a través de la carpeta **public** o **static**. El carácter de estos ficheros suele ser para cosas de carácter visual como estilos CSS, imágenes, logos, fuentes, etc. Pero también para servir los ficheros JS que añaden interactividad a nuestra página web.
 
-La **carpeta public** contiene ficheros que será accesibles desde la URL de la aplicación. Pero en este caso, no tenemos porque definir una ruta en si, si no que debemos configurar a través de Flask cual es nuestra carpeta pública. Y **Flask ya se encargará de servir los ficheros estáticos que se encuentren en ella**.
+En este caso, no tenemos porque definir una ruta en si, si no que debemos configurar a través de Flask cual es nuestra carpeta pública. Y **Flask ya se encargará de servir los ficheros estáticos que se encuentren en ella**.
 
 Para ello, en el fichero app.py debemos configurar la carpeta pública de la siguiente forma:
 
@@ -99,6 +99,11 @@ Si se fija, en el caso `home.css` y `via.css` hemos añadido una etiqueta <code>
 
 <br>
 
+---
+
+Esta es una forma de estructurar los ficheros CSS bastante eficiente. Pero actualmente, el uso de CSS directamente esta cayendo en desuso. En la actualidad, se suelen usar preprocesadores de CSS como SASS o LESS que permiten escribir CSS de una forma más eficiente y mantenible. Estos preprocesadores permiten usar variables, funciones, mixins, etc. que hacen que el código CSS sea más fácil de mantener y escalar. Además, también permiten dividir el código CSS en varios ficheros y luego **compilarlo en un único fichero CSS que se sirve a través de la carpeta public y que referenciariamos desde el layout**.
+
+
 ## Imágenes, logos, audios, etc
 
 Por otro lado, también podemos servir recursos multimedia a través de la carpeta public. Estos recursos permiten crear una página web más atractiva y dinámica. Por ejemplo, podemos añadir una imagen de fondo a nuestra página de inicio, una fuente de texto poco comun, un logo a nuestra página de vias, un video en loop, etc. 
@@ -159,7 +164,7 @@ Y luego en nuestro fichero via/list.html podemos añadir nuestro fichero javascr
 {% endblock %}
 ```
 
-Se ha añadido una clase `deleteVia` al formulario para borrar una vía. Esta clase es la que se usa en el fichero javascript para capturar el evento. En futuras secciones se profundizará en Javascript de Cliente. En este caso, basta con entender como podemos añadir lógica a nuestras páginas web a través de ficheros JS descargados desde el servidor que estamos desarrollando. Por ejemplo, 
+Se debe añadir una clase `deleteVia` al formulario para borrar una vía. Esta clase es la que se usa en el fichero javascript para capturar el evento. No hace falta entender el código javascript por ahora. Basta con entender como podemos añadir lógica a nuestras páginas web a través de ficheros JS descargados desde el servidor que estamos desarrollando.
 
 ---
 
@@ -184,6 +189,7 @@ rocodromo/
 │       ├── bloque/         # Contiene las vistas para las bloques
 │       ├── layout.html     # Contiene el layout base de la aplicación
 │   ├── app.py              # Inicializa la aplicación y las configuraciones
+│   ├── methodOverride.py   # Middlewares para gestionar rutas PUT y DELETE
 ├── requirements.txt        # Lista de dependencias del proyecto
 └── env/                    # Entorno virtual
 ```

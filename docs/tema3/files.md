@@ -1,8 +1,8 @@
 # Manejo de Ficheros
 
-En el tema anterior desarrollamos una API Restful que nos permitía gestionar un servicio programable, es decir, unas rutas que nos permiten listar, visualizar, crear, actualizar y borrar ciertos recursos como las vías de un rocódromo. Esta información por lo general estará almacenada en una base de datos. Pero existe otra forma de almacena información y es mediante ficheros estáticos. Flask nos ofrece varias formas de servir ficheros estáticos que dependen del carácter del fichero: público o privado. 
+En el tema anterior desarrollamos una API Restful que nos permitía gestionar un servicio programable, es decir, unas rutas que nos permiten listar, visualizar, crear, actualizar y borrar ciertos recursos como las vías de un rocódromo. Esta información por lo general estará almacenada en una base de datos. Pero existe otra forma de almacenar información y es mediante ficheros estáticos. Flask nos ofrece varias formas de servir ficheros estáticos que, dependiendo del carácter del fichero (público o privado9 se gestionará de una manera u otra. 
 
-Pero antes, conviene repasar, como se carga una página web. Ya que una **página web no se compone solo de código HTML**, si no también de otros ficheros como estilos CSS, imágenes, ficheros JS, etc. Estos ficheros se especifican mediante referencias y deben establecer varias conexiones para descargar todos los recursos que se necesitan. Además, **no todos los recursos pueden estar alojados en nuestro servidor, si no que pueden estar alojados en otros servidores**.
+Pero antes, conviene repasar, como se carga una página web. Ya que una **página web no se compone solo de código HTML**, si no también de otros ficheros como estilos CSS, imágenes, ficheros JS, etc. Estos ficheros se especifican mediante referencias y deben establecer varias conexiones para descargar todos los recursos que se necesitan. Además, en ocasiones, **algunos recursos pueden estar alojados en otros servidores**.
 
 Por ejemplo, en la siguiente página web se descarga el fichero HTML, un fichero CSS y una imagen.
 
@@ -35,7 +35,7 @@ La página web se descarga el contenido de la siguiente forma:
 
 1. El cliente (navegador) establece inicialmente una conexión con el servidor S1 para cargar la página HTML.
 2. Al analizar el contenido de la página HTML se identifican dos recursos adicionales que hay que descargar:
-    1. Un estilo CSS alojado en el mismo servidor S1 (`20-tipografo.css`). Se descarga a través de la misma conexión inicial
+    1. Una hoja de estilos CSS alojada en el mismo servidor S1 (`20-tipografo.css`). Se descarga a través de la misma conexión inicial
     2. Una imagen del servidor S2 (wikimedia). Se descarga estableciendo una nueva conexión con el servidor S2.
 
 
@@ -53,4 +53,4 @@ De hecho, si abrimos las developer tools de nuestro navegador y vamos a la pesta
 
 ---
 
-Se ha descrito la forma en que una página web se descarga ficheros según se renderizan. Pero, **¿cómo se sirven estos ficheros desde un servidor?**. Flask nos ofrece varias formas de servir ficheros estáticos y dependiendo del carácter del fichero (público o privado) se servirán de una forma u otra.
+Los ficheros se descargan de los distintos servidores según se va renderizando el fichero HTML. Pero, **¿cómo se sirven estos ficheros desde un servidor?**
