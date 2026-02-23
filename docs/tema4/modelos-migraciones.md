@@ -2,9 +2,7 @@
 
 Integrar una base de datos en nuestro servidor web nos permite estructurar la información y acceder a la misma, la cual se almacena de forma persistente. En este contexto entran en juego dos conceptos clave de los ORM: modelos y migraciones.
 
-A través de ese modelo definimos las tablas que vamos a tener en la base de datos y las relaciones entre ellas. Para ello, a través de **SQL Alchemy definimos un objeto dentro de nuestro código que luego, el propio ORM se encargará de transformarlo en una tabla dentro de la base de datos a través de una migración**. 
-
-Posteriormente, si deseamos añadir o modificar alguna tabla, podremos hacerlo a través de migraciones. Las migraciones son importantes porque nos permiten **actualizar la estructura de la base de datos sin perder los datos que ya tenemos almacenados**. Lo cual es de vital importancia en aplicaciones en producción. Y además nos permiten tener un control sobre la versión de la base de datos, de tal forma que podamos volver a una versión anterior si fuera necesario.
+A través de los models definimos las tablas que vamos a tener en la base de datos y las relaciones entre ellas. Para ello, a través de **SQL Alchemy definimos un objeto dentro de nuestro código que luego, el propio ORM se encargará de transformarlo en una tabla dentro de la base de datos a través de una migración**. Las migraciones son importantes porque nos permiten **actualizar la estructura de la base de datos sin perder los datos que ya tenemos almacenados**. Lo cual es de vital importancia en aplicaciones en producción. Y además nos permiten tener un control sobre la versión de la base de datos, de tal forma que podamos volver a una versión anterior si fuera necesario.
 
 <div class="img-center">
     <img src="../img/tema4/migrations.png" alt="Tablas migradas" />
@@ -23,9 +21,9 @@ class Via(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(255), nullable=False)
     grado = db.Column(db.String(255), nullable=False)
-    altura = db.Column(db.Integer, nullable=False)
-    desplome = db.Column(db.Boolean, default=False)
-    filename = db.Column(db.String(120), nullable=True, unique=True)
+    altura = db.Column(db.Integer, nullable=True)
+    desplome = db.Column(db.Boolean, default=True)
+    imagen = db.Column(db.String(120), nullable=True, unique=True)
 ```
 
 Recuerde que los modelos permiten definir el carácter de los atributos (primary_key, unique, default, etc) y añadir métodos que permiten realizar operaciones sobre los datos. Y que también se pueden establecer relaciones 1:1, 1:N y N:M entre modelos distintos como se pedirá más adelante en la asignatura.
@@ -66,7 +64,7 @@ La primera línea permite importar los modelos que queremos migrar. La segunda l
 <span>1.</span> **Inicializar y crear el directorio de migraciones**. Para ello, en la terminal y dentro de nuestro proyecto debemos ejecutar:
     
 ```bash
-flask db init --directory app/models/migrations
+flask --app app/app.py db init --directory app/models/migrations
 ```
 
 Este comando va a generar una estructura de directorios y ficheros bajo la carpeta `migrations`. En concreto genera:
@@ -77,10 +75,10 @@ Este comando va a generar una estructura de directorios y ficheros bajo la carpe
 - `versions/`: Contiene los archivos de migración generados.
 
 
-<span>2.</span> **Generar una nueva migración**. Esto va a permitir generar un fichero que contiene los cambios detectados en los modelos. Es importante comentar que solo se genera pero los cambios no se ejecutan. Para generar una migración debemos ejecutar:
+<span>2.</span> **Generar una nueva migración**. Esto va a permitir generar un fichero que contiene los cambios detectados en los modelos. Es importante comentar que solo se genera pero los cambios no se ejecutan. Para generar dicho fichero de migraciones debemos ejecutar el siguiente comando:
 
 ```bash
-flask db migrate -m "Initial migration" --directory app/models/migrations
+flask --app app/app.py db migrate -m "Initial migration" --directory app/models/migrations
 ```
 
 Este comando va a generar un fichero en la carpeta `versions` con el nombre `XXXX_initial_migration.py` donde `XXXX` es un número que identifica la versión de la migración. En este fichero se encuentran las instrucciones necesarias para aplicar los cambios en la base de datos que se ejecutaran posteriormente. En concreto tiene dos funciones:
@@ -91,13 +89,13 @@ Este comando va a generar un fichero en la carpeta `versions` con el nombre `XXX
 <span>3.</span> **Ejecutar migración**:
 
 ```bash
-flask db upgrade --directory app/models/migrations 
+flask --app app/app.py db upgrade --directory app/models/migrations
 ```
 
 Este comando va a aplicar los cambios en la base de datos. Si en algún momento queremos revertir los cambios, podemos hacerlo con el comando:
 
 ```bash
-flask db downgrade --directory app/models/migrations
+flask --app app/app.py db downgrade --directory app/models/migrations
 ```
 
 La primera vez que se ejecuta el comando `flask db upgrade` se creará la tabla `alembic_version` en la base de datos. En esta tabla se quedará almacenada la versión de la última migración que se ejecute. De esta forma, Alembic puede saber si una migración ya ha sido aplicada o no y nos permite aplicar el control de versiones que se ha comentado previamente. 
@@ -107,13 +105,13 @@ La primera vez que se ejecuta el comando `flask db upgrade` se creará la tabla 
 Flask-Migrate ofrece también otros comandos para manejar migraciones. El comando `flask db stamp` permite aplicar una migración especifica. Si por ejemplo, queremos aplicar la migración `XXXX_initial_migration.py` podemos hacerlo con el comando:
 
 ```bash
-flask db stamp XXXX --directory app/models/migrations
+flask --app app/app.py db stamp XXXX --directory app/models/migrations
 ```
 
 Además, podemos observar el historial de migraciones que se han aplicado:
 
 ```bash
-flask db history --directory app/models/migrations
+flask --app app/app.py db history --directory app/models/migrations
 ```
 
 ### Orden para meter nuevos cambios
@@ -133,10 +131,10 @@ class Via(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(255), nullable=False)
     grado = db.Column(db.String(255), nullable=False)
-    altura = db.Column(db.Integer, nullable=False)
-    desplome = db.Column(db.Boolean, default=False)
-    filename = db.Column(db.String(120), nullable=True, unique=True)
-    numero_chapas = db.Column(db.Integer, nullable=False) # Nuevo atributo
+    altura = db.Column(db.Integer, nullable=True)
+    desplome = db.Column(db.Boolean, default=True)
+    imagen = db.Column(db.String(120), nullable=True, unique=True)
+    numero_chapas = db.Column(db.Integer, nullable=True) # Nuevo atributo
 ```
 
 También se podría editar un modelo para cambiar el tipo de una columna, añadir una relación, definir una columna como única, eliminar una columna, etc.
@@ -145,7 +143,7 @@ También se podría editar un modelo para cambiar el tipo de una columna, añadi
 <span>2.</span> **Generar una nueva migración**. En este caso, pasamos directamente a generar una nueva migración, ya que el flask init ya lo hicimos previamente. Para ello, ejecutamos:
 
 ```bash
-flask db migrate -m "New attribute numero_chapas in vías" --directory app/models/migrations
+flask --app app/app.py db migrate -m "New attribute numero_chapas in vías" --directory app/models/migrations
 ```
 
 Es importante añadir un mensaje descriptivo en el parámetro `-m` para que, en el futuro, se pueda identificar el cambio en la migración.

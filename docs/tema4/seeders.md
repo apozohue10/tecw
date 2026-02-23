@@ -55,8 +55,6 @@ Por último, **`app.cli.add_command(seed)`** añade un nuevo comando a la interf
 flask seed
 ```
 
-Este comando solo se puede ejecutar una vez, ya que si se ejecuta de nuevo, se añadirán los mismos datos a la base de datos, lo que generará un error de clave duplicada. 
-
 ---
 
 Con todo esto, la estrucutra de ficheros nos queda de la siguiente manera:

@@ -29,7 +29,7 @@ Antes, `after_request` obtenía el número de vías con el length del array. Aho
 def validar_grado():
     if request.endpoint == "via.create" and request.method == "POST":
         grado = request.form.get("grado")
-        if grado not in grades:
+        if grado not in grados:
             abort(400)
 
 @via_bp.after_request
@@ -218,29 +218,25 @@ Antes, los datos se actualizaban en un diccionario dentro de una lista en memori
 <div class="modificado">
 ```python
 def update(viaId, via, filename):
-    if request.form.get('_method') == 'PUT':
-        via.nombre = request.form.get('nombre')
-        via.grado = request.form.get('grado')
-        via.altura = float(request.form.get('altura'))
-        via.desplome = request.form.get('desplome') == 'true'
-        via.filename = filename
-        db.session.commit()
-        return redirect('/vias')
-    return "Method Not Allowed", 405
+    via.nombre = request.form.get('nombre')
+    via.grado = request.form.get('grado')
+    via.altura = float(request.form.get('altura'))
+    via.desplome = request.form.get('desplome') == 'true'
+    via.filename = filename
+    db.session.commit()
+    return redirect('/vias')
 ```
 </div>
 <div class="original" hidden>
 ```python
 def update(viaId, via, filename):
-    if request.form.get('_method') == 'PUT':
-        via['nombre'] = request.form.get('nombre')
-        via['grado'] = request.form.get('grado')
-        via['altura'] = float(request.form.get('altura'))
-        via['numero_chapas'] = float(request.form.get('numero_chapas'))
-        via['desplome'] = request.form.get('desplome') == 'true'
-        via['filename'] = filename
-        return redirect('/vias')
-    return "Method Not Allowed", 405
+    via['nombre'] = request.form.get('nombre')
+    via['grado'] = request.form.get('grado')
+    via['altura'] = float(request.form.get('altura'))
+    via['numero_chapas'] = float(request.form.get('numero_chapas'))
+    via['desplome'] = request.form.get('desplome') == 'true'
+    via['filename'] = filename
+    return redirect('/vias')
 ```
 </div>
 </div>
@@ -262,20 +258,57 @@ Antes, se eliminaba un diccionario de una lista en memoria. Ahora, se elimina el
 <div class="modificado">
 ```python
 def delete(viaId, via):
-    if request.form.get('_method') == 'DELETE':
-        db.session.delete(via)
-        db.session.commit()
-        return redirect('/vias')
-    return "Method Not Allowed", 405
+    db.session.delete(via)
+    db.session.commit()
+    return redirect('/vias')
 ```
 </div>
 <div class="original" hidden>
 ```python
 def delete(viaId, via):
-    if request.form.get('_method') == 'DELETE':
-        vias.remove(via)
-        return redirect('/vias')
-    return "Method Not Allowed", 405
+    vias.remove(via)
+    return redirect('/vias')
+```
+</div>
+</div>
+
+## 7. delete_file
+
+Se debe modificar ahora el middleware de borrar imágenes ya que ahora se accede al nombre del fichero a través del atributo `imagen` del objeto `Via` en lugar de acceder a un diccionario.
+
+
+<div class="toggleCodeContainer">
+<div class="toogleButton">
+<button class="buttonModificado btn btn-primary btn-sm active">Código nuevo</button>
+<button class="buttonOriginal btn btn-primary btn-sm">Código antiguo</button>
+</div>
+<div class="modificado">
+```python
+def delete_file(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        via = kwargs['via'] # Obtiene el nombre del fichero de la vía
+        filename = via.imagen
+        if filename:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            if os.path.exists(file_path): # Comprueba si el fichero existe
+                os.remove(file_path) # Borra el fichero
+        return f(*args, **kwargs)
+    return decorated_function
+```
+</div>
+<div class="original" hidden>
+```python
+def delete_file(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        filename = kwargs['via'].get('imagen') # Obtiene el nombre del fichero de la vía
+        if filename:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            if os.path.exists(file_path): # Comprueba si el fichero existe
+                os.remove(file_path) # Borra el fichero
+        return f(*args, **kwargs)
+    return decorated_function
 ```
 </div>
 </div>
