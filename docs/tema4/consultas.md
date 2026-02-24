@@ -131,7 +131,7 @@ def list():
 
     vias = query.all()
     
-    return render_template('list.html', vias=vias, grades=grades)
+    return render_template('list.html', vias=vias, grados=grados)
 ```
 </div>
 <div class="original" hidden>
@@ -152,7 +152,7 @@ def list():
     if grado and grado != 'all':
         filtered_vias = [via for via in filtered_vias if via.get('grado') == grado]
 
-    return render_template('list.html', vias=filtered_vias, grades=grades)
+    return render_template('list.html', vias=filtered_vias, grados=grados)
 ```
 </div>
 </div>
@@ -175,9 +175,7 @@ def create(filename):
     via = Via(
         nombre=request.form.get('nombre'),
         grado=request.form.get('grado'),
-        altura=float(request.form.get('altura')),
-        desplome=request.form.get('desplome') == 'true',
-        filename=filename
+        imagen=filename
     )
     db.session.add(via)
     db.session.commit()
@@ -192,10 +190,7 @@ def create(filename):
         'id': len(vias) + 1,
         'nombre': request.form.get('nombre'),
         'grado': request.form.get('grado'),
-        'altura': float(request.form.get('altura')),
-        'desplome': request.form.get('desplome') == 'true',
-        'numero_chapas': float(request.form.get('numero_chapas')),
-        'filename': filename
+        'imagen': filename
     })
     return redirect('/vias')
 ```
@@ -220,9 +215,7 @@ Antes, los datos se actualizaban en un diccionario dentro de una lista en memori
 def update(viaId, via, filename):
     via.nombre = request.form.get('nombre')
     via.grado = request.form.get('grado')
-    via.altura = float(request.form.get('altura'))
-    via.desplome = request.form.get('desplome') == 'true'
-    via.filename = filename
+    via.imagen = filename
     db.session.commit()
     return redirect('/vias')
 ```
@@ -233,9 +226,7 @@ def update(viaId, via, filename):
     via['nombre'] = request.form.get('nombre')
     via['grado'] = request.form.get('grado')
     via['altura'] = float(request.form.get('altura'))
-    via['numero_chapas'] = float(request.form.get('numero_chapas'))
-    via['desplome'] = request.form.get('desplome') == 'true'
-    via['filename'] = filename
+    via['imagen'] = filename
     return redirect('/vias')
 ```
 </div>

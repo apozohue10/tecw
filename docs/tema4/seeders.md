@@ -10,8 +10,8 @@ from models import Via  # Import your models
 
 def seedVia():
     # Example seeding for Via model
-    via1 = Via(nombre='Via 1', grado='6a', altura=20, numero_chapas=8, desplome=True, filename=None)
-    via2 = Via(nombre='Via 2', grado='6b', altura=25, numero_chapas=9, desplome=False, filename=None)
+    via1 = Via(nombre='Via 1', grado='6a', altura=20, numero_chapas=8, desplome=True, imagen=None)
+    via2 = Via(nombre='Via 2', grado='6b', altura=25, numero_chapas=9, desplome=False, imagen=None)
 
     db.session.add(via1)
     db.session.add(via2)
@@ -52,7 +52,7 @@ El Middleware **`with_appcontext`** proporcionamos el contexto de la aplicación
 Por último, **`app.cli.add_command(seed)`** añade un nuevo comando a la interfaz de línea de comandos (CLI) de la aplicación Flask. Y nos permite ejecutar lo siguiente:
 
 ```bash
-flask seed
+flask --app app/app.py seed
 ```
 
 ---
