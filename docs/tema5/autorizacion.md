@@ -1,12 +1,12 @@
 # Autorizacion
 
-Una vez que un usuario se ha autenticado podemos controlar que puede hacer y que no puede hacer. Esto es lo que se conoce como autorización. Para implementar la autorización en una aplicación web se pueden utilizar diferentes técnicas como por ejemplo Control de acceso basado en roles (RBAC) o Control de acceso basado en atributos (ABAC). No obstante, el primer control de acceso que podemos implementar es el basado en la sesión del usuario.
+Una vez que un usuario se ha autenticado, y gracias a la información que disponemos de el, podemos controlar que puede y no puede hacer. Esto es lo que se conoce como autorización. Para implementar la autorización en una aplicación web se pueden utilizar diferentes técnicas como por ejemplo Control de acceso basado en roles (RBAC) o Control de acceso basado en atributos (ABAC). No obstante, el primer control de acceso que podemos implementar es el basado en la propia sesión del usuario.
 
 ## Control de sesión
 
-Hasta ahora se han definido todas las funciones que permiten manejar el ciclo de la sesión de los usuarios. El siguiente paso es adaptar todas nuestras interfaces para que se puedan acceder a determinadas rutas solo si el usuario ha iniciado sesión.  Por ejemplo, para acceder a la ruta raiz y a la ruta '/' o '/about' no sería necesario que el usuario este autenticado. 
+Hasta ahora se han definido todas las funciones que permiten manejar el ciclo de la sesión de los usuarios. El siguiente paso es adaptar todas nuestras interfaces para que se puedan acceder a determinadas rutas solo si el usuario ha iniciado sesión.  Por ejemplo, para acceder a la ruta raiz y a la ruta '/' o '/about' no sería necesario que el usuario este autenticado. Pero para acceder a '/vias' o '/users' si que sería necesario que el usuario, como mínimo, haya iniciado sesión.
 
-Pero para acceder a los recursos de vías si lo podemos necesitar. Para ello vamos a utilizar un middleware que se encargará de verificar si el usuario tiene permisos para acceder a una determinada ruta. En este caso, vamos a generar un fichero `access_control.py` en el que definiremos el middleware correspondiente.
+Para este último caso vamos a utilizar un middleware que se encargará de verificar si el usuario tiene permisos para acceder a una determinada ruta. En este caso, vamos a generar un fichero `access_control.py` en el que definiremos el middleware correspondiente.
 
 
 ```python
@@ -157,7 +157,7 @@ class Via(db.Model):
     user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False) # Nuevo atributo
 ```
 
-Una vez añadido, creamos y ejecutamos la migración como hicimos en otras secciones. Una vez realizado esto, debemos adaptar todo el código del blueprint de vías para que los usuarios creen, editen, listen y eliminen solo sus propias vías.
+Una vez añadido, creamos y ejecutamos la migración como hicimos en otras secciones. **Es probable que la ejecución de la migración falle si existen ya usuarios o vias creadas. Dado que estamos en un entorno de desarrollo, lo más fácil es borrar todos los datos que tenemos almacenados en la base de datos, ejecutar las migraciones y nuevamente ejecutar los seeders (los cuales probablemente tenga que adaptar para asignar las vias a usuarios ya creados) para generar información por defecto.** Una vez realizado esto, debemos adaptar todo el código del blueprint de vías para que los usuarios creen, editen, listen y eliminen solo sus propias vías.
 
 #### 2. load_via
 
@@ -245,7 +245,7 @@ def list():
 
     vias = query.all()
     
-    return render_template('list.html', vias=vias, grades=grades)
+    return render_template('via/list.html', vias=vias, grados=grados)
 ```
 </div>
 <div class="original" hidden>
@@ -268,7 +268,7 @@ def list():
 
     vias = query.all()
     
-    return render_template('list.html', vias=vias, grades=grades)
+    return render_template('via/list.html', vias=vias, grados=grados)
 ```
 </div>
 </div>
@@ -291,10 +291,7 @@ def create(filename):
     via = Via(
         nombre=request.form.get('nombre'),
         grado=request.form.get('grado'),
-        altura=float(request.form.get('altura')),
-        numero_chapas=float(request.form.get('numero_chapas')),
-        desplome=request.form.get('desplome') == 'true',
-        filename=filename,
+        imagen=filename,
         user_id=session['user']['id']
     )
     db.session.add(via)
@@ -309,10 +306,7 @@ def create(filename):
     via = Via(
         nombre=request.form.get('nombre'),
         grado=request.form.get('grado'),
-        altura=float(request.form.get('altura')),
-        numero_chapas=float(request.form.get('numero_chapas')),
-        desplome=request.form.get('desplome') == 'true',
-        filename=filename
+        imagen=filename
     )
     db.session.add(via)
     db.session.commit()
@@ -324,16 +318,9 @@ def create(filename):
 
 ---
 
-#### 5. Update
+#### 5. Update y Delete
 
-En este caso no hay que editar nada, ya que el usuario solo puede editar sus propias vías. Por lo tanto, no es necesario añadir ningún filtro adicional.
-
----
-
-#### 6. Delete
-
-En este caso no hay que editar nada, ya que el usuario solo puede eliminar sus propias vías. Por lo tanto, no es necesario añadir ningún filtro adicional.
-
+En este caso no hay que editar nada, ya que el usuario solo puede editar y eliminar sus propias vías. La función `load_via` (middleware tanto para  PUT /vias/<viaId> como para DELETE /vias/<viaId>) actua como un control en sí, ya que comprueba si existe una via asignada a ese usuario en concreto. Por tanto, si el usuario intenta editar o eliminar una vía que no le pertenece, el servidor le devolverá un error 404.
 
 ---
 
@@ -380,9 +367,9 @@ rocodromo/
 
 ---
 
-En nuestro caso, hemos implementado un RBAC que ha separado RESTFul APIs enteras. Por ejemplo el admin podía acceder a todas las rutas de vías y usuarios, mientras que el usuario normal solo podía acceder a las rutas de vías. Pero también se puede implementar un RBAC más granular en el que se restrinja el acceso a determinadas rutas o recursos. Los usuarios, por ejemplo, suelen necesitar ver, editar e incluso eliminar su propio perfil pero no el de otros usuarios. Esto implica desarrollar un sistema RBAC más complejo en el que se definen políticas de autorización más granulares.
+En nuestro caso, hemos implementado un RBAC que ha separado RESTFul APIs enteras. Por ejemplo el admin podía acceder a todas las rutas de vías y usuarios, mientras que el usuario normal solo podía acceder a las rutas de vías. Pero también se puede implementar un RBAC más granular para restringir el acceso a determinadas rutas o recursos. Los usuarios, por ejemplo, suelen necesitar ver, editar e incluso eliminar su propio perfil pero no el de otros usuarios. Esto implica desarrollar un sistema RBAC más complejo en el que se definen políticas de autorización más granulares.
 
-Como comentario final cuando **una aplicación escala y se vuelve más compleja es necesario implementar un sistema de autorización más avanzado**. En estos casos, es recomendable utilizar un sistema de control de acceso basado en roles (RBAC) más avanzado o control de acceso basado en atributos (ABAC). Para ello, existen ya herramientas y librerías que facilitan la implementación de estos sistemas. 
+Como comentario final cuando **una aplicación escala y el manejo de los roles de los usuarios puede complicarse**. . Para ello, existen ya herramientas y librerías que facilitan la implementación de estos sistemas. 
 
 Estas librería suelen implementar estándares ya existentes como XACML que define tanto la arquitectura software a desplegar como el lenguaje de definición de politicas. Por ejemplo, existe la herramienta open-source llamada [Authzforce](https://authzforce-ce-fiware.readthedocs.io/en/latest/) que implementa dicho estándar y proporciona una API (basado en HTTP) a través de la cual definir las políticas de nuestra aplicación en formato XML. Inluso existen algunos modelos que permiten no solo controlar el acceso a los datos si no también el uso de los mismos. Pero esto, esta fuera del alcance de este curso.
 

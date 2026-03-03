@@ -62,7 +62,7 @@ from flask import Blueprint, request, redirect, render_template, session, flash,
 from models import User
 from app import db
 
-auth_bp = Blueprint('auth', __name__, template_folder='../templates/auth')
+auth_bp = Blueprint('auth', __name__, template_folder='../templates')
 
 ...
 ```
@@ -101,7 +101,7 @@ Se usará el almacenamiento por defecto de Flask, es decir usando una  cookie en
 
 ### Registro de usuarios
 
-Basicamente habrá dos formas de crear usuarios en la aplicación: mediante el administrador o mediante el propio usuario. En este caso vamos a implementar la segunda opción. A falta de implementar la autorización, el primer caso ya se ha implementado al crear una RESTFul API de usuarios en el punto anterior.
+Basicamente habrá dos formas de crear usuarios en la aplicación: mediante el administrador (a través de la Restful API de usuarios) o mediante el propio usuario. En este caso vamos a implementar la segunda opción. A falta de implementar la autorización, el primer caso ya se ha implementado al crear una RESTFul API de usuarios en el punto anterior.
 
 Para el segundo caso es necesario crear un formulario de registro de usuarios. Para ello, creamos un nuevo fichero `register.html` en la carpeta `auth`. Este fichero será bastante parecido al de creación de usuarios por parte del administrador pero sin incluir algunos campos como el de `role`.
 
@@ -130,7 +130,7 @@ Una vez creado el formulario, debemos crear las rutas necesarias para gestionar 
 ```python
 @auth_bp.route('/register', methods=['GET'])
 def register_view():
-    return render_template('register.html')
+    return render_template('auth/register.html')
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
@@ -154,7 +154,7 @@ En la segunda ruta vemos como se crea un usuario a través del modelo y se añad
 
 ### Login
 
-En este apartado nos vamos a encargar de la autenticación propiamente dicha. **La autenticación no es más que comprobar que un usuario es quien dice ser**. Para comprobar existen varias maneras, pero la más básica es mediante un **par de credenciales (usuario y contraseña) que el usuario introduce en un formulario**.
+En este apartado nos vamos a encargar de la autenticación propiamente dicha. **La autenticación consiste en comprobar que un usuario es quien dice ser**. Para comprobar existen varias maneras, pero la más básica es mediante un **par de credenciales (usuario y contraseña) que el usuario introduce en un formulario**.
 
 Para esto se debe crear un formulario de login en un fichero `login.html` en la carpeta `auth` similar al de registro pero con los campos de email y contraseña. 
 
@@ -179,7 +179,7 @@ Una vez creado el formulario, debemos crear las rutas necesarias para gestionar 
 ```python
 @auth_bp.route('/login', methods=['GET'])
 def login_view():
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 @auth_bp.route('/login', methods=['POST'])
 def login():

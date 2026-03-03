@@ -1,6 +1,6 @@
 # HTTPs
 
-**HTTPS (HyperText Transfer Protocol Secure) es la versión segura de HTTP**. Se basa en el uso de TLS (Transport Layer Security) para cifrar la comunicación entre el cliente y el servidor, garantizando confidencialidad, integridad y autenticación. El cifrado TLS protege los datos de los usuarios contra ataques de intercepción y manipulación, como el robo de información confidencial o la inyección de código malicioso. **Este cifrado se realiza antes de llegar a la capa de transporte en el modelo OSI**. Para establecer una conexión segura, se requiere un certificado SSL/TLS válido y renovado, emitido por una autoridad de certificación (CA) confiable.
+**HTTPS (HyperText Transfer Protocol Secure) es la versión segura de HTTP**. Se basa en el uso de TLS (Transport Layer Security) para cifrar la comunicación entre el cliente y el servidor, garantizando confidencialidad, integridad y autenticación. El cifrado TLS protege los datos de los usuarios contra ataques de intercepción y manipulación, como el robo de información confidencial o la inyección de códigos malicioso. **Este cifrado se realiza antes de llegar a la capa de transporte en el modelo OSI**. Para establecer una conexión segura, se requiere un certificado SSL/TLS válido y renovado, emitido por una autoridad de certificación (CA) confiable.
 
 
 Cuando un cliente accede a un servidor mediante HTTPS, el proceso de establecimiento de una conexión segura sigue estos pasos:
@@ -22,24 +22,15 @@ Cuando un cliente accede a un servidor mediante HTTPS, el proceso de establecimi
 
 Para habilitar HTTPS en una aplicación Flask, se pueden seguir estos pasos:
 
-1. Obtener un certificado SSL/TLS
-
-Para implementar HTTPS, se necesita un certificado SSL/TLS. Se puede obtener de las siguientes maneras:
-
-- Usar un certificado de una autoridad de certificación (CA) confiable, como Let's Encrypt.
-- Generar un certificado autofirmado (solo recomendado para entornos de desarrollo).
-
-Ejemplo de generación de un certificado autofirmado:
+- Para implementar HTTPS, se necesita un certificado SSL/TLS. Se puede obtener distintas formas como por ejemplo a través de una autoridad de certificación (CA) confiable, como Let's Encrypt. Pero para entornos de desarrollo se puede generar un certificado autofirmado (no recomendado para entornos en producción):
 
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 ```
 
-Esto permite generar el certificado en sistemas tipo Ubuntu. Para Windows se debe buscar la forma equivalente de generar los certificados.
+Esto permite generar el certificado en sistemas tipo Ubuntu. Para Windows se debe buscar la forma equivalente de generar los certificados. Los certificados los almacenaremos en la carpeta `certs` dentro de nuestro proyecto.
 
-2. Configurar Flask para usar HTTPS
-
-Una vez obtenido el certificado, crearemos una carpeta dentro de nuestro proyecto llamada certs y copiaremos los archivos cert.pem y key.pem en ella. A continuación configuramos Flask para usar HTTPS:
+- Configurar Flask para usar HTTPS
 
 ```python
 ...
@@ -50,7 +41,7 @@ if __name__ == '__main__':
 Luego para ejecutar la aplicación, simplemente ejecutamos el comando de flask sin el modo debug e indicando los certificados:
 
 ```bash
-flask run --cert=app/certs/cert.pem --key=app/certs/key.pem
+flask --app app/app.py run --cert=app/certs/cert.pem --key=app/certs/key.pem
 ```
 
 No obstante, esta opción se recomienda no usarla mientras se esta desarrollando y se recomienda volver al modo debug para ver los errores de forma más clara.
