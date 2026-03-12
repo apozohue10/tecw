@@ -1,94 +1,157 @@
 # Logging
 
-Un aspecto importante para los servidores es la gestión de los logs es decir de **los mensajes que se generan durante la ejecución de la aplicación**. Se tratan de unos mensajes que no aportan ninguna funcionalidad a los ususarios pero que sin embargo para los desarrolladores son de gran utilidad para depurar errores o para monitorizar el funcionamiento de la aplicación.
+En el momento en el que empezamos a trabajar con varios servicios, o con métodos y utilidades externas, es conveniente tener un sistema de logging bueno. Logging es el conjunto de técnicas para tener trazas (logs) de lo que ocurre en nuestra aplicación y tienen muchísima importancia por lo siguiente:
 
-Por lo general, estos mensajes se catalogan en 5 niveles de severidad ordenados de menor a mayor:
+1. **Depuración Local (Debugging):**
+   Cuando desarrollamos o cuando un usuario nos reporta un error genérico (ej. "No carga la vía"), los logs son nuestros ojos dentro del servidor. En lugar de intentar adivinar qué falló mediante ensayo y error, un buen sistema de logging nos dirá exactamente dónde se rompió el flujo.
+   _Ejemplo:_ Si el servicio de meteorología devuelve un error, el log nos mostrará algo como `[ERROR] 2026-03-12 11:45:00 - Fallo en get_weather_data: Timeout al conectar con open-meteo.com`. Inmediatamente sabemos que el problema no es nuestra base de datos ni nuestro código, sino que la API externa está caída.
+2. **Auditoría y Seguridad (Compliance):**
+   En sistemas donde los datos son sensibles o donde interactúan múltiples usuarios con diferentes permisos, es vital tener un registro inmutable de "quién hizo qué y cuándo". Esto no solo sirve para depurar, sino para responder ante incidentes de seguridad o cumplir con normativas legales.
+   _Ejemplo:_ Si una vía de escalada es borrada accidentalmente, los logs de auditoría nos permiten buscar `[INFO] [AUDIT] Usuario 77b4 (admin) ejecutó DELETE /api/v1/vias/101 a las 10:22 AM desde la IP 192.168.1.45`. Esto resuelve cualquier disputa y permite tomar medidas correctivas.
+3. **Depuración Distribuida y Observabilidad (OpenTelemetry - OTLP):**
+   A medida que pasamos de monolitos a microservicios, una sola acción del usuario (ej. crear una vía) puede desencadenar peticiones a 3 o 4 servidores diferentes (facturación, notificaciones, clima). Si la petición falla en el paso 3, los logs tradicionales aislados en cada máquina no sirven de mucho, porque es imposible saber qué log del servidor A corresponde con qué log del servidor B.
+   Aquí entra el estándar OpenTelemetry (OTel). OTel inyecta un identificador único global (`trace_id`) en la petición inicial y lo pasa de servicio en servicio.
+   _Ejemplo:_ Al enviar todos los logs a un sistema centralizado como Jaeger o Datadog, podemos buscar el `trace_id: a1b2c3d4` y ver visualmente la línea de tiempo completa: la petición entró por la API principal, fue a la base de datos, luego llamó al microservicio de clima (donde se produjo un `[ERROR]`), y devolvió un 500 al cliente. Esto permite encontrar cuellos de botella y fallos en milisegundos a través de arquitecturas complejas.
 
-- `DEBUG`: Mensajes de depuración.
-- `INFO`: Mensajes informativos.
-- `WARNING`: Mensajes de advertencia.
-- `ERROR`: Mensajes de error.
-- `CRITICAL`: Mensajes críticos.
+## Implementando un Sistema de Logging Profesional y Observabilidad
 
-Estos mensajes los ira incorporando el desarrollador dentro del código según considere oportuno. Por ejemplo, si se produce un error en una función, se puede añadir un mensaje ERROR para que el desarrollador pueda identificar el problema. O para un mensaje para ver por donde va la ejecución de un programa se puede añadir un mensaje INFO.
+Para pasar de la teoría a la práctica, vamos a abandonar los clásicos `print()` (que son volátiles y se pierden al cerrar la terminal) y configurar un sistema de **logging profesional** y **observabilidad** en nuestra aplicación Flask.
 
-A parte, por lo general el desarrollador luego puede configurar el nivel de severidad de los mensajes que quiere que se muestren. Por ejemplo, si se configura el nivel de severidad a INFO, solo se mostrarán los mensajes de severidad INFO, WARNING, ERROR y CRITICAL. Si se configura el nivel de severidad a ERROR, solo se mostrarán los mensajes de severidad ERROR y CRITICAL.
+El objetivo es cuádruple:
 
-En Python, el módulo `logging` permite gestionar estos mensajes de forma sencilla. Este módulo ya viene incorporado en Python por lo que no es necesario instalar ninguna dependencia adicional. Sin embargo es recomendable instalar la librería `colorlog` para darle color a los mensajes de log, de tal forma que sea más fácil identificarlos. Para ello instalamos la librería con pip:
+1. **Logger propio**: Crear un sistema de trazas para nuestros controladores.
+2. **Persistencia**: Guardar el histórico en un archivo de texto (`api.log`).
+3. **Unificación**: Sincronizar el logger de Flask y Werkzeug con el nuestro.
+4. **Observabilidad**: Conectar todo con **OpenTelemetry (OTel)** y **Jaeger** para monitorización gráfica y depuración distribuida.
 
-```bash
-pip install colorlog
-```
+### 1. Generando un Logger Propio
 
-Y guardamos la dependencia en el fichero `requirements.txt`:
+En Python, el manejo de trazas se realiza mediante la librería estándar `logging`. Para que un logger funcione, necesita **Handlers** (que definen el destino: consola, archivo, etc.) y **Formatters** (que definen la estructura del mensaje).
 
-```bash
-pip freeze > requirements.txt
-```
-
-Una vez que lo hemos añadido, podemos configurar los logs en el ficher `app.py` de la siguiente forma:
+Es una buena práctica centralizar esta configuración en un archivo `logger.py`:
 
 ```python
 import logging
-import colorlog
 
-...
+# 1. Creamos nuestro Custom Logger
+logger = logging.getLogger("rocodromo_api")
+logger.setLevel(logging.INFO)
 
-##### Logs
-# Remove the default Flask logger handlers
-for handler in app.logger.handlers:
-    app.logger.removeHandler(handler)
+# 2. Definimos los destinos (Handlers)
+# StreamHandler imprime en la consola (stdout)
+console_handler = logging.StreamHandler()
+# FileHandler almacena los logs en un fichero físico
+file_handler = logging.FileHandler("api.log", encoding="utf-8")
 
-# Create a handler
-handler = colorlog.StreamHandler()
+# 3. Definimos el formato visual (Formatter)
+formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+console_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
 
-# Create a formatter
-formatter = colorlog.ColoredFormatter(
-    "%(asctime)s - %(log_color)s%(levelname)s: %(message)s",
-    datefmt='%Y-%m-%d %H:%M:%S',
-    log_colors={
-        'DEBUG': 'cyan',
-        'INFO': 'green',
-        'WARNING': 'yellow',
-        'ERROR': 'red',
-        'CRITICAL': 'bold_red',
-    }
+# 4. Vinculamos los handlers al logger
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+```
+
+Ahora, en cualquier parte de nuestra aplicación, podemos importar este objeto y usarlo: `logger.info("Iniciando proceso...")`.
+
+### 2. Modificando el Logger de Flask y Werkzeug
+
+Flask tiene su propio logger interno, pero este depende de **Werkzeug** (el servidor WSGI subyacente que imprime las peticiones HTTP). Si no los sincronizamos, las peticiones `GET` o `POST` irán por un lado y nuestros mensajes personalizados por otro.
+
+Para unificarlos, debemos realizar un "secuestro" de handlers en nuestro archivo `app.py`:
+
+```python
+from logger import logger
+import logging
+
+# 1. Limpiamos y reasignamos el logger de Flask
+app.logger.handlers.clear()
+for handler in logger.handlers:
+    app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
+
+# 2. Atrapamos a Werkzeug (el servidor HTTP) para que use nuestra configuración
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.handlers.clear()
+for handler in logger.handlers:
+    werkzeug_logger.addHandler(handler)
+werkzeug_logger.setLevel(logging.INFO)
+```
+
+### 3. Observabilidad con OpenTelemetry y Jaeger
+
+En arquitecturas modernas, especialmente en microservicios, no basta con leer un archivo de texto. Necesitamos saber qué camino siguió una petición a través de distintos servicios. Aquí entra **OpenTelemetry**, que asigna un `trace_id` único a cada operación.
+
+### Instalación de dependencias:
+
+```python
+pip install opentelemetry-api opentelemetry-sdk opentelemetry-exporter-otlp opentelemetry-instrumentation-flask opentelemetry-instrumentation-logging
+```
+
+### Refinando el Logger para OTel:
+
+Actualizamos nuestro `formatter` en `logger.py` para incluir los IDs de rastreo que inyectará OpenTelemetry:
+
+```python
+formatter = logging.Formatter(
+    '%(asctime)s [%(levelname)s] %(name)s '
+    '[trace_id=%(otelTraceID)s span_id=%(otelSpanID)s]: %(message)s',
+    defaults={"otelTraceID": "0" * 32, "otelSpanID": "0" * 16}
 )
-# Set the formatter for the handler
-handler.setFormatter(formatter)
-
-# Add the handler to the app's logger
-app.logger.addHandler(handler)
-app.logger.setLevel(logging.DEBUG)
 ```
 
-El código hace lo siguiente:
+### Configuración del motor de rastreo (Tracer):
 
-- En primer lugar se importan los módulos `logging` y `colorlog`.
-- Se eliminan los manejadores de logs por defecto de Flask. Eso se implementa con el bucle for que recorre todos los manejadores de logs y los elimina.
-- Se crea un manejador de logs con `colorlog.StreamHandler()` que implementará la función `formatter` que dará color a los mensajes de log y además mostrará la fecha y hora en el que han ocurrido.
-- Añadimos el manejador de logs al logger de la aplicación con `app.logger.addHandler(handler)`.
-- Configuramos el nivel de severidad de los mensajes que queremos que se muestren con `app.logger.setLevel(logging.DEBUG)`. Es decir, mostará todos los mensajes de severidad DEBUG, INFO, WARNING, ERROR y CRITICAL.
-
-Una vez configurado, podemos añadir mensajes de log en cualquier parte de la aplicación con `app.logger.debug()`, `app.logger.info()`, `app.logger.warning()`, `app.logger.error()` y `app.logger.critical()`. 
-
-Por ejemplo en el fichero `app.py` podemos añadir un mensaje de info de arranque:
+Creamos un archivo de inicialización para el motor de OTel (por ejemplo, `otel_config.py`):
 
 ```python
-app.logger.info("Servidor arrancado correctamente!")
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
+from opentelemetry.sdk.resources import Resource
+
+# 1. Definimos el nombre del servicio para identificarlo en Jaeger
+resource = Resource.create({"service.name": "rocodromo-backend"})
+provider = TracerProvider(resource=resource)
+
+# 2. Configuramos el exportador hacia Jaeger (puerto gRPC 4317)
+otlp_exporter = OTLPSpanExporter(endpoint="http://localhost:4317", insecure=True)
+provider.add_span_processor(BatchSpanProcessor(otlp_exporter))
+trace.set_tracer_provider(provider)
+
+# 3. Instrumentamos el logging para que inyecte automáticamente los IDs
+LoggingInstrumentor().instrument(set_logging_format=False)
 ```
 
-O en el fichero `auth.py` podemos añadir un mensaje de warning si el usuario no se ha podido registrar porque existe otro email en la base de datos:
+Finalmente, en `app.py`, conectamos la aplicación Flask:
 
 ```python
-if User.query.filter_by(email=email).first():
-    flash('El email ya está registrado.')
-    app.logger.warning("El usuario " + email + " no se ha podido registrar porque ya existe en la base de datos.")
-    return redirect('/auth/register')
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+
+# Instrumentación automática de rutas de Flask
+FlaskInstrumentor().instrument_app(app)
 ```
 
----
+### 4. Visualización en Jaeger
 
-**Implementar un sistema de logs es de vital importancia tanto en el desarrollo como cuando desplegamos una aplicación en producción**. Estos mensajes son la primera pista que tendremos para investigar un error o un comportamiento inesperado de la aplicación cuando este en producción. Por ello, es recomendable añadir mensajes de log en todas las partes de la aplicación que consideremos necesarios para poder identificar problemas en el futuro. Cuanto mayor cantidad de logs incluyamos con su severidad correspondiente, más fácil será identificar un problema en el futuro.
+Para ver estas trazas de forma gráfica, utilizaremos **Jaeger**. La forma más rápida de levantarlo es mediante Docker:
 
-Sin embargo, **si por alguna razón nuestro servidor se cae, no podremos acceder a los logs que se han generado en ese momento**. Para resolver este problema existen librerías que permiten almacenar los logs en un fichero o en una base de datos de forma constante, lo cual además permite hacer búsquedas más rápidas. Incluso se podría llegar a integrar con un sistema de monitorización para que nos avise si se produce un error en la aplicación. Sin embargo, esto ya es un tema más avanzado que no se tratará en este curso.
+```python
+docker run -d --name jaeger \
+  -e COLLECTOR_OTLP_ENABLED=true \
+  -p 16686:16686 \
+  -p 4317:4317 \
+  -p 4318:4318 \
+  jaegertracing/all-in-one:latest
+```
+
+### ¿Cómo comprobar que funciona?
+
+1. Arranca tu aplicación Flask (asegúrate de que `debug=False` para evitar problemas con el reloader de OTel).
+2. Realiza peticiones a tus endpoints (ej. `/api/v1/vias/`).
+3. Abre tu navegador en `http://localhost:16686`.
+4. En la pestaña **Service**, selecciona `rocodromo-backend` y pulsa **Find Traces**.
+5. Podrás ver una línea de tiempo detallada de cada petición y, dentro de cada "Span", encontrarás los logs generados durante esa ejecución específica.

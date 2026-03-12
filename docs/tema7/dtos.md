@@ -87,8 +87,6 @@ De modo que cuando visitamos `http://127.0.0.1:3000/api/v1/vias/`, en lugar de r
 
 ## DTOs. Data transfer objects
 
-![image.png](attachment:6e87c6f0-6c00-4319-83d4-89a7fbd0a76d:image.png)
-
 Cuando se ha dado el temario de MVC, -modelo, vista, controlador-. Se ha explicado la separación de responsabilidades. Se ha hablado de que tenemos el Modelo, que se encarga de gestionar el almacenamiento de datos. En nuestro caso el modelo lo gestionamos con el ORM SqlAlchemy. Nosotros hemos definido un modelo con una class de python:
 
 ```python

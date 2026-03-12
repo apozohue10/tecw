@@ -39,16 +39,14 @@ nav:
       - HTTPs: "tema5/https.md"
       - Autenticacion: "tema5/autenticacion.md"
       - Autorización: "tema5/autorizacion.md"
-  #  - Tema 6:
-  #    - Javascript: 'tema6/javascript.md'
-  #    - Single Page Application: 'tema6/spa.md'
   - Tema 6:
       - Restful APIS: "tema7/restful.md"
       - Dtos y pydantic: "tema7/dtos.md"
       - Postman: "tema7/postman.md"
-      - OpenAPI: "tema7/openapi.md"
   - Tema 7:
-      - Emails: "tema8/email.md"
-      - Websockets: "tema8/websockets.md"
+      - OpenAPI: "tema8/openapi.md"
+      - Microservicios: "tema8/clients.md"
+      - Clientes: "tema8/auto_clients.md"
+      - Caching: "tema8/caching.md"
       - Logging: "tema8/logging.md"
-      - Caché: "tema8/cache.md"
+      - Next steps: "tema8/next_steps.md"
